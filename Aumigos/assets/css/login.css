@@ -1,3 +1,53 @@
-body{
-    background-color: aquamarine;
+header{
+    z-index: 1;
+    position: absolute;
+    background-color: #000000;
+    height: 90px;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    opacity:0.40;
+    margin: 0px;
+    padding: 0px;
 }
+
+body{
+    background-color: rgb(0, 0, 0);
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    
+    
+}
+
+.aumigos{
+    position: absolute;
+    left: 6vw;
+    top: 0vh;
+    font-size: 50px;
+    font-family: Impact, fantasy;
+    font-weight: bold;
+}
+
+.img-icon{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 10vh;
+    left: 20vw;
+    background-color: none; 
+}
+.img-container{
+    top: 0px;
+    width: 60vw;
+    height: 100vh;
+    position: absolute;
+    right: 0px;
+}
+
+.login-container{
+    width: 400px;
+    height: 400px;
+
+}
+
