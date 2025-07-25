@@ -1,24 +1,33 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
 body{
-    background-color: #4b1f0d;
-      place-items: center;
-    display: grid;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 
-.login-container{
-    background-color: white;
-    width: 300px;
-    height: 400px;
-    border-radius: 20px;
-  
-    
+header{
+    background-color: #ffffff;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
 }
-.login-titulo{
-    font-size: 40px;
-    text-align: center;
+header figure, img{
+    padding: 6px;
 }
 
-.login-container form{
-    display: flex;  
-   
+main{
+    background-color: rgb(52, 120, 179);
+
+}
+
+footer{
+    background-color: black;
+    height: 200px;
+
 }
 
