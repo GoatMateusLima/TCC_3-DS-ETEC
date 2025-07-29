@@ -5,13 +5,17 @@
 }
 
 
-body{
+html ,body{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-
+    height: 100%;
 }
 
+body{
+    display: flex;
+    flex-direction: column;
+}
 header{
-    background-color: #ffffff;
+    background-color:#fcaf68;
     width: 100%;
     display: flex;
     overflow: hidden;
@@ -21,13 +25,16 @@ header figure, img{
 }
 
 main{
-    background-color: rgb(52, 120, 179);
+    display: flex;
+    flex:1;
+    background-color: rgb(107, 55, 21);
+    height: 330px;
+
 
 }
 
 footer{
     background-color: black;
-    height: 200px;
-
+    height:200px;
 }
 
