@@ -15,26 +15,75 @@ body{
     flex-direction: column;
 }
 header{
-    background-color:#fcaf68;
+    background-color:#ffab52;
     width: 100%;
+    height: 190px;
     display: flex;
     overflow: hidden;
 }
-header figure, img{
-    padding: 6px;
+.logo img{
+    padding: 10px;
+    width: 300px;
+    margin-left: 3%;
+    
 }
 
 main{
     display: flex;
     flex:1;
-    background-color: rgb(107, 55, 21);
-  
-
+    background-color: #603020;
+    background-image:url(/Aumigos/front-end/assets/img/Patas.png);
+    background-size: cover;
+    background-position: center;
 
 }
 
+.section{
+    
+    padding: 30px;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f5f7;
+    padding: 50px;
+    justify-content: center;
+    gap: 10px;
+    width: 500px;
+    height: 500px;
+    border-radius: 30px;
+}
+
+form label{
+    font-size: 30px;
+}
+
+form input{
+    padding: 10px;
+}
+
+figure img{
+    width: 500px;
+   z-index: 99999;
+   margin-bottom:-20px;
+
+}
+
+.entrar{
+    width: 100%;
+    height: 50px;
+}
 footer{
     background-color: black;
     height:200px;
 }
+
 
