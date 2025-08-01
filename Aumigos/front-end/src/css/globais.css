@@ -1,0 +1,22 @@
+
+
+header{
+    background-color:#ffab52;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.logo img{
+    padding: 10px 40px;
+    width: 300px;
+
+}
+
+
+footer{
+    background-color: black;
+    height:200px;
+}

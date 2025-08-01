@@ -42,3 +42,125 @@ aumigos/
 └── .gitignore
 
 APENAS TESTE
+
+
+
+
+
+meu css do fORM
+
+.form{
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f5f7;
+    padding: 50px;
+    justify-content: center;
+    gap: 10px;
+    width: 400px;
+   
+    border-radius: 20px;
+    font-family: arial;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  position: relative;
+  display: block;
+  margin-bottom: 30px;
+  font-family: Arial, sans-serif;
+}
+.form-label input {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+.form-label span {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #aaa;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: white;
+  border-radius: 20px;
+  padding: 0 4px;
+}
+
+.form-label input:focus + span,
+.form-label input:not(:placeholder-shown) + span {
+  top: -8px;
+  font-size: 12px;
+  color: #333;
+}
+
+input:focus, input:valid{
+    color: #ffab52;
+}
+
+.entrar{
+    width: 100%;
+    height: 50px;
+    border-radius: 20px;
+}
+
+
+
+-------------------------------
+
+.form{
+    display: flex;
+    flex-direction: column;
+    background-color: #f2f5f7;
+    padding: 50px;
+    justify-content: center;
+    gap: 10px;
+    width: 400px;
+   
+    border-radius: 20px;
+    font-family: arial;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  position: relative;
+  display: block;
+  margin-bottom: 30px;
+  font-family: Arial, sans-serif;
+}
+.form-label input {
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+.form-label span {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #aaa;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background: white;
+  border-radius: 20px;
+  padding: 0 4px;
+}
+
+.form-label input:focus + span,
+.form-label input:not(:placeholder-shown) + span {
+  top: -8px;
+  font-size: 12px;
+  color: #333;
+}
+
+input:focus, input:valid{
+    color: #ffab52;
+}
