@@ -1,28 +1,28 @@
-main{
-    display: flex;
-    flex:1;
-    background-color: #603020;
-    background-image: url(/Aumigos/front-end/assets/img/patas.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-.section{
-    max-width: 100%;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    min-height: 90px;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
 
+main {
+  display: flex;
+  flex: 1;
+  background-color: #603020;
+  background-image: url(/Aumigos/front-end/src/assets/img/patas.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.section {
+  max-width: 100%;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 90px;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
-.imgGatinho img{
-    width: 400px;
-    min-width: 250px;
-    margin-bottom: -5px;
+.imgGatinho img {
+  width: 400px;
+  min-width: 250px;
+  margin-bottom: -5px;
 }
 
 .form {
@@ -34,15 +34,14 @@ main{
   gap: 10px;
   width: 400px;
   border-radius: 20px;
-  font-family: Impact, 'Arial Narrow Bold', sans-serif;
+  font-family: 'Abril Fatface', 'Ribeye', serif;  
   margin-bottom: 20px;
   box-shadow: 0px 0px 30px black;
-
 }
 
-.form h2{
-    padding: 20px;
-    font-size: 40px;
+.form picture, img {
+  width: 300px;
+
 }
 .form-label {
   position: relative;
@@ -61,6 +60,9 @@ main{
 }
 
 .form-label span {
+    font-family: "Abril Fatface", serif; /* Fonte Abril Fatface */
+  font-weight: 400;
+  font-style: normal;
   position: absolute;
   top: 12px;
   left: 12px;
@@ -80,27 +82,24 @@ main{
   color: #333;
 }
 
-input:focus, input:valid {
+input:focus,
+input:valid {
   color: #ffab52;
 }
 
-.entrar{
-    width: 100%;
-    height: 50px;
-    border-radius: 20px;
-    transition: 0.9s;
+.entrar {
+  width: 100%;
+  height: 50px;
+  border-radius: 20px;
+  transition: 0.9s;
 }
 
-
-button:hover{
-    background-color:  #000000;
-    color: white;
-
+button:hover {
+  background-color: #000000;
+  color: white;
 }
-button{
-    background-color:  #fd8a10;
-    color: white;
-    border: none;
+button {
+  background-color: #fd8a10;
+  color: white;
+  border: none;
 }
-
-
