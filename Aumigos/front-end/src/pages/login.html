@@ -1,3 +1,7 @@
+<?php 
+   echo "PHP funcionando";
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -22,9 +26,12 @@
         <figure class="logo">
             <img src="/Aumigos/front-end/src/assets/img/2.webp" alt="logo">
         </figure>
-        <nav>
-            <a href="dashboard.html">Quero adotar</a>
+        <nav class="navegacao">
+           
             <a href="about.html"> Ajuda</a>
+            <a href="ongs_parceiras.html">ONGs</a>
+             <a href="dashboard.html">Quero adotar</a>
+             <a href="account_settings.html">Configurações</a>
 
         </nav>
     </header>
@@ -49,7 +56,10 @@
                     <span>Senha</span>
                 </label>
                 <button class="entrar">Entrar</button>
-                <a href="">Esqueci minha senha</a>
+                <nav class="ajuda">
+                    <a href="">Esqueci minha senha</a>
+                    <a href="cadastro.html">Não tem cadastro?Clique aqui.</a>
+                </nav>
             </form>
         </section>
     </main>

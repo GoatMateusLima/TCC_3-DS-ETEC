@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 main {
   display: flex;
   flex: 1;
   background-color: #603020;
   background-image: url(/Aumigos/front-end/src/assets/img/patas.png);
-  background-size: contain;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -31,16 +32,17 @@ main {
   background-color: #f2f5f7;
   padding: 50px;
   justify-content: center;
+  align-items: center;
   gap: 10px;
   width: 400px;
   border-radius: 20px;
-  font-family: 'Abril Fatface', 'Ribeye', serif;  
+  font-family: 'montserrat';  
   margin-bottom: 20px;
   box-shadow: 0px 0px 30px black;
 }
 
 .form picture, img {
-  width: 300px;
+  width: 200px;
 
 }
 .form-label {
@@ -60,36 +62,43 @@ main {
 }
 
 .form-label span {
-    font-family: "Abril Fatface", serif; /* Fonte Abril Fatface */
-  font-weight: 400;
-  font-style: normal;
+  font-family: "Abril Fatface"; /* Fonte Abril Fatface */
+  font-style: italic;
   position: absolute;
   top: 12px;
   left: 12px;
-  color: #aaa;
+  
   font-size: 16px;
   pointer-events: none;
   transition: 0.2s ease-in-out;
   transform-origin: top left;
   transform: translateY(0) scale(1);
   padding: 0 4px;
-  color: #ffab52;
+  color: #f78c1b;
 }
 
 .form-label input:focus + span,
 .form-label input:not(:placeholder-shown) + span {
   transform: translateY(-30px) scale(0.85);
-  color: #333;
+  
 }
 
 input:focus,
 input:valid {
-  color: #ffab52;
+  color: #f78c1b;
 }
 
+.ajuda{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
 .entrar {
   width: 100%;
   height: 50px;
+  font:15px 'Montserrat';
   border-radius: 20px;
   transition: 0.9s;
 }
@@ -99,7 +108,7 @@ button:hover {
   color: white;
 }
 button {
-  background-color: #fd8a10;
+  background-color: #ce6f17;
   color: white;
   border: none;
 }

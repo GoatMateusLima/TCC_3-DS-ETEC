@@ -15,7 +15,30 @@ header{
 
 }
 
+.navegacao{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+}
 
+.navegacao a{
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    background: radial-gradient(circle, #ffab52, #f78c1b);
+    width: 130px;
+    padding: 5px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    transition: 0.9s;
+}
+
+.navegacao a:hover{
+    background-color: hsla(0, 40%, 30%, 0.4);
+    color: rgb(255, 255, 255);
+}
 footer{
     background-color: black;
     height:200px;
