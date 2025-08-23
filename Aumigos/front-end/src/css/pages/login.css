@@ -4,7 +4,7 @@ main {
   display: flex;
   flex: 1;
   background-color: #603020;
-  background-image: url(/Aumigos/front-end/src/assets/img/patas.png);
+  background-image: url(../../assets/img/patas.png);
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;

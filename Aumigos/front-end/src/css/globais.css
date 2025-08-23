@@ -1,7 +1,7 @@
 
 
 header{
-    background-color:#ffab52;
+    background-color:#f79023;
     width: 100%;
     display: flex;
     align-items: center;
@@ -39,7 +39,52 @@ header{
     background-color: hsla(0, 40%, 30%, 0.4);
     color: rgb(255, 255, 255);
 }
+
+
 footer{
-    background-color: black;
-    height:200px;
+    background-color:#ed7d21;
+    color: white;
+    height: auto;
+    width: 100%;
+    font-size: 14px;
+    font-family: helvetica;
+}
+.rodape a{
+    text-decoration: none;
+    color: white;
+}
+.rodape p{
+    margin-bottom: 5px;
+}
+.rodape-div{
+    display: flex;
+    flex-wrap: wrap;
+    width:100%;
+    margin: auto;
+    align-items: stretch;
+    padding: 60px 10px 40px 10px;
+}
+.rodape-div-1, .rodape-div-2, .rodape-div-3, .rodape-div-4{
+    display: flex;
+    width: calc(100% / 4 - 20px);
+    padding: 10px;
+}
+.rodape span{
+    font-size: 20px;
+    color: white;
+}
+.rodape-direitos{
+    width: calc(100% - 20px);
+    background-color: #f36e20;
+}
+
+/*mobile*/
+@media (max-width: 768px) {
+    .rodape-div-1, .rodape-div-2, .rodape-div-3, .rodape-div-4{
+        width: calc(50% - 20px);
+        padding: 10px;
+    }
+    .rodape-div{
+        padding: 60px 0px 40px 0px;
+    }
 }

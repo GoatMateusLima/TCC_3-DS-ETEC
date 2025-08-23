@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOGIN</title>
-    <link rel="stylesheet" href="/TCC_3-DS-ETEC-1/Aumigos/front-end/src/css/pages/login.css">
+    <link rel="stylesheet" href="../css/pages/login.css">
 
-    <link rel="stylesheet" href="/TCC_3-DS-ETEC-1/Aumigos/front-end/src/css/reset.css">
-    <link rel="stylesheet" href="/TCC_3-DS-ETEC-1/Aumigos/front-end/src/css/globais.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/globais.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +19,7 @@
 <body>
     <header>
         <figure class="logo">
-            <img src="/TCC_3-DS-ETEC-1/Aumigos/front-end/src/assets/img/2.webp" alt="logo">
+            <img src="../assets/img/2.webp" alt="logo">
         </figure>
         <nav class="navegacao">
 
@@ -35,12 +35,12 @@
     <main>
         <section class="section">
             <figure class="imgGatinho">
-                <img src="/TCC_3-DS-ETEC-1/Aumigos/front-end/src/assets/img/imgGatinho.webp" alt="gatinho">
+                <img src="../assets/img/imgGatinho.webp" alt="gatinho">
                 <figcaption></figcaption>
             </figure>
             <form action="" class="form">
                 <picture>
-                    <img src="/TCC_3-DS-ETEC-1/Aumigos/front-end/src/assets/img/login título.png" alt=" titulo">
+                    <img src="../assets/img/login título.png" alt=" titulo">
                 </picture>
                 <label class="form-label">
                     <input type="email" id="email" required placeholder=" " />
@@ -58,8 +58,46 @@
             </form>
         </section>
     </main>
-    <footer>
-        askdakskdaskkaskdk
+    <footer class="rodape">
+        <div class="rodape-div">
+
+            <div class="rodape-div-1">
+                <div class="rodape-div-1-coluna">
+
+                    <span><b>AUMIGOS</b></span>
+                    <p>Reunimos amantes de animais e ONGS em um só lugar.</p>
+                </div>
+            </div>
+
+            <div class="rodape-div-2">
+                <div class="rodape-div-2-coluna">
+
+                    <span><b>Contatos</b></span>
+                    <a href="mailto:aumigosparasempre24@gmail.com">mailto:aumigosparasempre24@gmail.com</a>
+                    <p>+55 63 99200-0000</p>
+                </div>
+            </div>
+
+            <div class="rodape-div-3">
+                <div class="rodape-div-3-coluna">
+
+                    <span><b>Links</b></span>
+                    <p><a href="#servicos">Serviços</a></p>
+                    <p><a href="#empresa">Empresa</a></p>
+                    <p><a href="#sobre">Sobre</a></p>
+                </div>
+            </div>
+
+            <div class="rodape-div-4">
+                <div class="rodape-div-4-coluna">
+
+                    <span><b>Outros</b></span>
+                    <p>Políticas de Privacidade</p>
+                </div>
+            </div>
+
+        </div>
+        <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
 </body>
 
