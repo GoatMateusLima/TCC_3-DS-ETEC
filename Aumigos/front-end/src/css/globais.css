@@ -1,6 +1,6 @@
 header{
     font-family: helvetica;
-    background-color:#f79023;
+    background-color:#ffa13c;
     width: 100%;
     display: flex;
     align-items: center;
@@ -24,6 +24,7 @@ header{
     color: rgb(0, 0, 0);
     text-decoration: none;
     background: radial-gradient(circle, #ffab52, #f78c1b);
+    border: 1px solid black;
     width: 130px;
     padding: 5px;
     height: 45px;
@@ -41,7 +42,7 @@ header{
 
 
 footer{
-    background-color:#ed7d21;
+    background-color:#ffa13c;
     color: white;
     height: auto;
     width: 100%;
@@ -73,8 +74,8 @@ footer{
     color: white;
 }
 .rodape-direitos{
-    width: calc(100% - 20px);
-    background-color: #f36e20;
+    width: 100%;
+    background-color: #00000086;
 }
 
 /*mobile*/

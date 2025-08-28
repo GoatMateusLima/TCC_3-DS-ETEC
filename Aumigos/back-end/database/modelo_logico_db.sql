@@ -34,7 +34,6 @@ CREATE TABLE adotantes (
     cpf CHAR(11) NOT NULL UNIQUE,
     rg VARCHAR(20),
     email VARCHAR(100),
-    telefone VARCHAR(20),
     whatsapp VARCHAR(20),
     endereco VARCHAR(255),
     data_cadastro DATE
@@ -86,8 +85,8 @@ VALUES
 
 INSERT INTO adotantes (nome, cpf, rg, email, telefone, whatsapp, endereco, data_cadastro)
 VALUES
-('Carlos Pereira', '12312312312', 'MG998877', 'carlos@gmail.com', '11999998888', '11999998888', 'Rua X, 100', '2025-04-01'),
-('Fernanda Lima', '32132132132', 'SP112233', 'fernanda@gmail.com', '11988887777', '11988887777', 'Avenida Y, 200', '2025-04-05');
+('Carlos Pereira', '12312312312', 'MG998877', 'carlos@gmail.com', '11999998888', 'Rua X, 100', '2025-04-01'),
+('Fernanda Lima', '32132132132', 'SP112233', 'fernanda@gmail.com', '11988887777', 'Avenida Y, 200', '2025-04-05');
 
 
 INSERT INTO pets (ong_id, nome, especie, raca, idade, descricao, sexo, porte, cor, vacinado, castrado, status_adocao, data_entrada)

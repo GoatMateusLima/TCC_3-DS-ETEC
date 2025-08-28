@@ -1,0 +1,112 @@
+main {
+    position: relative;
+    display: flex;
+    flex: 1;
+    padding: 30px;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.fixed {
+    flex: 1;
+    border-radius: 10px 0px 0px 10px;
+    background-color: rgb(255, 255, 255);
+    width: 50%;
+    height: 100%;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    box-sizing: border-box;
+    
+}
+
+#ong {
+    border-radius: 0px 10px 10px 0px;
+}
+
+.overlay {
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    left: 0px;
+    background-color: rgb(255, 247, 235);
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    transition: 1.5s;
+
+}
+
+.overlay:hover {
+    transform: ease;
+}
+
+
+.overlay-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+}
+
+.e1-pet, .e2-pet {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease; /* Para transições suaves */
+}
+.e1-pet{
+   left: 100%;
+    display: block;
+}
+.e2-pet{
+    left: 0%; /* Corrigido para 50% */
+    display: none;
+}
+
+
+.button-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 4;
+    font-family: monospace;
+    gap: 4px;
+}
+
+.button-overlay button {
+    border-radius: 20px;
+    width: 150px;
+    height: 50px;
+    color: white;
+    border: none;
+    background-color: #f36e20;
+}
+
+.button-overlay h2 {
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    font-size: 40px;
+
+}button:hover {
+  background-color: #000000;
+  color: white;
+}

@@ -1,36 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>cadastro</title>
-    <link rel="stylesheet" href="/Aumigos/front-end/src/css/pages/cadastro.css">
-    <link rel="stylesheet" href="/Aumigos/front-end/src/css/reset.css">
-    <link rel="stylesheet" href="/Aumigos/front-end/src/css/globais.css">
-     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Ribeye&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Ribeye&display=swap" rel="stylesheet">
+    <title>CADASTRO</title>
+    <link rel="stylesheet" href="../css/pages/cadastro.css">
+    <link rel="stylesheet" href="../css/globais.css">
+    <link rel="stylesheet" href="../css/reset.css">
 </head>
+
 <body>
     <header>
         <figure class="logo">
-            <img src="/Aumigos/front-end/src/assets/img/2.webp" alt="logo">
+            <img src="../assets/img/2.webp" alt="logo">
         </figure>
         <nav class="navegacao">
-           
+
             <a href="about.html"> Ajuda</a>
             <a href="ongs_parceiras.html">ONGs</a>
             <a href="dashboard.html">Quero adotar</a>
+            <a href="account_settings.html">Conta</a>
 
         </nav>
     </header>
     <main>
-        
+        <section class="fixed" id="adotante">
+            <form action="">
+                <h2>Cadastro Adotante</h2>
+                    <div>
+                        <label for="">Nome</label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for="">CPF</label>
+                        <input type="number">
+                    </div>
+
+
+                    <div>
+                        <label for="">RG</label>
+                        <input type="number">
+                    </div>
+
+                    <div>
+                        <label for="">Email</label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for="">whatsapp</label>
+                        <input type="number">
+                    </div>
+
+
+                    <div>
+                        <label for="">Endereço</label>
+                        <input type="text">
+                    </div>
+
+
+                
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+        <section class="fixed" id="ong">
+
+            <form action="">
+                <h2>Cadastro Adotante</h2>
+                    <div>
+                        <label for="">Nome</label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for="">CPF</label>
+                        <input type="number">
+                    </div>
+
+
+                    <div>
+                        <label for="">RG</label>
+                        <input type="number">
+                    </div>
+
+                    <div>
+                        <label for="">Email</label>
+                        <input type="text">
+                    </div>
+
+                    <div>
+                        <label for="">whatsapp</label>
+                        <input type="number">
+                    </div>
+
+
+                    <div>
+                        <label for="">Endereço</label>
+                        <input type="text">
+                    </div>
+
+
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+        <section class="overlay"
+        id="overlay">
+        <figure class="overlay-img">
+            <img src="../assets/img/cao-bonito-vista-frontal-em-traje.jpg" alt="logo" class="e1-pet">
+            <img src="../assets/img/kitty-com-parede-monocromatica-atras-dela.jpg" alt="foto_pet" class="e2-pet">
+        </figure>
+        <div class="button-overlay">
+            <h2>Escolha seu Cadastro</h2>
+        <button onclick="moveOverlay('adotante')">Adotante</button>
+        <button onclick="moveOverlay('ong')">ONG</button>
+
+        </div>
+        </section>
+
     </main>
-    
-    
+     <footer class="rodape">
+        <div class="rodape-div">
+
+            <div class="rodape-div-1">
+                <div class="rodape-div-1-coluna">
+
+                    <span><b>AUMIGOS</b></span>
+                    <p>Reunimos amantes de animais e ONGS em um só lugar.</p>
+                </div>
+            </div>
+
+            <div class="rodape-div-2">
+                <div class="rodape-div-2-coluna">
+
+                    <span><b>Contatos</b></span>
+                    <a href="mailto:aumigosparasempre24@gmail.com">mailto:aumigosparasempre24@gmail.com</a>
+                    <p>+55 63 99200-0000</p>
+                </div>
+            </div>
+
+            <div class="rodape-div-3">
+                <div class="rodape-div-3-coluna">
+
+                    <span><b>Links</b></span>
+                    <p><a href="#servicos">Serviços</a></p>
+                    <p><a href="#empresa">Empresa</a></p>
+                    <p><a href="#sobre">Sobre</a></p>
+                </div>
+            </div>
+
+            <div class="rodape-div-4">
+                <div class="rodape-div-4-coluna">
+
+                    <span><b>Outros</b></span>
+                    <p>Políticas de Privacidade</p>
+                </div>
+            </div>
+
+        </div>
+        <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
+    </footer>
+    <script>
+const overlay = document.getElementById('overlay');
+const e1Pet = document.querySelector('.e1-pet');
+const e2Pet = document.querySelector('.e2-pet');
+const adotanteBtn = document.querySelector('.button-overlay button:nth-child(2)'); // Botão Adotante
+const ongBtn = document.querySelector('.button-overlay button:nth-child(3)'); // Botão ONG
+
+// Função para alternar as imagens
+function moveOverlay(tipo) {
+    if (tipo === 'adotante') {
+        overlay.style.transform = 'translateX(0)';
+        e1Pet.style.display = 'block';
+        e2Pet.style.display = 'none';
+        adotanteBtn.style.display = 'none'; // Esconde o botão de Adotante
+        ongBtn.style.display = 'inline-block'; // Mostra o botão de ONG
+    } else {
+        overlay.style.transform = 'translateX(100%)';
+        e1Pet.style.display = 'none';
+        e2Pet.style.display = 'block';
+        adotanteBtn.style.display = 'inline-block'; // Mostra o botão de Adotante
+        ongBtn.style.display = 'none'; // Esconde o botão de ONG
+    }
+}
+
+// Quando a página carrega, define o estado inicial (pode ser 'adotante' ou 'ong')
+document.addEventListener('DOMContentLoaded', () => {
+    moveOverlay('adotante'); // Definindo 'adotante' como o estado inicial
+});
+
+// Exemplo: Alterna o tipo de cadastro com base no botão
+adotanteBtn.addEventListener('click', () => {
+    moveOverlay('adotante');
+});
+
+ongBtn.addEventListener('click', () => {
+    moveOverlay('ong');
+});
+
+
+</script>
 </body>
+
 </html>
