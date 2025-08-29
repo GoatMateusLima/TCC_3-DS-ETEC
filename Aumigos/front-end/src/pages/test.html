@@ -5,6 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cadastro Overlay Dinâmico</title>
 <style>
+
+
+
+main {
+  position: relative;   /* referência pro overlay */
+  display: flex;
+  width: 100%;
+  height: 100vh;        /* ocupa a tela toda */
+  overflow: hidden;     /* não deixa o overlay estourar */
+}
+
+.fixed {
+  flex: 1;              /* cada um ocupa metade */
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f4f4;
+}
+
+/* Overlay cobre metade da tela */
+.overlay {
+  position: absolute;   /* fica solto dentro do main */
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: #e74c3c;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.6s ease-in-out;
+  z-index: 2;
+}
+
+/* estados de movimento */
+.move-left { transform: translateX(0); }      /* cobre adotante */
+.move-right { transform: translateX(100%); }  /* cobre ong */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body, html {
@@ -113,5 +170,11 @@ function moveOverlay(tipo) {
 }
 </script>
 
+
+
 </body>
 </html>
+
+
+
+

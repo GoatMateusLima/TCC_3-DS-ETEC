@@ -1,11 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="src/css/pages/index.css">
+    <link rel="stylesheet" href="src/css/globais.css">
+    <link rel="stylesheet" href="src/css/reset.css">
 </head>
+
 <body>
-    <h1>olaaaaaaaaaaaaaaa</h1>
+    <header>
+        <figure class="logo">
+            <img src="src/assets/img/2.webp" alt="logo">
+        </figure>
+        <nav class="navegacao">
+
+            <a href="about.html"> Ajuda</a>
+            <a href="ongs_parceiras.html">ONGs</a>
+            <a href="dashboard.html">Quero adotar</a>
+            <a href="account_settings.html">Conta</a>
+
+        </nav>
+    </header>
+    <main>
+        <section class="banner">
+            <figure class="slideshow">
+                <div class="slide" style="background-color: rgb(124, 73, 6);">slide1</div>
+                <div class="slide" style="background-color: rgb(0, 191, 255);">slide2</div>
+                <div class="slide" style="background-color: rgb(0, 0, 0);">slide3</div>
+                <div class="slide" style="background-color: lightcoral;">slide4</div>
+            </figure>
+            <button onclick="prevSlide()">‹</button>
+            <button onclick="nextSlide()">›</button>
+
+        </section>
+        <section>
+            <h1>Conheca nosso Projeto</h1>
+            <p>Nosso projeto visa conectar amantes de animais a ONGs que precisam de apoio. Juntos, podemos fazer a
+                diferença!</p>
+            <p>Se você é um amante de animais, junte-se a nós nessa causa!</p>
+            <p>Quer ajudar ainda mais? <a href="about.html"><b>Saiba como contribuir</b></a> ou <a
+                    href="dashboard.html"><b>encontre seu novo amigo para adoção</b></a>!</p>
+            <p>ONGs também são bem-vindas! Cadastre sua instituição e faça parte dessa rede de apoio aos animais.</p>
+
+        </section>
+        <section>
+            <figure>
+                <h2>Avaliacoes</h2>
+                <img src="src/assets/img/patinha.webp" alt="">
+            </figure>
+            <section>
+                <h3>O que nossos usuarios dizem</h3>
+                <article>
+                    <img src="src/assets/img/patinha.webp" alt="">
+                    <p>"Adotar meu cachorro foi a melhor decisão que já tomei! Obrigado Aumigos!" - Maria S.</p>
+                </article>
+                <article>
+                    <img src="src/assets/img/patinha.webp" alt="">
+                    <p>"A plataforma é super fácil de usar e me ajudou a encontrar o gato perfeito para minha família."
+                        - João P.</p>
+                </article>
+                <article>
+                    <img src="src/assets/img/patinha.webp" alt="">
+                    <p>"Nossa ONG encontrou muitos lares amorosos para nossos animais graças ao Aumigos!" - ONG Vida
+                        Animal</p>
+                </article>
+            </section>
+
+        </section>
+    </main>
+    <footer>
+
+    </footer>
+    <script>
+        const slideshow = document.querySelector('.slideshow');
+        let slides = Array.from(document.querySelectorAll('.slide'));
+        let currentSlide = 0;
+
+        // duplicar o primeiro slide
+        const firstClone = slides[0].cloneNode(true);
+        slideshow.appendChild(firstClone);
+        slides.push(firstClone);
+
+        function render() {
+            slideshow.style.transform = `translateX(${-currentSlide * 100}%)`;
+        }
+
+        // próximo slide
+        function nextSlide() {
+            currentSlide++;
+            render();
+            // quando chega no clone (último)
+            if (currentSlide === slides.length - 1) {
+                setTimeout(() => {
+                    slideshow.style.transition = 'none'; // remove a animação
+                    currentSlide = 0; // volta pro original
+                    render();
+                    // força a transição de volta
+                    requestAnimationFrame(() => {
+                        slideshow.style.transition = 'transform 0.5s ease-in-out';
+                    });
+                }, 500); // igual ao tempo da transição
+            }
+        }
+
+        // autoplay
+        let auto = setInterval(nextSlide, 3000);
+
+    </script>
 </body>
+
 </html>
