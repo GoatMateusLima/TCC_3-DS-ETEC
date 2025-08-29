@@ -16,7 +16,7 @@
             <img src="../assets/img/2.webp" alt="logo">
         </figure>
         <nav class="navegacao">
-
+            <a href="login.php">login</a>
             <a href="about.html"> Ajuda</a>
             <a href="ongs_parceiras.html">ONGs</a>
             <a href="dashboard.html">Quero adotar</a>
@@ -25,102 +25,114 @@
         </nav>
     </header>
     <main>
-        <section class="fixed" id="adotante">
-            <form action="">
-                <h2>Cadastro Adotante</h2>
-                    <div>
+        <section class="main">
+            <section class="fixed" id="adotante">
+                <form action="" class="form-adotante">
+                    <h2>Cadastro Adotante</h2>
+                    <div class="input-container">
                         <label for="">Nome</label>
                         <input type="text">
                     </div>
 
-                    <div>
+                    <div class="input-container">
                         <label for="">CPF</label>
                         <input type="number">
                     </div>
 
 
-                    <div>
+                    <div class="input-container">
                         <label for="">RG</label>
                         <input type="number">
                     </div>
 
-                    <div>
+                    <div class="input-container">
                         <label for="">Email</label>
                         <input type="text">
                     </div>
 
-                    <div>
+                    <div class="input-container">
                         <label for="">whatsapp</label>
                         <input type="number">
                     </div>
 
 
-                    <div>
+                    <div class="input-container">
                         <label for="">Endereço</label>
                         <input type="text">
                     </div>
 
+                    <div class="btn-cadastro">
+                        <button type="submit">Cadastrar</button>
+                    </div>
+                </form>
+            </section>
+            <section class="fixed" id="ong">
 
+                <form action="" class="form-ong">
+                    <h2>Cadastro ONG</h2>
+                    <div class="input-container">
+                        <label for="">Nome</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">CPF</label>
+                        <input type="number">
+                    </div>
+
+
+                    <div class="input-container">
+                        <label for="">RG</label>
+                        <input type="number">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">Email</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">whatsapp</label>
+                        <input type="number">
+                    </div>
+
+
+                    <div class="input-container">
+                        <label for="">Endereço</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="btn-cadastro">
+                        <button type="submit">Cadastrar</button>
+                    </div>
+
+                </form>
+            </section>
+            <section class="overlay" id="overlay">
+                <figure class="overlay-img">
+                    <img src="../assets/img/gatinho-adoravel-com-parede-monocromatica-atras-dela (2).jpg" alt="logo"
+                        class="e1-pet-ong">
+                    <img src="../assets/img/kitty-com-parede-monocromatica-atras-dela.jpg" alt="foto_pet"
+                        class="e2-pet-adotante">
+                </figure>
+                <section class="info-cadastro-adotante" id="info-cadastro-adotante">
+                    <h2>Escolha seu Cadastro</h2>
+
+                </section>
+                <section class="info-cadastro-ong" id="info-cadastro-ong">
+                    <h2>Cadastrar Ong</h2>
+                </section>
                 
-                <button type="submit">Cadastrar</button>
-            </form>
+                <section class="button-overlay">
+                    <button onclick="moveOverlay('adotante')" id="btn-adotante">Adotante</button>
+                    <button onclick="moveOverlay('ong')" id="btn-ong">ONG</button>
+
+                </section>
+            </section>
+
         </section>
-        <section class="fixed" id="ong">
-
-            <form action="">
-                <h2>Cadastro Adotante</h2>
-                    <div>
-                        <label for="">Nome</label>
-                        <input type="text">
-                    </div>
-
-                    <div>
-                        <label for="">CPF</label>
-                        <input type="number">
-                    </div>
-
-
-                    <div>
-                        <label for="">RG</label>
-                        <input type="number">
-                    </div>
-
-                    <div>
-                        <label for="">Email</label>
-                        <input type="text">
-                    </div>
-
-                    <div>
-                        <label for="">whatsapp</label>
-                        <input type="number">
-                    </div>
-
-
-                    <div>
-                        <label for="">Endereço</label>
-                        <input type="text">
-                    </div>
-
-
-                <button type="submit">Cadastrar</button>
-            </form>
-        </section>
-        <section class="overlay"
-        id="overlay">
-        <figure class="overlay-img">
-            <img src="../assets/img/cao-bonito-vista-frontal-em-traje.jpg" alt="logo" class="e1-pet">
-            <img src="../assets/img/kitty-com-parede-monocromatica-atras-dela.jpg" alt="foto_pet" class="e2-pet">
-        </figure>
-        <div class="button-overlay">
-            <h2>Escolha seu Cadastro</h2>
-        <button onclick="moveOverlay('adotante')">Adotante</button>
-        <button onclick="moveOverlay('ong')">ONG</button>
-
-        </div>
-        </section>
-
     </main>
-     <footer class="rodape">
+    <footer class="rodape">
         <div class="rodape-div">
 
             <div class="rodape-div-1">
@@ -161,46 +173,47 @@
         </div>
         <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
+
     <script>
-const overlay = document.getElementById('overlay');
-const e1Pet = document.querySelector('.e1-pet');
-const e2Pet = document.querySelector('.e2-pet');
-const adotanteBtn = document.querySelector('.button-overlay button:nth-child(2)'); // Botão Adotante
-const ongBtn = document.querySelector('.button-overlay button:nth-child(3)'); // Botão ONG
+        const overlay = document.getElementById('overlay');
+        const e1Pet = document.querySelector('.e1-pet-ong');
+        const e2Pet = document.querySelector('.e2-pet-adotante');
+        const adotanteBtn = document.getElementById('btn-adotante'); // Botão Adotante
+        const ongBtn = document.getElementById('btn-ong'); // Botão ONG
 
-// Função para alternar as imagens
-function moveOverlay(tipo) {
-    if (tipo === 'adotante') {
-        overlay.style.transform = 'translateX(0)';
-        e1Pet.style.display = 'block';
-        e2Pet.style.display = 'none';
-        adotanteBtn.style.display = 'none'; // Esconde o botão de Adotante
-        ongBtn.style.display = 'inline-block'; // Mostra o botão de ONG
-    } else {
-        overlay.style.transform = 'translateX(100%)';
-        e1Pet.style.display = 'none';
-        e2Pet.style.display = 'block';
-        adotanteBtn.style.display = 'inline-block'; // Mostra o botão de Adotante
-        ongBtn.style.display = 'none'; // Esconde o botão de ONG
-    }
-}
+        // Função para alternar as imagens
+        function moveOverlay(tipo) {
+            if (tipo === 'adotante') {
+                overlay.style.transform = 'translateX(100%)';
+                e1Pet.style.display = 'none';
+                e2Pet.style.display = 'block';
+                adotanteBtn.style.display = 'none'; // Esconde o botão de Adotante
+                ongBtn.style.display = 'inline-block'; // Mostra o botão de ONG
+            } else {
+                overlay.style.transform = 'translateX(0%)';
+                e1Pet.style.display = 'block';
+                e2Pet.style.display = 'none';
+                adotanteBtn.style.display = 'inline-block'; // Mostra o botão de Adotante
+                ongBtn.style.display = 'none'; // Esconde o botão de ONG
+            }
+        }
 
-// Quando a página carrega, define o estado inicial (pode ser 'adotante' ou 'ong')
-document.addEventListener('DOMContentLoaded', () => {
-    moveOverlay('adotante'); // Definindo 'adotante' como o estado inicial
-});
+        // Quando a página carrega, define o estado inicial (pode ser 'adotante' ou 'ong')
+        document.addEventListener('DOMContentLoaded', () => {
+            moveOverlay('adotante'); // Definindo 'adotante' como o estado inicial
+        });
 
-// Exemplo: Alterna o tipo de cadastro com base no botão
-adotanteBtn.addEventListener('click', () => {
-    moveOverlay('adotante');
-});
+        // Exemplo: Alterna o tipo de cadastro com base no botão
+        adotanteBtn.addEventListener('click', () => {
+            moveOverlay('adotante');
+        });
 
-ongBtn.addEventListener('click', () => {
-    moveOverlay('ong');
-});
+        ongBtn.addEventListener('click', () => {
+            moveOverlay('ong');
+        });
 
 
-</script>
+    </script>
 </body>
 
 </html>
