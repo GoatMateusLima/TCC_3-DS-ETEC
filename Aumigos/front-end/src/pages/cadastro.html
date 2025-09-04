@@ -10,17 +10,32 @@
     <link rel="stylesheet" href="../css/reset.css">
 </head>
 <body>
-    <header>
+     <header>
         <figure class="logo">
             <img src="../assets/img/2.webp" alt="logo">
         </figure>
-        <nav class="navegacao">
-            <a href="login.php">login</a>
-            <a href="about.html"> Ajuda</a>
-            <a href="ongs_parceiras.html">ONGs</a>
-            <a href="dashboard.html">Quero adotar</a>
-            <a href="account_settings.html">Conta</a>
+        <nav>
+            <label class="toggle">
+                <div id="bar1" class="bars"></div>
+                <div id="bar2" class="bars"></div>
+                <div id="bar3" class="bars"></div>
+            </label>
+            <ul class="menu" id="menu">
+                <li><a href="about.html">Sobre projetos aumigos</a></li>
+                <hr>
+                <li><a href="">Projetos sociais</a></li>
+                <hr>
+                <li><a href="faq.html">FAQ</a></li>
+                <hr>
+                <li><a href="">Manuais de cuidado</a></li>
+                <hr>
+                <li><a href="ongs_parceiras.html">ONG'S parceiras</a></li>
+            </ul>
+        </nav>
 
+        <nav class="navegacao">
+            <a href="account_settings.html">Conta</a>
+            <a href="dashboard.html">Quero adotar</a>
         </nav>
     </header>
     <main>
@@ -172,8 +187,8 @@
         </div>
         <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
-
-    <script>
+    <script src="../js/global.js"></script>
+    <script src>
         const overlay = document.getElementById('overlay');
         const e1Pet = document.querySelector('.e1-pet-ong');
         const e2Pet = document.querySelector('.e2-pet-adotante');

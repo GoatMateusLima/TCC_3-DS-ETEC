@@ -17,7 +17,9 @@ header{
 .navegacao{
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: end;
+    gap: 9px;
+    padding: 0px 40px;
 }
 
 .navegacao a{
@@ -142,6 +144,37 @@ footer{
   transition-duration: .5s;
   transform: rotate(180deg);
 }
+.menu {
+  display: none;
+  position: absolute;
+  background-color: #ffa13c;
+  list-style: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  z-index: 1000;
+}
+
+.menu li {
+  padding: 8px 12px;
+  text-decoration: none;
+  color: white;
+
+}
+.menu li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.menu li:hover {
+  background-color: hsla(0, 40%, 30%, 0.4);
+}
+
+.menu.show {
+  display: block;
+}
+
 /*mobile*/
 @media (max-width: 768px) {
     .rodape-div-1, .rodape-div-2, .rodape-div-3, .rodape-div-4{
