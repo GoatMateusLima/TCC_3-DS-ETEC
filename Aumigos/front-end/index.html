@@ -15,22 +15,38 @@
         <figure class="logo">
             <img src="src/assets/img/2.webp" alt="logo">
         </figure>
+        <nav>
+            <label class="toggle">
+                <div id="bar1" class="bars"></div>
+                <div id="bar2" class="bars"></div>
+                <div id="bar3" class="bars"></div>
+            </label>
+            <ul class="menu" id="menu">
+                <li><a href="about.html">Sobre projetos aumigos</a></li>
+                <hr>
+                <li><a href="">Projetos sociais</a></li>
+                <hr>
+                <li><a href="faq.html">FAQ</a></li>
+                <hr>
+                <li><a href="">Manuais de cuidado</a></li>
+                <hr>
+                <li><a href="ongs_parceiras.html">ONG'S parceiras</a></li>
+            </ul>
+        </nav>
+
         <nav class="navegacao">
-
-            <a href="about.html"> Ajuda</a>
-            <a href="ongs_parceiras.html">ONGs</a>
-            <a href="dashboard.html">Quero adotar</a>
             <a href="account_settings.html">Conta</a>
-
+            <a href="dashboard.html">Quero adotar</a>
         </nav>
     </header>
     <main>
         <section class="banner">
-            <figure class="slideshow">
-                <div class="slide" style="background-color: rgb(124, 73, 6);">slide1</div>
-                <div class="slide" style="background-color: rgb(0, 191, 255);">slide2</div>
-                <div class="slide" style="background-color: rgb(0, 0, 0);">slide3</div>
-                <div class="slide" style="background-color: lightcoral;">slide4</div>
+            <figure class="slideshow" id="slideshow">
+                <div class="slide" id="slide1" style="background-color: rgb(124, 73, 6);">slide1</div>
+                <div class="slide" id="slide2" style="background-color: rgb(0, 191, 255);">slide2</div>
+                <div class="slide" id="slide3" style="background-color: rgb(0, 0, 0);">slide3</div>
+                <div class="slide" id="slide4" style="background-color: lightcoral;">slide4</div>
+
             </figure>
             <button onclick="prevSlide()">‹</button>
             <button onclick="nextSlide()">›</button>
@@ -74,42 +90,8 @@
     <footer>
 
     </footer>
-    <script>
-        const slideshow = document.querySelector('.slideshow');
-        let slides = Array.from(document.querySelectorAll('.slide'));
-        let currentSlide = 0;
-
-        // duplicar o primeiro slide
-        const firstClone = slides[0].cloneNode(true);
-        slideshow.appendChild(firstClone);
-        slides.push(firstClone);
-
-        function render() {
-            slideshow.style.transform = `translateX(${-currentSlide * 100}%)`;
-        }
-
-        // próximo slide
-        function nextSlide() {
-            currentSlide++;
-            render();
-            // quando chega no clone (último)
-            if (currentSlide === slides.length - 1) {
-                setTimeout(() => {
-                    slideshow.style.transition = 'none'; // remove a animação
-                    currentSlide = 0; // volta pro original
-                    render();
-                    // força a transição de volta
-                    requestAnimationFrame(() => {
-                        slideshow.style.transition = 'transform 0.5s ease-in-out';
-                    });
-                }, 500); // igual ao tempo da transição
-            }
-        }
-
-        // autoplay
-        let auto = setInterval(nextSlide, 3000);
-
-    </script>
+    <script src="src/js/global.js"></script>
+    <script src="src/js/interaction/banner.js"></script>
 </body>
 
 </html>
