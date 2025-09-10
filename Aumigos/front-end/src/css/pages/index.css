@@ -34,3 +34,31 @@
 .banner button:last-of-type {
   right: 10px;
 }
+
+
+main{
+  background-color: bi;
+}
+.main-content{
+  background-color: rgb(151, 147, 147);
+  display: flex;
+  flex-direction: column;
+  margin: 0 40px;
+  gap: 20px;
+  text-align: left;
+  font-size: 27px;
+  font-family:'montserrat';;
+
+
+
+}
+
+
+.avaliacoes{
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
