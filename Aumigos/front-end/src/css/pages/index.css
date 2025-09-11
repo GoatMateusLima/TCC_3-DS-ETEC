@@ -37,13 +37,15 @@
 
 
 main{
-  background-color: bi;
+  background-color: white;
 }
 .main-content{
-  background-color: rgb(151, 147, 147);
+  
   display: flex;
+  padding: 30px;
+  border-radius: 30px;
   flex-direction: column;
-  margin: 0 40px;
+  margin:40px;
   gap: 20px;
   text-align: left;
   font-size: 27px;
@@ -54,11 +56,113 @@ main{
 }
 
 
-.avaliacoes{
-  background-color: rgb(240, 240, 240);
+.container-avaliacoes{
+  
   display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+.logo-avaliacoes{
+  display: flex;
+  position: relative;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.logo-avaliacoes figcaption{
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.logo-avaliacoes figcaption h2{
+  font-size: 50px;
+  color: rgb(100, 50, 14);
+}
+
+.logo-avaliacoes img{
+  z-index: 1;
+  width: 300px;
+  height: 300px;
+  
+  margin: 20px;
+  border-radius: 30px;
+
+}
+
+
+.container-comentarios{
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+
+.avaliacao{
+  background-color: rgba(39, 39, 39, 0.267);
+  margin: 20px;
+  width: 400px;
+  border-radius: 30px;
+  padding: 30px;
+}
+
+.avaliacao img{
+  width: 80px;
+  border-radius: 60px;
+}
+
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+    margin: 20px;
+    font-size: 20px;
+  }
+
+  /* LOGO */
+  .logo-avaliacoes img {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+  }
+
+  .logo-avaliacoes figcaption h2 {
+    font-size: 30px;
+  }
+
+  /* BANNER */
+  .banner {
+    height: 200px;
+  }
+
+  .slide {
+    font-size: 1.5rem;
+  }
+
+  .banner button {
+    font-size: 1.5rem;
+    padding: 0 5px;
+  }
+
+  /* CARROSSEL AVALIAÇÕES */
+  .container-avaliacoes {
+    gap: 15px;
+    overflow:scroll;
+  }
+
+  .avaliacao {
+    flex: 0 0 250px; /* cards menores no mobile */
+    padding: 15px;
+  }
+
+  .avaliacao img {
+    width: 50px;
+    height: 50px;
+  }
 }

@@ -38,6 +38,28 @@
             <a href="account_settings.html">Conta</a>
             <a href="dashboard.html">Quero adotar</a>
         </nav>
+        <nav class="navegacao-mobile">
+            <label class="toggle">
+                <div id="bar1" class="bars"></div>
+                <div id="bar2" class="bars"></div>
+                <div id="bar3" class="bars"></div>
+            </label>
+            <ul class="menu" id="menu">
+                <li><a href="account_settings.html">Conta</a></li>
+                <li><a href="dashboard.html">Quero adotar</a></li>
+                <li><a href="account_settings.html">Conta</a></li>
+                <li><a href="about.html">Sobre projetos aumigos</a></li>
+                <hr>
+                <li><a href="">Projetos sociais</a></li>
+                <hr>
+                <li><a href="faq.html">FAQ</a></li>
+                <hr>
+                <li><a href="">Manuais de cuidado</a></li>
+                <hr>
+                <li><a href="ongs_parceiras.html">ONG'S parceiras</a></li>
+            </ul>
+
+        </nav>
     </header>
     <main>
         <section class="banner">
@@ -48,8 +70,7 @@
                 <div class="slide" id="slide4" style="background-color: lightcoral;">slide4</div>
 
             </figure>
-            <button onclick="prevSlide()">‹</button>
-            <button onclick="nextSlide()">›</button>
+
 
         </section>
         <section class="main-content">
@@ -62,31 +83,34 @@
             <p>ONGs também são bem-vindas! Cadastre sua instituição e faça parte dessa rede de apoio aos animais.</p>
 
         </section>
-        <section class="avaliacoes">
-            <figure class="avaliacoes-figure">
-                <h2>Avaliacoes</h2>
-                <img src="src/assets/img/patinha.webp" alt="">
+        <section class="container-avaliacoes">
+            <figure class="logo-avaliacoes">
+                <figcaption class="avaliacoes-texto">
+                    <h2>Avaliações</h2>
+                    <h3>O que nossos usuários dizem</h3>
+                </figcaption>
+                <img src="src/assets/img/patinha.webp" alt="Patinha">
             </figure>
-            
 
-        </section>
-            <section>
-                <h3>O que nossos usuarios dizem</h3>
-                <article>
-                    <img src="src/assets/img/patinha.webp" alt="">
+            <section class="container-comentarios">
+                <article class="avaliacao">
+                    <img src="src/assets/img/patinha.webp" alt="Usuário">
                     <p>"Adotar meu cachorro foi a melhor decisão que já tomei! Obrigado Aumigos!" - Maria S.</p>
                 </article>
-                <article>
-                    <img src="src/assets/img/patinha.webp" alt="">
+
+                <article class="avaliacao">
+                    <img src="src/assets/img/patinha.webp" alt="Usuário">
                     <p>"A plataforma é super fácil de usar e me ajudou a encontrar o gato perfeito para minha família."
-                        - João P.</p>
+                    </p>
                 </article>
-                <article>
-                    <img src="src/assets/img/patinha.webp" alt="">
-                    <p>"Nossa ONG encontrou muitos lares amorosos para nossos animais graças ao Aumigos!" - ONG Vida
-                        Animal</p>
+
+                <article class="avaliacao">
+                    <img src="src/assets/img/patinha.webp" alt="Usuário">
+                    <p>"Nossa ONG encontrou muitos lares amorosos para nossos animais graças ao Aumigos!"</p>
                 </article>
             </section>
+        </section>
+        <section>
 
         </section>
     </main>
