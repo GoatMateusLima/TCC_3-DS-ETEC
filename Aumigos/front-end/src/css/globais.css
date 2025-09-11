@@ -235,3 +235,23 @@ footer{
     font-size: 16px;
   }
 }
+
+
+
+nav.mobile-only {
+  display: none;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  nav.menu,
+  nav.navegacao {
+    display: none; /* esconde os navs originais */
+  }
+
+  nav.mobile-only {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
