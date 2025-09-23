@@ -25,7 +25,7 @@ function nextSlide() {
 }
 
 // Autoplay suave
-let autoplay = setInterval(nextSlide, 2000);
+let autoplay = setInterval(nextSlide, 1000);
 
 // Pausa ao passar mouse
 slideshow.addEventListener('mouseenter', () => clearInterval(autoplay));

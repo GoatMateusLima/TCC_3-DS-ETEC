@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 300px;
+  height: 390px;
 }
 .slideshow {
   display: flex;
@@ -37,7 +37,7 @@
 
 
 main{
-  background-color: white;
+  background-color: rgb(222, 238, 248);
 }
 .main-content{
   
@@ -49,7 +49,7 @@ main{
   gap: 20px;
   text-align: left;
   font-size: 27px;
-  font-family:'montserrat';;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 
 
@@ -60,8 +60,11 @@ main{
   
   display: flex;
   flex-direction: row;
+  margin: 10px;
   gap: 20px;
+  border-radius: 30px;
   margin-left: 20px;
+  background-color: rgba(230, 241, 250, 0.932);
 }
 
 .logo-avaliacoes{
