@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict KV5WQPyTLFLspceYa0lk3GcdQqSNlKvb1ZyZl2qg4OItUnfvIk7bjXnAZy5ZDeO
+\restrict ZAXAez6S8CLenMa8ruXv38VRTKINGIliQauR4TJgLAy3e7ytWyPkv6QUiHYVb5k
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
 
--- Started on 2025-09-23 00:56:34
+-- Started on 2025-09-25 23:16:37
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -32,10 +32,10 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.adocao (
     adocao_id integer NOT NULL,
-    data_adocao date,
-    status character varying(30),
-    adotante_id integer,
-    animal_id integer
+    data_adocao date NOT NULL,
+    status character varying(30) NOT NULL,
+    adotante_id integer NOT NULL,
+    animal_id integer NOT NULL
 );
 
 
@@ -58,7 +58,7 @@ CREATE SEQUENCE public.adocao_adocao_id_seq
 ALTER SEQUENCE public.adocao_adocao_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4846 (class 0 OID 0)
+-- TOC entry 4856 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: adocao_adocao_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -73,13 +73,13 @@ ALTER SEQUENCE public.adocao_adocao_id_seq OWNED BY public.adocao.adocao_id;
 
 CREATE TABLE public.adotante (
     adotante_id integer NOT NULL,
-    nome character varying(250),
-    email character varying(250),
-    whatsapp character varying(250),
-    data_cadastro date,
+    nome character varying(250) NOT NULL,
+    email character varying(250) NOT NULL,
+    whatsapp character varying(20) NOT NULL,
+    data_cadastro date NOT NULL,
     data_nascimento date,
-    cpf character varying(250),
-    link_validacao character varying(250)
+    cpf character varying(18) NOT NULL,
+    link_validacao character varying(200)
 );
 
 
@@ -102,7 +102,7 @@ CREATE SEQUENCE public.adotante_adotante_id_seq
 ALTER SEQUENCE public.adotante_adotante_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4847 (class 0 OID 0)
+-- TOC entry 4857 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: adotante_adotante_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -117,11 +117,11 @@ ALTER SEQUENCE public.adotante_adotante_id_seq OWNED BY public.adotante.adotante
 
 CREATE TABLE public.animal (
     animal_id integer NOT NULL,
-    nome character varying(250),
-    tipo character varying(250),
-    raca character varying(250),
-    sexo character varying(250),
-    descricao character varying(250),
+    nome character varying(100) NOT NULL,
+    tipo character varying(50) NOT NULL,
+    raca character varying(100) NOT NULL,
+    sexo character varying(10) NOT NULL,
+    descricao character varying(300),
     data_entrada date,
     data_saida date
 );
@@ -146,7 +146,7 @@ CREATE SEQUENCE public.animal_animal_id_seq
 ALTER SEQUENCE public.animal_animal_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4848 (class 0 OID 0)
+-- TOC entry 4858 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: animal_animal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -161,13 +161,13 @@ ALTER SEQUENCE public.animal_animal_id_seq OWNED BY public.animal.animal_id;
 
 CREATE TABLE public.membros_ong (
     membro_id integer NOT NULL,
-    nome character varying(250),
-    cpf character varying(18),
-    email character varying(250),
-    whatsapp character varying(250),
-    data_entrada date,
-    link_validacao character varying(250),
-    funcao character varying(250)
+    nome character varying(250) NOT NULL,
+    cpf character varying(18) NOT NULL,
+    email character varying(250) NOT NULL,
+    whatsapp character varying(20) NOT NULL,
+    data_entrada date NOT NULL,
+    link_validacao character varying(200),
+    funcao character varying(100) NOT NULL
 );
 
 
@@ -190,7 +190,7 @@ CREATE SEQUENCE public.membros_ong_membro_id_seq
 ALTER SEQUENCE public.membros_ong_membro_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4849 (class 0 OID 0)
+-- TOC entry 4859 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: membros_ong_membro_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -205,15 +205,15 @@ ALTER SEQUENCE public.membros_ong_membro_id_seq OWNED BY public.membros_ong.memb
 
 CREATE TABLE public.ong (
     ong_id integer NOT NULL,
-    nome character varying(250),
-    email character varying(250),
-    cnpj character varying(250),
-    rua character varying(250),
-    whatsapp character varying(250),
-    data_criacao date,
-    cep character varying(20),
-    bairro character varying(250),
-    numero character varying(20),
+    nome character varying(250) NOT NULL,
+    email character varying(250) NOT NULL,
+    cnpj character varying(18) NOT NULL,
+    rua character varying(250) NOT NULL,
+    whatsapp character varying(20) NOT NULL,
+    data_criacao date NOT NULL,
+    cep character varying(9) NOT NULL,
+    bairro character varying(150) NOT NULL,
+    numero character varying(10) NOT NULL,
     membro_id integer,
     status_registro boolean DEFAULT true
 );
@@ -238,7 +238,7 @@ CREATE SEQUENCE public.ong_ong_id_seq
 ALTER SEQUENCE public.ong_ong_id_seq OWNER TO postgres;
 
 --
--- TOC entry 4850 (class 0 OID 0)
+-- TOC entry 4860 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: ong_ong_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -287,7 +287,7 @@ ALTER TABLE ONLY public.ong ALTER COLUMN ong_id SET DEFAULT nextval('public.ong_
 
 
 --
--- TOC entry 4838 (class 0 OID 16416)
+-- TOC entry 4848 (class 0 OID 16416)
 -- Dependencies: 224
 -- Data for Name: adocao; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -297,7 +297,7 @@ COPY public.adocao (adocao_id, data_adocao, status, adotante_id, animal_id) FROM
 
 
 --
--- TOC entry 4836 (class 0 OID 16407)
+-- TOC entry 4846 (class 0 OID 16407)
 -- Dependencies: 222
 -- Data for Name: adotante; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -307,7 +307,7 @@ COPY public.adotante (adotante_id, nome, email, whatsapp, data_cadastro, data_na
 
 
 --
--- TOC entry 4834 (class 0 OID 16398)
+-- TOC entry 4844 (class 0 OID 16398)
 -- Dependencies: 220
 -- Data for Name: animal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -317,7 +317,7 @@ COPY public.animal (animal_id, nome, tipo, raca, sexo, descricao, data_entrada, 
 
 
 --
--- TOC entry 4832 (class 0 OID 16389)
+-- TOC entry 4842 (class 0 OID 16389)
 -- Dependencies: 218
 -- Data for Name: membros_ong; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -327,7 +327,7 @@ COPY public.membros_ong (membro_id, nome, cpf, email, whatsapp, data_entrada, li
 
 
 --
--- TOC entry 4840 (class 0 OID 16433)
+-- TOC entry 4850 (class 0 OID 16433)
 -- Dependencies: 226
 -- Data for Name: ong; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -340,7 +340,7 @@ COPY public.ong (ong_id, nome, email, cnpj, rua, whatsapp, data_criacao, cep, ba
 
 
 --
--- TOC entry 4851 (class 0 OID 0)
+-- TOC entry 4861 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: adocao_adocao_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -349,7 +349,7 @@ SELECT pg_catalog.setval('public.adocao_adocao_id_seq', 1, false);
 
 
 --
--- TOC entry 4852 (class 0 OID 0)
+-- TOC entry 4862 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: adotante_adotante_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -358,7 +358,7 @@ SELECT pg_catalog.setval('public.adotante_adotante_id_seq', 1, false);
 
 
 --
--- TOC entry 4853 (class 0 OID 0)
+-- TOC entry 4863 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: animal_animal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -367,7 +367,7 @@ SELECT pg_catalog.setval('public.animal_animal_id_seq', 1, false);
 
 
 --
--- TOC entry 4854 (class 0 OID 0)
+-- TOC entry 4864 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: membros_ong_membro_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -376,7 +376,7 @@ SELECT pg_catalog.setval('public.membros_ong_membro_id_seq', 1, false);
 
 
 --
--- TOC entry 4855 (class 0 OID 0)
+-- TOC entry 4865 (class 0 OID 0)
 -- Dependencies: 225
 -- Name: ong_ong_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -385,7 +385,16 @@ SELECT pg_catalog.setval('public.ong_ong_id_seq', 3, true);
 
 
 --
--- TOC entry 4674 (class 2606 OID 16421)
+-- TOC entry 4682 (class 2606 OID 16585)
+-- Name: adocao adocao_animal_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adocao
+    ADD CONSTRAINT adocao_animal_unique UNIQUE (animal_id);
+
+
+--
+-- TOC entry 4684 (class 2606 OID 16421)
 -- Name: adocao adocao_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -394,7 +403,25 @@ ALTER TABLE ONLY public.adocao
 
 
 --
--- TOC entry 4672 (class 2606 OID 16414)
+-- TOC entry 4676 (class 2606 OID 16577)
+-- Name: adotante adotante_cpf_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adotante
+    ADD CONSTRAINT adotante_cpf_unique UNIQUE (cpf);
+
+
+--
+-- TOC entry 4678 (class 2606 OID 16575)
+-- Name: adotante adotante_email_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.adotante
+    ADD CONSTRAINT adotante_email_unique UNIQUE (email);
+
+
+--
+-- TOC entry 4680 (class 2606 OID 16414)
 -- Name: adotante adotante_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -403,7 +430,7 @@ ALTER TABLE ONLY public.adotante
 
 
 --
--- TOC entry 4670 (class 2606 OID 16405)
+-- TOC entry 4674 (class 2606 OID 16405)
 -- Name: animal animal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -412,7 +439,7 @@ ALTER TABLE ONLY public.animal
 
 
 --
--- TOC entry 4676 (class 2606 OID 16461)
+-- TOC entry 4686 (class 2606 OID 16583)
 -- Name: ong cnpj_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -421,7 +448,7 @@ ALTER TABLE ONLY public.ong
 
 
 --
--- TOC entry 4678 (class 2606 OID 16459)
+-- TOC entry 4688 (class 2606 OID 16581)
 -- Name: ong email_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -430,7 +457,25 @@ ALTER TABLE ONLY public.ong
 
 
 --
--- TOC entry 4668 (class 2606 OID 16396)
+-- TOC entry 4668 (class 2606 OID 16587)
+-- Name: membros_ong membros_ong_cpf_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.membros_ong
+    ADD CONSTRAINT membros_ong_cpf_unique UNIQUE (cpf);
+
+
+--
+-- TOC entry 4670 (class 2606 OID 16589)
+-- Name: membros_ong membros_ong_email_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.membros_ong
+    ADD CONSTRAINT membros_ong_email_unique UNIQUE (email);
+
+
+--
+-- TOC entry 4672 (class 2606 OID 16396)
 -- Name: membros_ong membros_ong_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -439,7 +484,7 @@ ALTER TABLE ONLY public.membros_ong
 
 
 --
--- TOC entry 4680 (class 2606 OID 16463)
+-- TOC entry 4690 (class 2606 OID 16579)
 -- Name: ong name_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -448,7 +493,7 @@ ALTER TABLE ONLY public.ong
 
 
 --
--- TOC entry 4682 (class 2606 OID 16440)
+-- TOC entry 4692 (class 2606 OID 16440)
 -- Name: ong ong_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -457,7 +502,7 @@ ALTER TABLE ONLY public.ong
 
 
 --
--- TOC entry 4683 (class 2606 OID 16422)
+-- TOC entry 4693 (class 2606 OID 16422)
 -- Name: adocao adocao_adotante_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -466,7 +511,7 @@ ALTER TABLE ONLY public.adocao
 
 
 --
--- TOC entry 4684 (class 2606 OID 16427)
+-- TOC entry 4694 (class 2606 OID 16427)
 -- Name: adocao adocao_animal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -475,7 +520,7 @@ ALTER TABLE ONLY public.adocao
 
 
 --
--- TOC entry 4685 (class 2606 OID 16441)
+-- TOC entry 4695 (class 2606 OID 16441)
 -- Name: ong ong_membro_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -483,11 +528,11 @@ ALTER TABLE ONLY public.ong
     ADD CONSTRAINT ong_membro_id_fkey FOREIGN KEY (membro_id) REFERENCES public.membros_ong(membro_id);
 
 
--- Completed on 2025-09-23 00:56:35
+-- Completed on 2025-09-25 23:16:38
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KV5WQPyTLFLspceYa0lk3GcdQqSNlKvb1ZyZl2qg4OItUnfvIk7bjXnAZy5ZDeO
+\unrestrict ZAXAez6S8CLenMa8ruXv38VRTKINGIliQauR4TJgLAy3e7ytWyPkv6QUiHYVb5k
 

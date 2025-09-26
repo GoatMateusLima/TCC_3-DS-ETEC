@@ -1,8 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const cnpjRoutes = require('./routes/cnpjRoutes');
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 app.use('/cnpj', cnpjRoutes);
