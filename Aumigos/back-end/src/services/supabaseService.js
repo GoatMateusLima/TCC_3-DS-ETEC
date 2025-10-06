@@ -1,4 +1,5 @@
-const supabase = require('./supabaseClient');
+const supabase = require('../config/supabaseClient');
+const { resizeImage } = require('../utils/imageResize');
 const path = require('path');
 
 
@@ -11,6 +12,9 @@ function generateFileName(petId, originalName) {
 
 async function uploadPetImage(fileBuffer, fileName, petId) {
     try {
+
+        const resizeBuffer = await resizeImage(fileBuffer, 800);
+
         const uniqueName = generateFileName(petId, fileName);
 
         const { error } = await supabase.storage
