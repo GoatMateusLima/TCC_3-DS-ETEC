@@ -5,7 +5,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const createPet = require('../controllers/petCrud/createPet');
 const { deletePet } = require('../controllers/petCrud/deletePet');
-const { getPets } = require('../controllers/petCrud/getPets');
+const  getPets  = require('../controllers/petCrud/getPets');
 const { getPetById } = require('../controllers/petCrud/getPetById');
 const { updatePet } = require('../controllers/petCrud/updatePet');
 
