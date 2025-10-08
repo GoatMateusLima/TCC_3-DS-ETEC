@@ -1,21 +1,15 @@
-const  sharp = require('sharp');
+const sharp = require('sharp');
 
-
-async function resizeImage(fileBuffer, maxWidth = 800) {
+async function resizeImage(buffer, width) {
     try {
-        
-        const resizeBuffer = await sharp(fileBuffer)
-            .resize({ width: maxWidth })
-            .jpeg({ quality: 80})
+        const resizedBuffer = await sharp(buffer)
+            .resize({ width, fit: 'contain' })
             .toBuffer();
-
-        return resizeBuffer;
-    }   catch (err) {
-
+        return resizedBuffer;
+    } catch (err) {
         console.error('Erro ao redimensionar imagem:', err.message);
-        return fileBuffer; 
+        throw err;
     }
-
 }
 
-module.exports = {resizeImage}
+module.exports = { resizeImage };

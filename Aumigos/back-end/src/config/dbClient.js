@@ -1,5 +1,5 @@
 const { createClient } = require( '@supabase/supabase-js');
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/../../.env' });
 
 const supabaseDB = createClient(
     process.env.SUPABASE_URL_DB,

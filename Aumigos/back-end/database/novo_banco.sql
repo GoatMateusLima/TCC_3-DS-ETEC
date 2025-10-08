@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict ZAXAez6S8CLenMa8ruXv38VRTKINGIliQauR4TJgLAy3e7ytWyPkv6QUiHYVb5k
+\restrict N0DAPUpVTELxVwyEsKttK3E0nBw1mY1dTUDCcLfzbrBQGYix2AcnsaDMC5r0p0f
 
 -- Dumped from database version 17.6
 -- Dumped by pg_dump version 17.6
 
--- Started on 2025-09-25 23:16:37
+-- Started on 2025-10-06 00:00:07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -118,12 +118,13 @@ ALTER SEQUENCE public.adotante_adotante_id_seq OWNED BY public.adotante.adotante
 CREATE TABLE public.animal (
     animal_id integer NOT NULL,
     nome character varying(100) NOT NULL,
-    tipo character varying(50) NOT NULL,
+    especie character varying(50) NOT NULL,
     raca character varying(100) NOT NULL,
     sexo character varying(10) NOT NULL,
     descricao character varying(300),
     data_entrada date,
-    data_saida date
+    data_saida date,
+    link_img text
 );
 
 
@@ -312,7 +313,7 @@ COPY public.adotante (adotante_id, nome, email, whatsapp, data_cadastro, data_na
 -- Data for Name: animal; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.animal (animal_id, nome, tipo, raca, sexo, descricao, data_entrada, data_saida) FROM stdin;
+COPY public.animal (animal_id, nome, especie, raca, sexo, descricao, data_entrada, data_saida, link_img) FROM stdin;
 \.
 
 
@@ -528,11 +529,11 @@ ALTER TABLE ONLY public.ong
     ADD CONSTRAINT ong_membro_id_fkey FOREIGN KEY (membro_id) REFERENCES public.membros_ong(membro_id);
 
 
--- Completed on 2025-09-25 23:16:38
+-- Completed on 2025-10-06 00:00:09
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict ZAXAez6S8CLenMa8ruXv38VRTKINGIliQauR4TJgLAy3e7ytWyPkv6QUiHYVb5k
+\unrestrict N0DAPUpVTELxVwyEsKttK3E0nBw1mY1dTUDCcLfzbrBQGYix2AcnsaDMC5r0p0f
 
