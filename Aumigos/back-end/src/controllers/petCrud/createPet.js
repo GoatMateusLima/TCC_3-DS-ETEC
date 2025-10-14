@@ -1,73 +1,65 @@
-const { uploadPetImage } = require('../../services/supabaseService');
-const supabase = require('../../config/dbClient');
+const db = require('../../config/dbClient');
 
 async function createPet(req, res) {
     try {
-        const { nome, especie, raca, sexo, descricao, data_entrada, ong_id } = req.body;
-        const file = req.file;
+        const {
+            id_ong,
+            nome,
+            especie,
+            raca,
+            idade,
+            genero,
+            descricao,
+            status_adocao,
+            imagem_url
+        } = req.body;
 
-        console.log('req.body:', req.body);
-        console.log('req.file:', req.file);
-
-        // Validação: imagem é obrigatória
-        if (!file) {
-            console.log('Erro: Nenhum arquivo enviado');
-            return res.status(400).json({ error: 'Imagem do pet obrigatória' });
+        if (!id_ong || !nome || !especie || !descricao) {
+            return res.status(400).json({ error: 'Campos obrigatórios faltando.' });
         }
 
-        // Validação dos campos obrigatórios
-        const missingFields = [];
-        if (!nome) missingFields.push('nome');
-        if (!especie) missingFields.push('especie');
-        if (!raca) missingFields.push('raca');
-        if (!sexo) missingFields.push('sexo');
-        if (!descricao) missingFields.push('descricao');
-        if (!data_entrada) missingFields.push('data_entrada');
-        if (!ong_id) missingFields.push('ong_id');
+        // 1️⃣ Verifica se ONG existe e está validada
+        const { data: ong, error: ongError } = await db
+            .from('ong')
+            .select('id, cnpj_validado, status_validacao')
+            .eq('id', id_ong)
+            .single();
 
-        if (missingFields.length > 0) {
-            console.log('Campos faltando:', missingFields);
-            return res.status(400).json({ error: `Campos obrigatórios faltando: ${missingFields.join(', ')}` });
+        if (ongError || !ong) {
+            return res.status(400).json({ error: 'ONG não encontrada.' });
         }
 
-        // Upload da imagem
-        console.log('Iniciando upload da imagem:', file.originalname);
-        const imageUrl = await uploadPetImage(file.buffer, file.originalname, Date.now());
-        console.log('Imagem enviada:', imageUrl);
-        if (!imageUrl) {
-            console.log('Erro: Falha ao obter URL da imagem');
-            return res.status(500).json({ error: 'Falha ao enviar imagem do pet' });
+        if (!ong.cnpj_validado || ong.status_validacao !== 'aprovado') {
+            return res.status(403).json({ error: 'ONG ainda não validada para cadastrar pets.' });
         }
 
-        // Inserir no Supabase
-        console.log('Inserindo pet no Supabase com dados:', { nome, especie, raca, sexo, descricao, data_entrada, ong_id, link_img: imageUrl });
-        const { data, error } = await supabase
+        // 2️⃣ Cria o pet vinculado à ONG
+        const { data, error } = await db
             .from('animal')
             .insert([
                 {
+                    id_ong,
                     nome,
                     especie,
                     raca,
-                    sexo,
+                    idade,
+                    genero,
                     descricao,
-                    data_entrada,
-                    ong_id,
-                    link_img: imageUrl,
-                },
+                    status_adocao: status_adocao || 'disponivel',
+                    imagem_url
+                }
             ])
             .select();
 
-        if (error) {
-            console.error('Erro ao inserir pet no Supabase:', error.message);
-            throw error;
-        }
+        if (error) throw error;
 
-        console.log('Pet inserido com sucesso:', data[0]);
-        res.status(201).json(data[0]);
-
+        res.status(201).json({
+            message: 'Pet cadastrado com sucesso!',
+            pet: data[0]
+        });
     } catch (err) {
-        console.error('Erro ao criar pet:', err.message, err.stack);
-        res.status(500).json({ error: 'Erro ao criar pet', details: err.message });
+        console.error(err);
+        res.status(500).json({ error: 'Erro interno ao cadastrar pet.' });
     }
 }
 

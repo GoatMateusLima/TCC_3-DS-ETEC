@@ -1,32 +1,25 @@
-const pool = require('../../config/dbClient');
-const { deletePetImage } = require('../../services/supabaseService');
+const db = require('../../config/dbClient');
 
 async function deletePet(req, res) {
-    const { id } = req.params; 
-
     try {
+        const { id } = req.params;
+        const { id_ong } = req.body;
 
-        const petResult = await pool.query('SELECT * FROM pets WHERE id = $1', [id]);
+        if (!id_ong) return res.status(400).json({ error: 'ID da ONG é obrigatório.' });
 
-        if (petResult.rows.length === 0) {
-            return res.status(404).json({ error: 'Pet nao encontrado' });
+        const { data: pet } = await db.from('animal').select('id_ong').eq('id', id).single();
 
-        }
+        if (!pet || pet.id_ong !== id_ong)
+            return res.status(403).json({ error: 'Acesso negado. Este pet não pertence à sua ONG.' });
 
-        const existingPet = petResult.rows[0];
+        const { error } = await db.from('animal').delete().eq('id', id);
+        if (error) throw error;
 
-        if ( existingPet.linkimagem ) {
-            await deletePetImage( existingPet.linkimagem );
-        }
-
-        await pool.query('DELETE FROM pets WHERE id = $1', [id]);
-
-        res.json({ message: ' pet deletado com sucesso'});
-
-    }  catch (err) {
-        console.error( 'Erro ao deletar pet:', err.message);
-        res.status(500).json({ error: 'Erro ao deletar pet' });
+        res.status(200).json({ message: 'Pet deletado com sucesso.' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro interno ao deletar pet.' });
     }
 }
 
-module.exports = { deletePet };
+module.exports = deletePet;

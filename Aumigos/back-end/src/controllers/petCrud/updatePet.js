@@ -1,51 +1,50 @@
-const pool = require('../../config/dbClient');
-const { uploadPetImage } = require('../../services/supabaseService');
-const { resizeImage } = require('../../utils/imageResize');
+const db = require('../../config/dbClient');
 
-
-async function updatePet( req, res ) {
-    const { id } = req.params;
-    const { nome, tipo, raca, sexo, descricao, data_entrada, data_saida } = req.body;
-    const file = req.file;
-
+async function updatePet(req, res) {
     try {
-        const petResult = await pool.query('SELECT * FROM pets WHERE id = $1', [id]);
+        const { id } = req.params;
+        const {
+            id_ong,
+            nome,
+            especie,
+            raca,
+            idade,
+            genero,
+            descricao,
+            status_adocao,
+            imagem_url
+        } = req.body;
 
-        if  (petResult.rows.length === 0) {
-            return res.status(404).json({ error: 'Pet nao encontrado'});
+        if (!id_ong) return res.status(400).json({ error: 'ID da ONG é obrigatório.' });
 
-        }
+        // Verifica se o pet pertence à ONG
+        const { data: pet } = await db.from('animal').select('id_ong').eq('id', id).single();
 
-        const existingPet = petResult.rows[0];
+        if (!pet || pet.id_ong !== id_ong)
+            return res.status(403).json({ error: 'Acesso negado. Este pet não pertence à sua ONG.' });
 
-        let imageUrl = existingPet.linkimagem;
+        const { data, error } = await db
+            .from('animal')
+            .update({
+                nome,
+                especie,
+                raca,
+                idade,
+                genero,
+                descricao,
+                status_adocao,
+                imagem_url
+            })
+            .eq('id', id)
+            .select();
 
-        if ( file ) {
-            const resizeBuffer = await resizeImage(file.Buffer);
+        if (error) throw error;
 
-            if ( existingPet.linkimagem ) {
-                await deletePetImage(existingPet.linkimagem);
-            }
-
-            imageUrl = await uploadPetImage( resizeBuffer, file.originalname, id);
-        }
-
-        const updateQuery = `
-            UPDATE pets
-            SET nome = $1, tipo = $2, raca = $3, sexo = $4, descricao = $5, data_entrada = $6, data_saida = $7, linkimagem = $8
-            WHERE id = $9
-            RETURNING *;
-            `;
-
-            const values = [nome, tipo, raca, sexo, descricao, data_entrada, data_saida, imageUrl, id ];
-
-            const result = await pool.query(updateQuery, values);
-            res.json(result.rows[0]);
-
-    }   catch (err) {
-        console.error( 'Erro ao atualizar pet:', err.message);
-        res.status(500).json({ error: ' Erro ao atualizar pet' });
+        res.status(200).json({ message: 'Pet atualizado com sucesso.', pet: data[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro interno ao atualizar pet.' });
     }
 }
 
-module.exports = { updatePet };
+module.exports = updatePet;

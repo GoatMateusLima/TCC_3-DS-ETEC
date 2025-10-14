@@ -1,21 +1,20 @@
-const supabaseDB = require('../../config/dbClient');
+const db = require('../../config/dbClient');
 
-
-async function getOng( req, res ) {
+async function getOngs(req, res) {
     try {
-        const { data, error } = await supabaseDB
-            .from('ong')
-            .select('*');
+        const { status_validacao } = req.query; // opcional, filtra por status
+        let query = db.from('ong').select('*');
+        if (status_validacao) query = query.eq('status_validacao', status_validacao);
 
-        
-        if (error)  throw error;
+        const { data, error } = await query;
 
-        return res.status(200).json(data);
+        if (error) return res.status(500).json({ error: 'Erro ao buscar ONGs.', details: error });
 
+        res.status(200).json(data);
     } catch (err) {
-        console.error(' Erro ao buscar ONGs:', err.message);
-        return res.status(500).json({error: err.message});
+        console.error(err);
+        res.status(500).json({ error: 'Erro interno ao buscar ONGs.' });
     }
 }
 
-module.exports = getOng;
+module.exports = getOngs;
