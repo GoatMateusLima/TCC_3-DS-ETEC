@@ -1,3 +1,60 @@
+Entendi, você quer hospedar seu banco e armazenar imagens sem ficar preso a limites tão restritivos, e de preferência de graça.
+
+A real é que **hospedagem grátis SEM nenhum limite é quase impossível** — porque servidor custa grana para quem oferece, então sempre tem algum limite pra controlar uso, evitar abuso e manter o serviço viável.
+
+Mas tem algumas opções grátis com limites **mais generosos** ou que podem ser "contornados" dependendo do seu projeto, que valem a pena considerar:
+
+---
+
+### Opções grátis que você pode testar:
+
+#### 1. **Railway.app**
+
+* Tem um plano gratuito bem legal pra PostgreSQL (até 500 horas/mês e 1GB de espaço).
+* O banco "dorme" depois de ficar inativo, mas dá pra ativar de novo sem perder dados.
+* É simples de usar e bem popular.
+
+#### 2. **ElephantSQL**
+
+* Oferece plano gratuito com até 20MB de espaço no PostgreSQL.
+* Pode ser pouco pra projetos maiores, mas serve pra testes e projetos pequenos.
+
+#### 3. **Supabase (plano gratuito)**
+
+* Você já conhece, mas o limite é algo que pesa.
+* Pode tentar otimizar o uso (excluir dados inúteis, compactar imagens, etc).
+
+#### 4. **Render.com**
+
+* Oferece bancos PostgreSQL grátis em plano "Starter" (500 MB), e pode hospedar seu backend também.
+* Tem limite de uso, mas é estável.
+
+---
+
+### Armazenamento de imagens grátis separado:
+
+Ao invés de guardar imagens direto no banco (que é caro e limitado), você pode usar serviços dedicados de armazenamento de arquivos/imagens:
+
+* **Cloudinary (plano grátis)**: 25 GB armazenamento e 25.
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
 # TCC_3-DS-ETEC
 Projeto De TCC
 
