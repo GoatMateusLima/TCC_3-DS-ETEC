@@ -1,0 +1,16 @@
+@media (max-width: 768px) {
+
+    .container-comentarios{
+        flex-direction: column;
+        align-items: center;
+        overflow: visible;
+    }
+    
+    .avaliacao{
+        width: 90%;
+    }
+
+    .nav_pc{
+        display: none;
+    }
+}

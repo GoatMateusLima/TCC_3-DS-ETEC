@@ -1,14 +1,26 @@
-const imgCarrosselComentario = document.getElementById('img-comentriocarrossel');
-let posicao = 0;
+// Carrossel de comentários
+function iniciarCarrossel(carrosselId, velocidade = 1) {
+    const carrossel = document.getElementById(carrosselId);
+    if (!carrossel) return;
 
-function rolarBanner() {
-    posicao -= 1;
-    imgCarrosselComentario.style.transform = `translateX(${posicao}px)`;
+    const itensOriginais = Array.from(carrossel.children);
+    itensOriginais.forEach(item => {
+        carrossel.appendChild(item.cloneNode(true)); // duplica para loop infinito
+    });
 
-    if (Math.abs(posicao) >= imgCarrosselComentario.scrollWidth / 2) {
-        posicao = 0;
+    let posicao = 0;
+    const larguraOriginal = itensOriginais.reduce((total, el) => total + el.offsetWidth, 0);
+
+    function rolar() {
+        posicao -= velocidade;
+        carrossel.style.transform = `translateX(${posicao}px)`;
+
+        if (Math.abs(posicao) >= larguraOriginal) posicao = 0;
+
+        requestAnimationFrame(rolar);
     }
-    requestAnimationFrame(rolarBanner);
+
+    rolar();
 }
 
-rolarBanner();
+iniciarCarrossel('img-comentriocarrossel', 1);

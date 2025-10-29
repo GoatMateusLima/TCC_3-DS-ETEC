@@ -1,14 +1,28 @@
-const imgCarrossel = document.getElementById('img-carrossel');
-let inicial = 0;
+// Banner principal
+function iniciarBanner(bannerId, velocidade = 1) {
+    const banner = document.getElementById(bannerId);
+    if (!banner) return;
 
-function girarBanner() {
-    inicial -= 1;
-    imgCarrossel.style.transform = `translateX(${inicial}px)`;
+    const imgs = Array.from(banner.querySelectorAll('img'));
+    imgs.forEach(img => {
+        banner.appendChild(img.cloneNode(true)); // duplica imagens para loop infinito
+    });
 
-    if (Math.abs(inicial) >= imgCarrossel.scrollWidth / 1) {
-        inicial = 0;
+    let posicao = 0;
+    const larguraOriginal = imgs.reduce((total, img) => total + img.offsetWidth, 0);
+
+    function rolar() {
+        posicao -= velocidade;
+        banner.style.transform = `translateX(${posicao}px)`;
+
+        if (Math.abs(posicao) >= larguraOriginal) posicao = 0;
+
+        requestAnimationFrame(rolar);
     }
-    requestAnimationFrame(girarBanner);
+
+    rolar();
 }
 
-girarBanner();
+// Inicia os dois carrosseis
+
+iniciarBanner('img-carrossel', 2);
