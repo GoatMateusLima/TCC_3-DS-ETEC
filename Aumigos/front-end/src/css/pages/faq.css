@@ -1,8 +1,59 @@
-main {
+.corpo-faq {
     display: flex;
-    flex-direction: row;
-    margin: 30px;
+    gap: 30px;
+    padding: 30px;
+}
+
+.menu-faq {
+    width: 400px;
+    height: 500px;
+    background-color: rgba(104, 103, 103, 0.068);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.links-faq {
+    height: 100%; 
+    width: 100%;
+    display: flex;
+}
+
+.lista-faq {
+    list-style: none;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
 
 }
+
+.lista-faq li {
+    font-size: 23px;
+    background: #4e4d4d3b;
+    min-height: 80px; /* deixa flexível */
+    padding: 10px;
+    width: 100%;  
+    border-radius: 20px;
+    text-align: center;
+    color: aliceblue;
+}
+
+
+
+.lista-faq li a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+.container-info-faq {
+    flex: 1;
+    padding: 30px;
+    background-color: rgba(104, 103, 103, 0.397);
+    border-radius: 15px;
+}
+
 
 
