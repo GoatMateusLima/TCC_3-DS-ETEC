@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const fallback = require('express-history-api-fallback')
+
 
 
 
@@ -17,6 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const StaticPath = path.join(__dirname, '../../front-end/src');
+app.use(express.static(StaticPath));
+
 app.use('/adotante', adotanteRoutes);
 app.use('/adocao', adocaoRoutes);
 app.use('/cnpj', cnpjRoutes);
@@ -26,9 +29,9 @@ app.use('/members', membersRoutes);
 app.use('/login', loginRoutes); 
 
 
-const root = path.join(__dirname, '../../front-end/src');
-app.use(express.static(root));
-app.use(fallback('index.html', { root }));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(StaticPath, 'index.html'));
+});
 
 
 const PORT = process.env.PORT || 3000;
