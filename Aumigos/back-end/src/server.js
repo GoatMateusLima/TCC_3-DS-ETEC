@@ -23,7 +23,7 @@ app.use('/ongs', ongRoutes);
 app.use('/members', membersRoutes);
 app.use('/login', loginRoutes); 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>{
     console.log(`Server executando na ${PORT}`);
 });
