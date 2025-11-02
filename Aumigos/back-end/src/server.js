@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const StaticPath = path.join(__dirname, '../../front-end/src');
+const StaticPath = path.join(__dirname, '../../front-end');
 app.use(express.static(StaticPath));
 
 app.use('/adotante', adotanteRoutes);
