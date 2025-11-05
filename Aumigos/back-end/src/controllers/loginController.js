@@ -1,18 +1,17 @@
 // src/controllers/loginController.js
 const supabase = require('../config/dbClient');
+const bcrypt = require('bcrypt');
 
 async function login(req, res) {
   const { email, senha } = req.body;
-
   console.log('Tentativa de login:', req.body);
 
   try {
-    // Verifica se é ONG
+    // Verifica se é ONG (ONGs podem não ter senha criptografada, então comparamos direto)
     const { data: ongData, error: ongError } = await supabase
       .from('ong')
       .select('*')
       .eq('email', email)
-      .eq('senha', senha)
       .single();
 
     if (ongError && ongError.code !== 'PGRST116') {
@@ -21,6 +20,10 @@ async function login(req, res) {
     }
 
     if (ongData) {
+      // Supondo que a senha da ONG não esteja criptografada
+      if (ongData.senha !== senha) {
+        return res.status(401).json({ erro: 'Senha incorreta' });
+      }
       console.log('ONG encontrada:', ongData);
       return res.json({ tipo: 'ong', dados: ongData });
     }
@@ -30,7 +33,6 @@ async function login(req, res) {
       .from('adotante')
       .select('*')
       .eq('email', email)
-      .eq('senha', senha)
       .single();
 
     if (adotanteError && adotanteError.code !== 'PGRST116') {
@@ -39,6 +41,10 @@ async function login(req, res) {
     }
 
     if (adotanteData) {
+      const senhaValida = await bcrypt.compare(senha, adotanteData.senha);
+      if (!senhaValida) {
+        return res.status(401).json({ erro: 'Senha incorreta' });
+      }
       console.log('Adotante encontrado:', adotanteData);
       return res.json({ tipo: 'adotante', dados: adotanteData });
     }
