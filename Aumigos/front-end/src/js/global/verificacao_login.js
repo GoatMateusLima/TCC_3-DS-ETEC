@@ -3,14 +3,14 @@ function verificarLogin(tipoEsperado) {
 
   if (!usuario) {
     alert('Você precisa estar logado para acessar esta página.');
-    window.location.href = 'login.html';
+    window.location.href = 'localhost:3000/login.html';
     return;
   }
 
   // 🔒 Se o tipo não for o esperado, bloqueia
   if (tipoEsperado && usuario.tipo !== tipoEsperado) {
     alert('Acesso negado! Você não tem permissão para acessar esta página.');
-    window.location.href = 'login.html';
+    window.location.href = 'localhost:3000/login.html';
     return;
   }
 
