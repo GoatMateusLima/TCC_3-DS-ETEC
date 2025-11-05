@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (usuario.tipo === 'ong') {
       window.location.href = 'painel_ong.html';
     } else if (usuario.tipo === 'adotante') {
-      window.location.href = '../../dashboard.html';
+      window.location.href = 'localhost:3000/';
     }
   }
 });

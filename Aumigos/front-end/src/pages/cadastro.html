@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="../css/globais.css">
     <link rel="stylesheet" href="../css/reset.css">
 </head>
+
 <body>
-     <header>
+    <header>
         <figure class="logo">
             <img src="../assets/img/2.webp" alt="logo">
         </figure>
@@ -45,32 +46,37 @@
                     <h2>Cadastro para Adotante</h2>
                     <div class="input-container">
                         <label for="">Nome</label>
-                        <input type="text">
+                        <input type="text" id="nomeAdotante">
                     </div>
 
                     <div class="input-container">
                         <label for="">CPF</label>
-                        <input type="number">
+                        <input type="number" id="cpfAdotante">
                     </div>
 
                     <div class="input-container">
                         <label for="">Email</label>
-                        <input type="text">
+                        <input type="text" id="emailAdotante">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="">Senha</label>
+                        <input type="password" id="senhaAdotante">
                     </div>
 
                     <div class="input-container">
                         <label for="">whatsapp</label>
-                        <input type="number" max="15">
+                        <input type="number" id="whatsappAdotante">
                     </div>
 
 
                     <div class="input-container">
                         <label for="">Data de nascimento</label>
-                        <input type="date">
+                        <input type="date" id="dataNascimentoAdotante">
                     </div>
 
                     <div class="btn-cadastro">
-                        <button type="submit">Cadastrar</button>
+                        <button type="submit" id="btnCadastrarAdotante">Cadastrar</button>
                     </div>
                 </form>
             </section>
@@ -80,7 +86,7 @@
                     <h2>Cadastro ONG</h2>
                     <div class="input-container">
                         <label for="">Nome da Ong</label>
-                        <input type="text">
+                        <input type="text" id="nomeOng">
                     </div>
 
                     <div class="input-container">
@@ -88,32 +94,31 @@
                         <input type="email">
                     </div>
 
+                    <div class="input-container">
+                        <label for="">Senha</label>
+                        <input type="password" id="senhaOng">
+                    </div>
+
 
                     <div class="input-container">
                         <label for="">CNPJ</label>
-                        <input type="number">
+                        <input type="number" id="cnpjOng">
                     </div>
 
                     <div class="input-container">
                         <label for="">WhatsApp</label>
-                        <input type="number">
-                    </div>
-
-                    <div class="input-container">
-                        <label for="">Senha</label>
-                        <input type="password" >
+                        <input type="number" id="whatsappOng">
                     </div>
 
                     <div class="btn-cadastro">
-                        <button type="submit">Cadastrar</button>
+                        <button type="submit" id="btnCadastrarOng">Cadastrar</button>
                     </div>
 
                 </form>
             </section>
             <section class="overlay" id="overlay">
                 <figure class="overlay-img">
-                    <img src="../assets/img/desenho.png" alt="logo"
-                        class="e1-pet-ong">
+                    <img src="../assets/img/desenho.png" alt="logo" class="e1-pet-ong">
                     <img src="../assets/img/kitty-com-parede-monocromatica-atras-dela.jpg" alt="foto_pet"
                         class="e2-pet-adotante">
                 </figure>
@@ -121,8 +126,8 @@
                     <h2>Escolha seu Cadastro</h2>
 
                 </section>
-                
-                
+
+
                 <section class="button-overlay">
                     <button onclick="moveOverlay('adotante')" id="btn-adotante">Adotante</button>
                     <button onclick="moveOverlay('ong')" id="btn-ong">ONG</button>
@@ -173,10 +178,11 @@
         </div>
         <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
-    <script src="../js/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/global/menu.js"></script>
+    <script src="../js/global/verificacao_login.js"></script>
     <script src="../js/cadastro_efeito_overlay/efeitoOverlay.js"></script>
     <script src="../js/pages/cadastro.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>
 
 </html>
