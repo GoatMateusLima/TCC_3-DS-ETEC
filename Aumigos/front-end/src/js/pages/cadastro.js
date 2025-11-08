@@ -41,6 +41,14 @@ document.getElementById('formAdotante').addEventListener('submit', async (e) => 
 // ======================
 // Cadastro ONG
 // ======================
+
+// 🔹 Bloqueia caracteres não numéricos no campo CNPJ
+document.getElementById('cnpjOng').addEventListener('input', (e) => {
+    const campo = e.target;
+    campo.value = campo.value.replace(/\D/g, '');
+    if (campo.value.length > 14) campo.value = campo.value.slice(0, 14);
+});
+
 document.getElementById('formOng').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -67,9 +75,7 @@ document.getElementById('formOng').addEventListener('submit', async (e) => {
         const data = response.data;
         alert(data.message || 'ONG cadastrada com sucesso!');
 
-        // Limpar formulário
         e.target.reset();
-
     } catch (error) {
         console.error('Erro ao cadastrar ONG:', error.response?.data || error);
         alert(error.response?.data?.error || 'Erro ao conectar com o servidor.');
