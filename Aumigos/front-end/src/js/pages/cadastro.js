@@ -1,4 +1,51 @@
 // ======================
+// Efeito Hacker Visual em Campo de Senha
+// ======================
+function aplicarEfeitoHackerSenha(inputId) {
+    const input = document.getElementById(inputId);
+    let valorReal = "";
+    let animando = false;
+    const simbolos = "!@#$%&*?<>/+=";
+
+    input.addEventListener("input", (e) => {
+        const novoTexto = e.target.value;
+        const ultimoCaractere = novoTexto.slice(-1);
+
+        if (novoTexto.length < valorReal.length) {
+            valorReal = valorReal.slice(0, novoTexto.length);
+        } else {
+            valorReal += ultimoCaractere;
+        }
+
+        input.dataset.realValue = valorReal;
+
+        // Efeito hacker piscando ao digitar
+        if (!animando) {
+            animando = true;
+            let frame = 0;
+            const totalFrames = 10;
+            const animacao = setInterval(() => {
+                let fake = "";
+                for (let i = 0; i < valorReal.length; i++) {
+                    fake += simbolos[Math.floor(Math.random() * simbolos.length)];
+                }
+                e.target.value = fake;
+                frame++;
+                if (frame >= totalFrames) {
+                    clearInterval(animacao);
+                    e.target.value = "*".repeat(valorReal.length);
+                    animando = false;
+                }
+            }, 30);
+        }
+    });
+
+    input.addEventListener("focusout", () => {
+        input.value = "*".repeat((input.dataset.realValue || "").length);
+    });
+}
+
+// ======================
 // Cadastro Adotante
 // ======================
 document.getElementById('formAdotante').addEventListener('submit', async (e) => {
@@ -7,7 +54,8 @@ document.getElementById('formAdotante').addEventListener('submit', async (e) => 
     const nome = document.getElementById('nomeAdotante').value.trim();
     const cpf = document.getElementById('cpfAdotante').value.trim();
     const email = document.getElementById('emailAdotante').value.trim();
-    const senha = document.getElementById('senhaAdotante').value.trim();
+    const senhaInput = document.getElementById('senhaAdotante');
+    const senha = senhaInput.dataset.realValue || senhaInput.value.trim();
     const whatsapp = document.getElementById('whatsappAdotante').value.trim();
     const dataNascimento = document.getElementById('dataNascimentoAdotante').value;
 
@@ -28,10 +76,7 @@ document.getElementById('formAdotante').addEventListener('submit', async (e) => 
 
         const data = response.data;
         alert(data.message || 'Cadastro realizado com sucesso!');
-
-        // Limpar formulário
         e.target.reset();
-
     } catch (error) {
         console.error('Erro ao cadastrar adotante:', error.response?.data || error);
         alert(error.response?.data?.error || 'Erro ao conectar com o servidor.');
@@ -54,7 +99,8 @@ document.getElementById('formOng').addEventListener('submit', async (e) => {
 
     const nome = document.getElementById('nomeOng').value.trim();
     const email = document.getElementById('emailOng').value.trim();
-    const senha = document.getElementById('senhaOng').value.trim();
+    const senhaInput = document.getElementById('senhaOng');
+    const senha = senhaInput.dataset.realValue || senhaInput.value.trim();
     const cnpj = document.getElementById('cnpjOng').value.trim();
     const whatsapp = document.getElementById('whatsappOng').value.trim();
 
@@ -74,10 +120,15 @@ document.getElementById('formOng').addEventListener('submit', async (e) => {
 
         const data = response.data;
         alert(data.message || 'ONG cadastrada com sucesso!');
-
         e.target.reset();
     } catch (error) {
         console.error('Erro ao cadastrar ONG:', error.response?.data || error);
         alert(error.response?.data?.error || 'Erro ao conectar com o servidor.');
     }
 });
+
+// ======================
+// Inicializar efeitos de senha com digitação hacker
+// ======================
+aplicarEfeitoHackerSenha("senhaAdotante");
+aplicarEfeitoHackerSenha("senhaOng");
