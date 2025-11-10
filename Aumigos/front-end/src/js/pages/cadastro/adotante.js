@@ -1,33 +1,36 @@
-// cadastro/adotante.js
-import { limparMascara, mostrarMensagem } from './utils.js';
+// adotante.js
+import { limparMascara } from './masks.js';
+import { mostrarMensagem, tratarRespostaErro } from './utils.js';
 import { setUserAndRedirect } from './navigation.js';
 
 export function initAdotanteForm() {
-  const form = document.querySelector('#formAdotante');
+  const form = document.getElementById('formAdotante');
   if (!form) return;
 
-  form.addEventListener('submit', async e => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const dados = {
-      nome: form.nome.value.trim(),
-      email: form.email.value.trim(),
-      senha: form.senha.dataset.realValue || form.senha.value.trim(),
-      cpf: limparMascara(form.cpf.value),
-      telefone: limparMascara(form.telefone.value)
-    };
+
+    const nome = document.getElementById('nomeAdotante').value.trim();
+    const cpf = limparMascara(document.getElementById('cpfAdotante').value);
+    const email = document.getElementById('emailAdotante').value.trim();
+    const senha = document.getElementById('senhaAdotante').dataset.realValue || '';
+    const whatsapp = limparMascara(document.getElementById('whatsappAdotante').value);
+    const dataNascimento = document.getElementById('dataNascimentoAdotante').value || null;
+
+    if (!nome || !cpf || !email || !senha) {
+      mostrarMensagem('erro', 'Preencha todos os campos obrigatórios.');
+      return;
+    }
 
     try {
-      const res = await fetch('/api/adotante', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dados)
+      const res = await axios.post('http://localhost:3000/adotante', {
+        nome, cpf, email, senha, whatsapp, data_nascimento: dataNascimento
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Erro ao cadastrar');
-      mostrarMensagem('sucesso', 'Cadastro de adotante realizado!');
-      setUserAndRedirect({ tipo: 'adotante', info: data });
+      mostrarMensagem('sucesso', res.data.message || 'Adotante cadastrado.');
+      setUserAndRedirect({ tipo: 'adotante', info: res.data });
     } catch (err) {
-      mostrarMensagem('erro', err.message);
+      console.error('Erro cadastrar adotante', err);
+      mostrarMensagem('erro', tratarRespostaErro(err));
     }
   });
 }

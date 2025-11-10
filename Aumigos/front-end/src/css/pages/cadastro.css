@@ -107,13 +107,13 @@ form input {
   border: none;
   padding: 12px 15px;
   margin: 8px 0;
-  width: 100%;
+  width: 400px;
 }
 
 button {
   border-radius: 20px;
   border: 1px solid #f9b233;
-  background-color: #f9b233;
+  background: linear-gradient(135deg, #f87e00, #f9b233);
   color: #fff;
   font-size: 12px;
   font-weight: bold;
@@ -136,6 +136,8 @@ button.ghost {
   background-color: transparent;
   border-color: #fff;
 }
+
+
 
 /* ======== OVERLAY ======== */
 .overlay-container {

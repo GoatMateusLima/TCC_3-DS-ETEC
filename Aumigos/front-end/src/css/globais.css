@@ -1,6 +1,6 @@
 header{
     font-family: helvetica;
-    background-color:#ffa13c;
+    background: linear-gradient(135deg,#f9b233 , #f87e00);
     width: 100%;
     display: flex;
     align-items: center;
@@ -29,7 +29,7 @@ header{
 .navegacao a{
     color: rgb(0, 0, 0);
     text-decoration: none;
-    background: radial-gradient(circle, #ffab52, #f78c1b);
+    background: linear-gradient(135deg, #f87e00, #f9b233);
     border: 1px solid black;
     width: 130px;
     padding: 5px;
@@ -48,7 +48,7 @@ header{
 
 
 footer{
-    background-color:#ffa13c;
+    background: linear-gradient(135deg, #f87e00, #f9b233);
     color: white;
     height: auto;
     width: 100%;
@@ -151,7 +151,7 @@ footer{
 .menu {
   display: none;
   position: absolute;
-  background-color: #ffa13c;
+  background: linear-gradient(135deg, #f87e00, #f9b233);
   list-style: none;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

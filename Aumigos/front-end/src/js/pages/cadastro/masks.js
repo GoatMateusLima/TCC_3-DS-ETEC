@@ -1,27 +1,18 @@
-// cadastro/masks.js
-export function aplicarMascaraCNPJ(valor) {
-  return valor
-    .replace(/\D/g, '')
-    .replace(/^(\d{2})(\d)/, '$1.$2')
-    .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-    .replace(/\.(\d{3})(\d)/, '.$1/$2')
-    .replace(/(\d{4})(\d)/, '$1-$2')
-    .substring(0, 18);
+// masks.js
+export function aplicarMascaras() {
+  const cpf = document.getElementById('cpfAdotante');
+  const cnpj = document.getElementById('cnpjOng');
+  const whatsappAdotante = document.getElementById('whatsappAdotante');
+  const whatsappOng = document.getElementById('whatsappOng');
+
+  if (window.IMask) {
+    if (cpf) IMask(cpf, { mask: '000.000.000-00' });
+    if (cnpj) IMask(cnpj, { mask: '00.000.000/0000-00' });
+    if (whatsappAdotante) IMask(whatsappAdotante, { mask: '(00) 00000-0000' });
+    if (whatsappOng) IMask(whatsappOng, { mask: '(00) 00000-0000' });
+  }
 }
 
-export function aplicarMascaraCPF(valor) {
-  return valor
-    .replace(/\D/g, '')
-    .replace(/(\d{3})(\d)/, '$1.$2')
-    .replace(/(\d{3})(\d)/, '$1.$2')
-    .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-    .substring(0, 14);
-}
-
-export function aplicarMascaraTelefone(valor) {
-  return valor
-    .replace(/\D/g, '')
-    .replace(/^(\d{2})(\d)/g, '($1) $2')
-    .replace(/(\d{5})(\d{4})$/, '$1-$2')
-    .substring(0, 15);
+export function limparMascara(valor) {
+  return valor.replace(/\D/g, '');
 }
