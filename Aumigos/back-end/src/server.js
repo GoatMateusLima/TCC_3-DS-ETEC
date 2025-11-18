@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(pagesPath, '*'));
+    res.sendFile(path.join(pagesPath, 'login.html'));
 });
 
 
