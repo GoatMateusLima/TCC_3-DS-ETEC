@@ -20,13 +20,20 @@ app.use(express.json());
 const StaticPath = path.join(__dirname, '../../front-end');
 app.use(express.static(StaticPath));
 
+const pagesPath = path.join(__dirname, '../../src/pages');
+app.use(express.static(pagesPath));
+
+
+
+
 app.use('/adotante', adotanteRoutes);
 app.use('/adocao', adocaoRoutes);
 app.use('/cnpj', cnpjRoutes);
 app.use('/pets', petRoutes);
 app.use('/ongs', ongRoutes);
 app.use('/members', membersRoutes);
-app.use('/login', loginRoutes); 
+app.use('/login', loginRoutes);
+
 
 
 app.get('/', (req, res) => {
