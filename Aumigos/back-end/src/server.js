@@ -20,7 +20,7 @@ app.use(express.json());
 const StaticPath = path.join(__dirname, '../../front-end');
 app.use(express.static(StaticPath));
 
-const pagesPath = path.join(StaticPath, 'src', 'pages');
+const pagesPath = path.join(StaticPath, '../../front-end/src/pages');
 app.use(express.static(pagesPath));
 
 
@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(StaticPath, 'index.html'));
 });
 
-app.get('/login', (req, res) => {
+app.get('/logii', (req, res) => {
     res.sendFile(path.join(pagesPath, 'login.html'));
 });
 
