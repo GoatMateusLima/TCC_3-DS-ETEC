@@ -22,7 +22,7 @@ app.use(express.static(StaticPath));
 
 const pagesPath = path.join(StaticPath, '../../front-end/src/pages');
 app.use(express.static(pagesPath));
-app.get('/logii', (req, res) => {
+app.get('/login', (req, res) => {
     res.sendFile(path.join(pagesPath, 'login.html'));
 });
 
