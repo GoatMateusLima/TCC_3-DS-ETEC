@@ -1,30 +1,36 @@
-function verificarLogin(tipoEsperado) {
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
+function verificarConta() {
+    const usuario = JSON.parse(localStorage.getItem("usuarioAtual"));
 
-  if (!usuario) {
-    alert('Você precisa estar logado para acessar esta página.');
-    window.location.href = 'localhost:3000/login.html';
-    return;
-  }
+    // Se não tem ninguém logado → login
+    if (!usuario || !usuario.tipo) {
+        window.location.href = "http://localhost:5050/front-end/src/pages/login.html";
+        return;
+    }
 
-  // 🔒 Se o tipo não for o esperado, bloqueia
-  if (tipoEsperado && usuario.tipo !== tipoEsperado) {
-    alert('Acesso negado! Você não tem permissão para acessar esta página.');
-    window.location.href = 'localhost:3000/login.html';
-    return;
-  }
+    // Redireciona para a página do tipo
+    switch (usuario.tipo) {
+        case "adotante":
+            window.location.href = "http://localhost:5050/front-end/src/pages/user/adotante.html";
+            break;
 
-  console.log(`✅ Usuário logado como ${usuario.tipo}`);
-  return usuario;
+        case "ong":
+            window.location.href = "http://localhost:5050/front-end/src/pages/user/ong.html";
+            break;
+
+        case "membro":
+            window.location.href = "http://localhost:5050/front-end/src/pages/user/membro_ong.html";
+            break;
+
+        default:
+            window.location.href = "http://localhost:5050/front-end/src/pages/login.html";
+            break;
+    }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  const usuario = JSON.parse(localStorage.getItem('usuario'));
-  if (usuario) {
-    if (usuario.tipo === 'ong') {
-      window.location.href = 'painel_ong.html';
-    } else if (usuario.tipo === 'adotante') {
-      window.location.href = 'localhost:3000/';
-    }
-  }
+document.addEventListener("DOMContentLoaded", () => {
+    const btnDesktop = document.getElementById("btn-conta-desktop");
+    const btnMobile = document.getElementById("btn-conta-mobile");
+
+    if (btnDesktop) btnDesktop.addEventListener("click", verificarConta);
+    if (btnMobile) btnMobile.addEventListener("click", verificarConta);
 });
