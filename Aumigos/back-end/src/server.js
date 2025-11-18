@@ -40,6 +40,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(StaticPath, 'index.html'));
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(pagesPath, '*'));
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>{
