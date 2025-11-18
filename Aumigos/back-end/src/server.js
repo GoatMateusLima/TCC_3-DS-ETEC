@@ -22,6 +22,9 @@ app.use(express.static(StaticPath));
 
 const pagesPath = path.join(StaticPath, '../../front-end/src/pages');
 app.use(express.static(pagesPath));
+app.get('/logii', (req, res) => {
+    res.sendFile(path.join(pagesPath, 'login.html'));
+});
 
 
 
@@ -40,9 +43,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(StaticPath, 'index.html'));
 });
 
-app.get('/logii', (req, res) => {
-    res.sendFile(path.join(pagesPath, 'login.html'));
-});
+
 
 
 const PORT = process.env.PORT || 3000;
