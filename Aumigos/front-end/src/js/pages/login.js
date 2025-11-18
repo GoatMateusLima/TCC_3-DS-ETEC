@@ -5,7 +5,7 @@ async function fazerLogin(event) {
     const senha = document.getElementById('senha').value.trim();
 
     try {
-        const response = await axios.post('http://localhost:3000/login', { email, senha });
+        const response = await axios.post('/login', { email, senha });
         const data = response.data;
 
         // ✅ Salvando informações do usuário no localStorage
