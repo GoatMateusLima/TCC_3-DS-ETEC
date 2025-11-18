@@ -20,7 +20,7 @@ app.use(express.json());
 const StaticPath = path.join(__dirname, '../../front-end');
 app.use(express.static(StaticPath));
 
-const pagesPath = path.join(__dirname, '../../src/pages');
+const pagesPath = path.join(StaticPath, 'src', 'pages');
 app.use(express.static(pagesPath));
 
 
