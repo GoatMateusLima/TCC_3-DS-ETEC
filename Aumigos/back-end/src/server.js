@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(StaticPath, 'index.html'));
 });
 
-app.get('/', (req, res) => {
+app.get('/login', (req, res) => {
     res.sendFile(path.join(pagesPath, 'login.html'));
 });
 
