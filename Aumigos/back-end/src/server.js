@@ -17,11 +17,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const StaticPath = path.join(__dirname, '../../front-end');
+const StaticPath = path.join(__dirname, '../../front-end', 'src');
 app.use(express.static(StaticPath));
 
-const pagesPath = path.join(StaticPath, 'src', 'pages');
-app.use(express.static(pagesPath));
+const pagesPath = path.join(StaticPath, 'pages');
 
 app.get('/login', (req, res) => {
     res.sendFile(path.join(pagesPath, 'login.html'));
