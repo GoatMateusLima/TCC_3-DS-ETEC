@@ -9,7 +9,7 @@ async function fazerLogin(event) {
         const data = response.data;
 
         // ✅ Salvando informações do usuário no localStorage
-        localStorage.setItem('usuario', JSON.stringify({
+        localStorage.setItem('usuarioAtual', JSON.stringify({
             tipo: data.tipo,
             info: data.usuario
         }));
@@ -17,9 +17,9 @@ async function fazerLogin(event) {
         alert(data.message);
 
         if (data.tipo === 'ong') {
-            window.location.href = 'dashboard_ong.html';
+            window.location.href = '/src/pages/user/ong.html';
         } else if (data.tipo === 'adotante') {
-            window.location.href = '../../index.html';
+            window.location.href = '/src/pages/user/adotante.html';
         }
 
     } catch (error) {
