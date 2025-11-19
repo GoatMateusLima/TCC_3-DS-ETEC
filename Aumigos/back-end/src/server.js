@@ -60,7 +60,7 @@ app.get('/', (req, res) => {
 });
 
 // 👉 Fallback (necessário para Render)
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
