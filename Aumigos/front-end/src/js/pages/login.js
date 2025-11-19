@@ -19,7 +19,7 @@ async function fazerLogin(event) {
         if (data.tipo === 'ong') {
             window.location.href = '/src/pages/user/ong.html';
         } else if (data.tipo === 'adotante') {
-            window.location.href = '/src/pages/user/adotante.html';
+            window.location.href = '/index.html';
         }
 
     } catch (error) {
