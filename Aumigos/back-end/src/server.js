@@ -15,31 +15,27 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 👉 SERVE O FRONT-END COMPLETO
+
 const frontendPath = path.join(__dirname, '../../front-end');
 app.use(express.static(frontendPath));
 
-// 👉 CAMINHO DAS PÁGINAS HTML
+
 const pagesPath = path.join(frontendPath, 'src', 'pages');
 
-// ------------------------------------------------------
-// 🔵 ROTAS DE API (NÃO ALTERAR)
-// ------------------------------------------------------
+
 app.use('/adotante', adotanteRoutes);
 app.use('/adocao', adocaoRoutes);
 app.use('/cnpj', cnpjRoutes);
 app.use('/pets', petRoutes);
 app.use('/ongs', ongRoutes);
 app.use('/members', membersRoutes);
-app.use('/login', loginRoutes); // MANTIDA COMO API
+app.use('/login', loginRoutes); 
 
-// ------------------------------------------------------
-// 🔵 ROTAS DE PÁGINAS HTML
-// ------------------------------------------------------
+
 app.get('/:page', (req, res, next) => {
     const page = req.params.page;
 
-    // Evita conflito com rotas de API
+   
     const apiNames = [
         'login', 'adotante', 'adocao', 'cnpj', 'pets', 'ongs', 'members'
     ];
@@ -54,17 +50,16 @@ app.get('/:page', (req, res, next) => {
     next();
 });
 
-// 👉 Página inicial
 app.get('/', (req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// 👉 Fallback (necessário para Render)
+// fallback
 app.use((req, res) => {
     res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
-// ------------------------------------------------------
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>{
