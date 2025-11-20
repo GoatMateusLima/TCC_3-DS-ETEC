@@ -2,62 +2,130 @@
     display: flex;
     gap: 30px;
     padding: 30px;
+    min-height: 80vh;
 }
 
 .menu-faq {
     width: 400px;
-    height: 500px;
-    background-color: rgba(104, 103, 103, 0.068);
+    background-color: rgba(104, 103, 103, 0.1);
     border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
+
 .links-faq {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
 }
 
 .lista-faq {
     list-style: none;
-    padding: 20px;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-
-
+    gap: 12px;
 }
 
+/* ESTILO DO ITEM DO MENU (li) */
 .lista-faq li {
-    font-size: 23px;
-    background: #4e4d4d3b;
-    min-height: 80px; /* deixa flexível */
-    padding: 10px;
-    width: 100%;  
-    border-radius: 20px;
-    color: aliceblue;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: 0 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
 }
 
-
-
-.lista-faq li a {
+/* ESTILO DO LINK (a) - É AQUI QUE VAI FICAR O FUNDO E A PATINHA */
+.lista-faq a {
+    display: block;
+    padding: 20px 20px 20px 50px; /* espaço à esquerda pra patinha */
     text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: #333;
+    font-size: 20px;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 12px;
 }
 
+/* Hover normal */
+.lista-faq a:hover {
+    background: linear-gradient(135deg, #f9b233, #f87e00);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    transform: translateX(8px);
+}
+
+/* ESTADO ATIVO (com patinha) */
+.lista-faq a.active {
+    background: linear-gradient(135deg, #f9b233, #f87e00);
+    color: white !important;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(249, 178, 51, 0.4);
+}
+
+/* Patinha só aparece quando estiver ativo */
+.lista-faq a.active::before {
+    content: "🐾";
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 26px;
+    /* Deixa a patinha em branco com leve sombra laranja */
+    color: white;
+    text-shadow: 0 2px 8px rgba(248, 126, 0, 0.6);
+}
+
+/* Responsividade para celular */
+@media (max-width: 968px) {
+    .corpo-faq {
+        flex-direction: column;
+    }
+    .menu-faq {
+        width: 100%;
+    }
+    .lista-faq a {
+        padding: 18px 20px 18px 55px;
+        font-size: 18px;
+    }
+}
+
+/* ====================================
+   CONTAINER DAS INFORMAÇÕES
+   ==================================== */
 .container-info-faq {
     flex: 1;
-    padding: 30px;
-    background-color: rgba(104, 103, 103, 0.397);
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(249, 178, 51, 0.08), rgba(248, 126, 0, 0.15));
     border-radius: 15px;
+    min-height: 500px;
+    box-shadow: 0 4px 20px rgba(249, 178, 51, 0.2);
+    border: 1px solid rgba(249, 178, 51, 0.2);
 }
 
+/* IMPORTANTE: todas as seções começam escondidas */
+.container-info-faq > section {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
+}
 
+/* Só a seção ativa vai aparecer */
+.container-info-faq > section.active {
+    display: block;
+}
 
+/* Animação suave de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo do texto dentro das seções */
+.container-info-faq section p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #333;
+    text-align: justify;
+}
