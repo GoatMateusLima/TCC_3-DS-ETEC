@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Home - Aumigos</title>
     <link rel="shortcut icon" href="/src/assets/img/ico/Icon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/src/css/reset.css">
     <link rel="stylesheet" href="/src/css/globais.css">
     <link rel="stylesheet" href="/src/css/pages/index.css">
     <link rel="stylesheet" href="/src/css/Layout/index_mobile.css">
 </head>
-
 <body>
     <header>
-        <a href="index.html">
+        <!-- LOGO VOLTANDO PRA HOME -->
+        <a href="/" class="logo-link">
             <figure class="logo">
-                <img src="/src/assets/img/2.webp" alt="logo">
+                <img src="/src/assets/img/2.webp" alt="Logo Aumigos">
             </figure>
         </a>
+
+        <!-- MENU DESKTOP -->
         <nav class="nav_pc">
             <label class="toggle">
                 <div id="bar1" class="bars"></div>
@@ -26,22 +27,24 @@
                 <div id="bar3" class="bars"></div>
             </label>
             <ul class="menu" id="menu">
-                <li><a href="/faq/#sobre-projetos">Sobre projetos aumigos</a></li>
+                <li><a href="/faq#sobre-projetos">Sobre projetos aumigos</a></li>
                 <hr>
-                <li><a href="/faq/#projetos-sociais">Projetos sociais</a></li>
-                <hr> 
-                <li><a href="/faq/#faq">FAQ</a></li>
+                <li><a href="/faq#projetos-sociais">Projetos sociais</a></li>
                 <hr>
-                <li><a href="/faq/#manuais-cuidado">Manuais de cuidado</a></li>
+                <li><a href="/faq#faq">FAQ</a></li>
                 <hr>
-                <li><a href="/faq/#ong-parceira">ONG'S parceiras</a></li>
+                <li><a href="/faq#manuais-cuidado">Manuais de cuidado</a></li>
+                <hr>
+                <li><a href="/faq#ong-parceira">ONG'S parceiras</a></li>
             </ul>
         </nav>
 
         <nav class="navegacao">
-            <a id="btn-conta-desktop"href="javascript:void(0)">Conta</a>
-            <a href="/src/pages/dashboard.html">Quero adotar</a>
+            <a id="btn-conta-desktop" href="javascript:void(0)">Conta</a>
+            <a href="/dashboard">Quero adotar</a>
         </nav>
+
+        <!-- MENU MOBILE -->
         <nav class="navegacao-mobile">
             <label class="toggle">
                 <div id="bar1" class="bars"></div>
@@ -50,135 +53,107 @@
             </label>
             <ul class="menu" id="menu">
                 <li><a id="btn-conta-mobile" href="javascript:void(0)">Conta</a></li>
-                <li><a href="dashboard.html">Quero adotar</a></li>
-                <li><a href="about.html">Sobre projetos aumigos</a></li>
+                <li><a href="/dashboard">Quero adotar</a></li>
+                <li><a href="/faq#sobre-projetos">Sobre projetos aumigos</a></li>
                 <hr>
-                <li><a href="">Projetos sociais</a></li>
+                <li><a href="/faq#projetos-sociais">Projetos sociais</a></li>
                 <hr>
-                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="/faq#faq">FAQ</a></li>
                 <hr>
-                <li><a href="">Manuais de cuidado</a></li>
+                <li><a href="/faq#manuais-cuidado">Manuais de cuidado</a></li>
                 <hr>
-                <li><a href="ongs_parceiras.html">ONG'S parceiras</a></li>
+                <li><a href="/faq#ong-parceira">ONG'S parceiras</a></li>
             </ul>
-
         </nav>
     </header>
+
     <main>
-        
         <section class="banner-container" id="efeito-carrossel">
             <figure class="img-banner" id="img-carrossel">
-                <img src="./src/assets/img/banner/carrossel 1.jpg" alt="adocao de pets">
-                <img src="./src/assets/img/banner/carrossel 2.jpg" alt="procura um aumigo">
-                <img src="./src/assets/img/banner/carrossel 3.jpg" alt="centro de adocao de pets">  
-                <div class="camada-transparente"></div>   
+                <img src="/src/assets/img/banner/carrossel 1.jpg" alt="Adoção de pets">
+                <img src="/src/assets/img/banner/carrossel 2.jpg" alt="Procura um aumigo">
+                <img src="/src/assets/img/banner/carrossel 3.jpg" alt="Centro de adoção de pets">
+                <div class="camada-transparente"></div>
             </figure>
-
-
         </section>
+
         <section class="main-content">
             <h1>Conheca nosso Projeto</h1>
-            <p>Nosso projeto visa conectar amantes de animais a ONGs que precisam de apoio. Juntos, podemos fazer a
-                diferença!</p>
+            <p>Nosso projeto visa conectar amantes de animais a ONGs que precisam de apoio. Juntos, podemos fazer a diferença!</p>
             <p>Se você é um amante de animais, junte-se a nós nessa causa!</p>
-            <p>Quer ajudar ainda mais? <a href="faq.html"><b>Saiba como contribuir</b></a> ou <a
-                    href="src/pages/dashboard.html"><b>encontre seu novo amigo para adoção</b></a>!</p>
+            <p>Quer ajudar ainda mais? 
+                <a href="/faq"><b>Saiba como contribuir</b></a> ou 
+                <a href="/dashboard"><b>encontre seu novo amigo para adoção</b></a>!
+            </p>
             <p>ONGs também são bem-vindas! Cadastre sua instituição e faça parte dessa rede de apoio aos animais.</p>
-
         </section>
+
         <section class="container-avaliacoes">
             <figure class="logo-avaliacoes">
                 <figcaption class="avaliacoes-texto">
                     <h2>Avaliações</h2>
                     <h3>O que nossos usuários dizem</h3>
                 </figcaption>
-                <img src="src/assets/img/patinha.webp" alt="Patinha">
+                <img src="/src/assets/img/patinha.webp" alt="Patinha">
             </figure>
 
-            <section class="container-comentarios" >
-
-               <div   class="comentario2" id="img-comentriocarrossel">
-                <article class="avaliacao">
-                    <img src="src/assets/img/patinha.webp" alt="Usuário">
-                    <p>"Adotar meu cachorro foi a melhor decisão que já tomei! Obrigado Aumigos!" - Maria S.</p>
-                </article>
-
-                <article class="avaliacao">
-                    <img src="src/assets/img/patinha.webp" alt="Usuário">
-                    <p>"A plataforma é super fácil de usar e me ajudou a encontrar o gato perfeito para minha família."
-                    </p>
-                </article>
-
-                <article class="avaliacao">
-                    <img src="src/assets/img/patinha.webp" alt="Usuário">
-                    <p>"Nossa ONG encontrou muitos lares amorosos para nossos animais graças ao Aumigos!"</p>
-                </article>
-
-                <article class="avaliacao">
-                    <img src="src/assets/img/patinha.webp" alt="Usuário">
-                    <p>"Adotar meu cachorro foi a melhor decisão que já tomei! Obrigado Aumigos!" - Maria S.</p>
-                </article>
-
-                <article class="avaliacao">
-                    <img src="src/assets/img/patinha.webp" alt="Usuário">
-                    <p>"A plataforma é super fácil de usar e me ajudou a encontrar o gato perfeito para minha família."
-                    </p>
-                </article>
-                <div class="camada-transparente"></div>
+            <section class="container-comentarios">
+               <div class="comentario2" id="img-comentriocarrossel">
+                    <article class="avaliacao">
+                        <img src="/src/assets/img/patinha.webp" alt="Usuário">
+                        <p>"Adotar meu cachorro foi a melhor decisão que já tomei! Obrigado Aumigos!" - Maria S.</p>
+                    </article>
+                    <article class="avaliacao">
+                        <img src="/src/assets/img/patinha.webp" alt="Usuário">
+                        <p>"A plataforma é super fácil de usar e me ajudou a encontrar o gato perfeito para minha família."</p>
+                    </article>
+                    <article class="avaliacao">
+                        <img src="/src/assets/img/patinha.webp" alt="Usuário">
+                        <p>"Nossa ONG encontrou muitos lares amorosos para nossos animais graças ao Aumigos!"</p>
+                    </article>
+                    <article class="avaliacao">
+                        <img src="/src/assets/img/patinha.webp" alt="Usuário">
+                        <p>"Adotar meu cachorro foi a melhor decisão que já tomei! Obrigado Aumigos!" - Maria S.</p>
+                    </article>
+                    <article class="avaliacao">
+                        <img src="/src/assets/img/patinha.webp" alt="Usuário">
+                        <p>"A plataforma é super fácil de usar e me ajudou a encontrar o gato perfeito para minha família."</p>
+                    </article>
+                    <div class="camada-transparente"></div>
                </div>
-                
             </section>
         </section>
-        <section>
-
-        </section>
     </main>
+
     <footer class="rodape">
         <div class="rodape-div">
-
-            <div class="rodape-div-1">
-                <div class="rodape-div-1-coluna">
-
-                    <span><b>AUMIGOS</b></span>
-                    <p>Reunimos amantes de animais e ONGS em um só lugar.</p>
-                </div>
-            </div>
-
-            <div class="rodape-div-2">
-                <div class="rodape-div-2-coluna">
-
-                    <span><b>Contatos</b></span>
-                    <a href="mailto:aumigosparasempre24@gmail.com">mailto:aumigosparasempre24@gmail.com</a>
-                    <p>+55 63 99200-0000</p>
-                </div>
-            </div>
-
-            <div class="rodape-div-3">
-                <div class="rodape-div-3-coluna">
-
-                    <span><b>Links</b></span>
-                    <p><a href="#servicos">Serviços</a></p>
-                    <p><a href="#empresa">Empresa</a></p>
-                    <p><a href="#sobre">Sobre</a></p>
-                </div>
-            </div>
-
-            <div class="rodape-div-4">
-                <div class="rodape-div-4-coluna">
-
-                    <span><b>Outros</b></span>
-                    <p>Políticas de Privacidade</p>
-                </div>
-            </div>
-
+            <div class="rodape-div-1"><div class="rodape-div-1-coluna">
+                <span><b>AUMIGOS</b></span>
+                <p>Reunimos amantes de animais e ONGs em um só lugar.</p>
+            </div></div>
+            <div class="rodape-div-2"><div class="rodape-div-2-coluna">
+                <span><b>Contatos</b></span>
+                <a href="mailto:aumigosparasempre24@gmail.com">aumigosparasempre24@gmail.com</a>
+                <p>+55 63 99200-0000</p>
+            </div></div>
+            <div class="rodape-div-3"><div class="rodape-div-3-coluna">
+                <span><b>Links</b></span>
+                <p><a href="#servicos">Serviços</a></p>
+                <p><a href="#empresa">Empresa</a></p>
+                <p><a href="#sobre">Sobre</a></p>
+            </div></div>
+            <div class="rodape-div-4"><div class="rodape-div-4-coluna">
+                <span><b>Outros</b></span>
+                <p>Políticas de Privacidade</p>
+            </div></div>
         </div>
         <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
-    <script src="src/js/global/menu.js"></script>
-    <script src="src/js/global/verificacao_login.js"></script>
-    <script src="src/js/banner/bannercomentario.js"></script>
-    <script src="src/js/banner/bannerprincipal.js"></script>
 
+    <!-- SCRIPTS COM CAMINHO CORRETO -->
+    <script src="/src/js/global/menu.js"></script>
+    <script src="/src/js/global/verificacao_login.js"></script>
+    <script src="/src/js/banner/bannercomentario.js"></script>
+    <script src="/src/js/banner/bannerprincipal.js"></script>
 </body>
-
 </html>
