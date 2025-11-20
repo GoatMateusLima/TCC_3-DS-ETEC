@@ -6,7 +6,20 @@ header{
     align-items: center;
 }
 
+.logo-link {
+    display: block;
+    width: fit-content; /* ou o tamanho que você usa no logo */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 
+.logo-link:hover {
+    transform: scale(1.08);
+}
+
+.logo-link img {
+    display: block;
+}
 
 .logo img{
     padding: 10px 40px;
