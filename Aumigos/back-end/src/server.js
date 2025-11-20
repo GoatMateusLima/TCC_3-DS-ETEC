@@ -1,42 +1,42 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
 const app = express();
-app.use(cors());
 app.use(express.json());
 
-// ====== CONFIGURAÇÃO CORRETA DO FRONT-END ======
-const buildPath = path.join(__dirname, '..', '..', 'front-end'); // ajusta conforme sua estrutura real
+// ============= CAMINHO CORRETO PARA O FRONT-END =============
+const frontEndPath = path.join(__dirname, '..', '..', 'front-end');
 
-// SERVIR TODOS OS ARQUIVOS ESTÁTICOS (CSS, JS, IMG) DA PASTA src
-app.use('/src', express.static(path.join(buildPath, 'src')));
+// 1. SERVIR ARQUIVOS ESTÁTICOS (CSS, JS, IMG, etc)
+app.use('/src', express.static(path.join(frontEndPath, 'src')));
 
-// SERVIR A RAIZ DO SITE (index.html)
+// 2. PÁGINA INICIAL
 app.get('/', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
+    res.sendFile(path.join(frontEndPath, 'index.html'));
 });
 
-// ROTA DINÂMICA PARA PÁGINAS HTML DENTRO DE src/pages/
-app.get('/:page', (req, res, next) => {
+// 3. ROTAS DINÂMICAS PARA PÁGINAS (faq, dashboard, etc)
+app.get('/:page', (req, res) => {
     const page = req.params.page;
 
-    // Evita que rotas da API sejam tratadas como páginas
-    const apiRoutes = ['login', 'adotante', 'adocao', 'cnpj', 'pets', 'ongs', 'members'];
-    if (apiRoutes.includes(page)) return next();
+    // Bloqueia nomes que são rotas da API
+    const blocked = ['login', 'adotante', 'adocao', 'cnpj', 'pets', 'ongs', 'members'];
+    if (blocked.includes(page)) {
+        return res.status(404).send('Rota da API');
+    }
 
-    const filePath = path.join(buildPath, 'src', 'pages', `${page}.html`);
+    const filePath = path.join(frontEndPath, 'src', 'pages', `${page}.html`);
 
     if (fs.existsSync(filePath)) {
         return res.sendFile(filePath);
     }
 
-    // Se não existir, cai no fallback (index.html)
-    next();
+    // Se a página não existir → volta pro index.html (SPA behavior)
+    res.sendFile(path.join(frontEndPath, 'index.html'));
 });
 
-// ====== ROTAS DA API (devem vir DEPOIS das rotas de página) ======
+// ============= ROTAS DA API (DEPOIS de tudo) =============
 const cnpjRoutes = require('./routes/cnpjRoutes');
 const petRoutes = require('./routes/petRoutes');
 const ongRoutes = require('./routes/ongRoutes');
@@ -45,21 +45,21 @@ const adocaoRoutes = require('./routes/adocaoRoutes');
 const adotanteRoutes = require('./routes/adotanteRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 
+app.use('/login', loginRoutes);
 app.use('/adotante', adotanteRoutes);
 app.use('/adocao', adocaoRoutes);
 app.use('/cnpj', cnpjRoutes);
 app.use('/pets', petRoutes);
 app.use('/ongs', ongRoutes);
 app.use('/members', membersRoutes);
-app.use('/login', loginRoutes);
 
-// FALLBACK: qualquer rota não encontrada → volta pro index.html (ótimo pra SPA)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(buildPath, 'index.html'));
+// ============= FALLBACK FINAL (NUNCA MAIS USAREMOS app.get('*') =============
+// Em vez de app.get('*'), usamos app.use() no final
+app.use((req, res) => {
+    res.sendFile(path.join(frontEndPath, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
-    console.log(`Acesse: https://seusite.onrender.com`);
 });
