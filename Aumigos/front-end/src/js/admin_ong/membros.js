@@ -1,10 +1,4 @@
-// membros.js — VERSÃO FINAL FUNCIONANDO (sem BASE_URL, igual ao login)
 
-document.getElementById('form-membro').addEventListener('submit', salvarMembro);
-
-/**
- * Carrega a lista de membros do backend.
- */
 async function carregarMembros() {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
     const tbody = document.querySelector("#tabela-membros tbody");

@@ -1,5 +1,3 @@
-// ong.js — VERSÃO FINAL FUNCIONANDO (sem BASE_URL, igual ao login)
-
 document.addEventListener("DOMContentLoaded", function () {
     carregarDadosONG();
 
@@ -8,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
         formOng.addEventListener('submit', salvarDadosONG);
     }
 
-    // Carrega as tabelas assim que tiver o ID da ONG
     if (typeof carregarMembros === 'function') carregarMembros();
     if (typeof carregarAnimais === 'function') carregarAnimais();
     if (typeof carregarAdocoes === 'function') carregarAdocoes();
@@ -19,25 +16,37 @@ document.addEventListener("DOMContentLoaded", function () {
  */
 function carregarDadosONG() {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
-    
-    const nomeOng = ong.nome ? ong.nome.trim() : "ONG Desconhecida";
+
+    // Se não existir nome → erro direto, sem frescura
+    if (!ong.nome) {
+        alert("Erro grave: Nenhuma ONG carregada. Faça login novamente.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    // Nome REAL da ONG
+    const nomeOng = ong.nome.trim();
+
     document.title = `${nomeOng} - ADMIN`;
 
+    // Todos os lugares onde aparece "ong-name"
     document.querySelectorAll(".ong-name").forEach(el => el.textContent = nomeOng);
-    document.getElementById("ong-nome").textContent = ong.nome || "-";
+
+    // Informações principais
+    document.getElementById("ong-nome").textContent = ong.nome;
     document.getElementById("ong-email").textContent = ong.email || "-";
     document.getElementById("ong-cnpj").textContent = ong.cnpj || "-";
     document.getElementById("ong-whatsapp").textContent = ong.whatsapp || "-";
 
-    // Preenche o modal de edição
-    document.getElementById("edit-ong-nome").value = ong.nome || "";
+    // Modal de edição
+    document.getElementById("edit-ong-nome").value = ong.nome;
     document.getElementById("edit-ong-email").value = ong.email || "";
     document.getElementById("edit-ong-cnpj").value = ong.cnpj || "";
     document.getElementById("edit-ong-whatsapp").value = ong.whatsapp || "";
 }
 
 /**
- * Salva os dados atualizados da ONG no backend
+ * Salva os dados atualizados da ONG
  */
 async function salvarDadosONG(e) {
     e.preventDefault();
@@ -62,24 +71,22 @@ async function salvarDadosONG(e) {
             dadosAtualizados
         );
 
-        // Atualiza o localStorage com os dados novos
         localStorage.setItem("ongLogada", JSON.stringify(response.data.ong || response.data));
 
         carregarDadosONG();
         fecharModal('modal-ong');
-        alert("Dados da ONG atualizados com sucesso!");
+        alert("Dados atualizados com sucesso!");
 
     } catch (error) {
         console.error("Erro ao atualizar ONG:", error.response || error);
-        const msg = error.response?.data?.error || "Erro desconhecido.";
-        alert(`Falha ao atualizar: ${msg}`);
+        alert("Falha ao atualizar a ONG.");
     }
 }
 
 /**
- * Abre o modal de edição da ONG
+ * Abre o modal
  */
 function abrirModalONG() {
-    carregarDadosONG(); // garante que os campos estão com os dados mais recentes
+    carregarDadosONG();
     abrirModal('modal-ong');
 }

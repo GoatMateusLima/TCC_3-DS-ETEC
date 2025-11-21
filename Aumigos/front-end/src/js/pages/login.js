@@ -14,6 +14,10 @@ async function fazerLogin(event) {
             info: data.usuario
         }));
 
+        if (data.tipo === 'ong') {
+            localStorage.setItem('ongLogada', JSON.stringify(data.usuario));
+        }
+
         alert(data.message);
 
         if (data.tipo === 'ong') {
