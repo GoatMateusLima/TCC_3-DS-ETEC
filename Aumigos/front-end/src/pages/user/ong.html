@@ -102,7 +102,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        </tbody>
+                    </tbody>
                 </table>
             </section>
             <section class="faq" id="Dados">
@@ -116,7 +116,7 @@
                         Dados</button>
                 </div>
             </section>
-            </section>
+        </section>
     </main>
 
     <div class="modal" id="modal-membro">
@@ -154,7 +154,7 @@
     <div class="modal" id="modal-animal">
         <div class="modal-content">
             <h3>Adicionar / Editar Animal</h3>
-            <form id="form-animal" onsubmit="salvarAnimal(event)" enctype="multipart/form-data"> 
+            <form id="form-animal" onsubmit="salvarAnimal(event)" enctype="multipart/form-data">
                 <input type="hidden" id="animal-id">
 
                 <label for="animal-nome">Nome *</label>
@@ -170,29 +170,30 @@
                 <input type="text" placeholder="Idade (ex: 2 anos)" id="animal-idade" required>
 
                 <label for="animal-genero">Gênero *</label>
-                <select id="animal-genero" required> 
+                <select id="animal-genero" required>
                     <option value="">Selecione</option>
                     <option value="Macho">Macho</option>
                     <option value="Fêmea">Fêmea</option>
                 </select>
-                
+
                 <label for="animal-status">Status de Adoção *</label>
                 <select id="animal-status" required>
                     <option value="disponivel">Disponível</option>
                     <option value="reservado">Reservado</option>
                     <option value="adotado">Adotado</option>
                 </select>
-                
+
                 <label for="animal-descricao">Descrição</label>
                 <textarea placeholder="Detalhes e histórico do animal" id="animal-descricao" rows="3"></textarea>
 
                 <label for="animal-imagem" id="animal-imagem-label">Imagem *</label>
                 <input type="file" id="animal-imagem" name="imagem" accept="image/*">
                 <p id="animal-imagem-url-display" style="margin-top: 5px; font-size: 0.9em; display:none;"></p>
-                
+
 
                 <button type="submit"
-                    style="background:#27ae60;color:white;width:100%;padding:12px;margin-top:20px;">Salvar Animal</button>
+                    style="background:#27ae60;color:white;width:100%;padding:12px;margin-top:20px;">Salvar
+                    Animal</button>
                 <button type="button" onclick="fecharModal('modal-animal')"
                     style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:10px;">Cancelar</button>
             </form>
@@ -210,9 +211,9 @@
                 <hr>
                 <h4>Ações</h4>
                 <div id="adocao-acoes">
-                    </div>
+                </div>
             </div>
-            
+
             <button type="button" onclick="fecharModal('modal-adocao-detalhes')"
                 style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:20px;">Fechar</button>
         </div>
@@ -244,15 +245,14 @@
         <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../../js/pages/admin_ong/ong.js"></script>
-    <script src="../../js/pages/admin_ong/membros.js"></script>
-    <script src="../../js/pages/admin_ong/animais.js"></script>
-    <script src="../../js/pages/admin_ong/adocao.js"></script>
-    <script src="../../js/admin_ong/funcoes_gerais.js"></script>
+    <script src="/src/js/pages/admin_ong/ong.js"></script>
+    <script src="/src/js/pages/admin_ong/membros.js"></script>
+    <script src="/src/js/pages/admin_ong/animais.js"></script>
+    <script src="/src/js/pages/admin_ong/adocao.js"></script>
+    <script src="/src/js/admin_ong/funcoes_gerais.js"></script>
 
-    <script src="../../js/global/menu.js"></script>
-    <script src="../../js/global/verificacao_login.js"></script>
+    <script src="/src/js/global/menu.js"></script>
+    <script src="/src/js/global/verificacao_login.js"></script>
 </body>
 
 </html>
