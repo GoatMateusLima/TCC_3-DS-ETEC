@@ -5,38 +5,21 @@ const fs = require('fs');
 const app = express();
 app.use(express.json());
 
-// ============= CAMINHO CORRETO PARA O FRONT-END =============
-const frontEndPath = path.join(__dirname, '..', '..', 'front-end');
+// ============= CORREÇÃO DE CAMINHO PARA DEPLOY/RENDER =============
+// Usamos path.resolve(__dirname, '..') para obter o caminho absoluto do diretório-pai
+// onde a pasta 'front-end' deve estar.
+const ROOT_DIR = path.resolve(__dirname, '..'); 
+const frontEndPath = path.join(ROOT_DIR, 'front-end');
 
-// 1. SERVIR ARQUIVOS ESTÁTICOS (CSS, JS, IMG, etc)
+// 1. SERVIR ARQUIVOS ESTÁTICOS (CSS, JS, IMG, etc.)
+// 🛑 CORREÇÃO CRUCIAL: Servir a pasta 'src' através da URL '/src'
+// Isto resolve os caminhos no seu HTML que usam <script src="/src/js/..."
 app.use('/src', express.static(path.join(frontEndPath, 'src')));
 
-// 2. PÁGINA INICIAL
-app.get('/', (req, res) => {
-    res.sendFile(path.join(frontEndPath, 'index.html'));
-});
+// 2. Servir a raiz do front-end (onde está o index.html, se ele estiver em 'front-end/')
+app.use(express.static(frontEndPath)); 
 
-// 3. ROTAS DINÂMICAS PARA PÁGINAS (faq, dashboard, etc)
-app.get('/:page', (req, res) => {
-    const page = req.params.page;
-
-    // Bloqueia nomes que são rotas da API
-    const blocked = ['login', 'adotante', 'adocao', 'cnpj', 'pets', 'ongs', 'members'];
-    if (blocked.includes(page)) {
-        return res.status(404).send('Rota da API');
-    }
-
-    const filePath = path.join(frontEndPath, 'src', 'pages', `${page}.html`);
-
-    if (fs.existsSync(filePath)) {
-        return res.sendFile(filePath);
-    }
-
-    // Se a página não existir → volta pro index.html (SPA behavior)
-    res.sendFile(path.join(frontEndPath, 'index.html'));
-});
-
-// ============= ROTAS DA API (DEPOIS de tudo) =============
+// ============= ROTAS DA API (MANTIDO) =============
 const cnpjRoutes = require('./routes/cnpjRoutes');
 const petRoutes = require('./routes/petRoutes');
 const ongRoutes = require('./routes/ongRoutes');
@@ -53,8 +36,37 @@ app.use('/pets', petRoutes);
 app.use('/ongs', ongRoutes);
 app.use('/members', membersRoutes);
 
-// ============= FALLBACK FINAL (NUNCA MAIS USAREMOS app.get('*') =============
-// Em vez de app.get('*'), usamos app.use() no final
+
+// ============= ROTAS PARA PÁGINAS (MANTIDO E OTIMIZADO) =============
+
+// PÁGINA INICIAL
+app.get('/', (req, res) => {
+    res.sendFile(path.join(frontEndPath, 'index.html'));
+});
+
+// ROTAS DINÂMICAS PARA PÁGINAS (faq, dashboard, etc)
+app.get('/:page', (req, res) => {
+    const page = req.params.page;
+
+    // Bloqueia rotas da API e o próprio prefixo de estáticos
+    const blocked = ['login', 'adotante', 'adocao', 'cnpj', 'pets', 'ongs', 'members', 'src'];
+    if (blocked.includes(page)) {
+        return res.status(404).send('Rota da API');
+    }
+
+    // Tenta encontrar a página dentro de src/pages/
+    const filePath = path.join(frontEndPath, 'src', 'pages', `${page}.html`);
+
+    if (fs.existsSync(filePath)) {
+        return res.sendFile(filePath);
+    }
+
+    // Fallback: Se não for página, retorna o index (para roteamento via JS/SPA)
+    res.sendFile(path.join(frontEndPath, 'index.html'));
+});
+
+
+// 🛑 FALLBACK FINAL: Qualquer rota não tratada (mesmo com método diferente de GET)
 app.use((req, res) => {
     res.sendFile(path.join(frontEndPath, 'index.html'));
 });
