@@ -1,5 +1,3 @@
-const BASE_URL = "https://tcc-3-ds-etec.onrender.com/adocao"; // Base URL para comunicação com o Express
-
 /**
  * Carrega a lista de adoções do backend.
  */
@@ -11,9 +9,7 @@ async function carregarAdocoes() {
     tbody.innerHTML = '<tr><td colspan="6">Carregando adoções...</td></tr>';
 
     try {
-        // Rota: /adocao
-        // O backend deve filtrar pela ongId no query param ou no token de auth
-        const response = await axios.get(`${BASE_URL}/adocao?ongId=${ong.id}`);
+        const response = await axios.get(`https://tcc-3-ds-etec.onrender.com/adocao/adocao?ongId=${ong.id}`);
         const adocoes = response.data;
 
         tbody.innerHTML = adocoes.map(a => `
@@ -30,39 +26,29 @@ async function carregarAdocoes() {
             </tr>
         `).join("");
 
+        if (adocoes.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6">Nenhuma adoção encontrada.</td></tr>';
+        }
+
     } catch (error) {
         console.error("Erro ao carregar adoções:", error);
-        tbody.innerHTML = '<tr><td colspan="6">Nenhuma adoção pendente ou erro de conexão.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6">Erro ao carregar adoções.</td></tr>';
     }
 }
 
-/**
- * Finaliza uma adoção (ex: muda o status para 'Finalizada').
- * @param {number} id - ID da adoção a ser finalizada.
- */
 async function finalizarAdocao(id) {
-    if (confirm(`Tem certeza que deseja finalizar a adoção ID ${id}? Isso irá marcar o animal como 'Adotado'.`)) {
+    if (confirm(`Tem certeza que deseja finalizar a adoção ID ${id}?`)) {
         try {
-            // Rota: /adocao/:id (supondo que a rota de PUT/PATCH lida com a finalização)
-            // Se houver uma rota específica: await axios.patch(`${BASE_URL}/adocao/${id}/finalizar`);
-            
-            // Usando a rota de PUT/PATCH padrão e enviando o status atualizado
-            await axios.put(`${BASE_URL}/adocao/${id}`, { status: 'Finalizada' });
-
+            await axios.put(`https://tcc-3-ds-etec.onrender.com/adocao/adocao/${id}`, { status: 'Finalizada' });
             alert("Adoção finalizada com sucesso!");
-            carregarAdocoes(); // Recarrega a tabela
+            carregarAdocoes();
         } catch (error) {
-            console.error("Erro ao finalizar adoção:", error.response || error);
-            alert(`Erro ao finalizar adoção. Status: ${error.response?.status}`);
+            console.error("Erro:", error.response || error);
+            alert("Erro ao finalizar adoção: " + (error.response?.data?.message || error.message));
         }
     }
 }
 
-/**
- * Exibe os detalhes de uma adoção.
- * @param {number} id - ID da adoção.
- */
 function detalhesAdocao(id) {
-    alert(`Visualizar detalhes da adoção ID ${id}. Necessário modal de detalhes.`);
-    // Lógica para abrir um modal de detalhes e carregar dados via GET
+    alert(`Detalhes da adoção ${id} — em breve com modal completo!`);
 }
