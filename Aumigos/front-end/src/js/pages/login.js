@@ -10,25 +10,19 @@ async function fazerLogin(event) {
 
         console.log("LOGIN RECEBIDO:", data);
 
-        if (!data.usuario) {
-            alert("Erro: backend não enviou usuário.");
-            return;
-        }
-
-        // SALVA TUDO - COMPLETO
-        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+        // ✅ Mantém a mesma chave e estrutura antiga
+        localStorage.setItem('usuarioAtual', JSON.stringify({
+            tipo: data.tipo,
+            info: data.usuario
+        }));
 
         alert(data.message);
 
-        // REDIRECIONA USANDO O CAMINHO CERTO: data.usuario.tipo
-        if (data.usuario.tipo === 'ong') {
+        // 🔥 Redirecionamento
+        if (data.tipo === 'ong') {
             window.location.href = '/src/pages/user/ong.html';
-
-        } else if (data.usuario.tipo === 'adotante') {
+        } else if (data.tipo === 'adotante') {
             window.location.href = '/index.html';
-
-        } else if (data.usuario.tipo === 'membro') {
-            window.location.href = '/src/pages/user/membro_ong.html';
         }
 
     } catch (error) {
