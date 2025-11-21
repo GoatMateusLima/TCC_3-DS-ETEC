@@ -10,14 +10,15 @@ async function createAdocao(req, res) {
         }
 
         // 1. Verifica se o pet já está em adoção
+        // Ajuste: tabela usa 'status_adocao' para acompanhar o estado do animal
         const { data: pet, error: petError } = await supabase
             .from('animal')
-            .select('animal_id, status')
+            .select('animal_id, status_adocao')
             .eq('animal_id', animal_id)
             .single();
 
         if (petError) return res.status(400).json({ error: 'Erro ao buscar pet.' });
-        if (pet.status === 'adotado' || pet.status === 'em análise') {
+        if (pet.status_adocao === 'adotado' || pet.status_adocao === 'em análise') {
             return res.status(400).json({ error: 'Pet já está em processo de adoção ou adotado.' });
         }
 
@@ -37,7 +38,7 @@ async function createAdocao(req, res) {
         if (error) return res.status(500).json({ error: 'Erro ao criar adoção.', details: error });
 
         // 3. Atualiza status do animal
-        await supabase.from('animal').update({ status: 'em análise' }).eq('animal_id', animal_id);
+        await supabase.from('animal').update({ status_adocao: 'em análise' }).eq('animal_id', animal_id);
 
         res.status(201).json({ message: 'Adoção criada com sucesso!', adocao: data[0] });
     } catch (err) {

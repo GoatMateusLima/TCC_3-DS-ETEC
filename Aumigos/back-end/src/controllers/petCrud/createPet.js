@@ -22,9 +22,10 @@ async function createPet(req, res) {
 
     try {
         // 1. Validação de Campos
-        if (!ong_id || !nome || !especie || !descricao || !genero_final || !file) {
+        // descricao não é obrigatória: aceita string vazia
+        if (!ong_id || !nome || !especie || !genero_final || !file) {
             console.error('[ERRO] Campos obrigatórios faltando.');
-            return res.status(400).json({ error: 'Campos obrigatórios faltando, incluindo a imagem.' });
+            return res.status(400).json({ error: 'Campos obrigatórios faltando: ong_id, nome, especie, genero e imagem.' });
         }
 
         // 2. Verifica se ONG existe e está validada
