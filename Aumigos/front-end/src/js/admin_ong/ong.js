@@ -1,26 +1,28 @@
 // /src/js/admin_ong/ong.js
 document.addEventListener('DOMContentLoaded', async () => {
     // --- validação básica de login ---
-    const usuario = JSON.parse(localStorage.getItem('usuarioAtual'));
-
-    if (!usuario || !usuario.tipo || !usuario.info) {
+    const usuarioJSON = localStorage.getItem('usuarioAtual');
+    if (!usuarioJSON) {
         alert("Faça login primeiro.");
         window.location.href = "/src/pages/login/login.html";
         return;
     }
 
-    // garante que é ONG
+    const usuario = JSON.parse(usuarioJSON);
+
+    // --- verificar tipo ---
     if (usuario.tipo !== 'ong') {
         alert("Acesso negado. Área exclusiva para ONG.");
         window.location.href = "/src/pages/login/login.html";
         return;
     }
 
-    // pega os dados da ONG do storage
-    const ongInfo = usuario.info;
-    const ongId = ongInfo.ong_id;
+    // --- pegar ID e dados, compatível com 'info' ou 'dados' ---
+    const dadosOng = usuario.info || usuario.dados || {};
+    const ongId = dadosOng.ong_id || dadosOng.id || dadosOng.id_ong;
     if (!ongId) {
         alert("Erro: ONG sem ID.");
+        window.location.href = "/src/pages/login/login.html";
         return;
     }
 
@@ -32,25 +34,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     const whatsappSpan = document.getElementById('ong-whatsapp');
 
     const btnEditarDados = document.querySelector('#Dados .btn-edit');
+    let dadosOngAtuais = dadosOng; // inicializa com dados do storage
 
-    let dadosOngAtuais = ongInfo; // inicializa com dados do storage
-
-    // --- atualizar nomes na UI ---
+    // --- função para preencher nome da ONG na UI ---
     function preencherNomeLocal(nome) {
         if (!nome) return;
         nomeSpans.forEach(el => el.textContent = nome);
         if (nomeTitulo) nomeTitulo.textContent = nome;
     }
-    preencherNomeLocal(ongInfo.nome);
+    preencherNomeLocal(dadosOng.nome);
 
     // --- buscar dados reais do backend ---
     async function carregarDadosDaOng() {
         try {
             const res = await axios.get(`https://tcc-3-ds-etec.onrender.com/ongs/${ongId}`);
-            const ong = res.data;
-            dadosOngAtuais = ong || {};
+            const ong = res.data || {};
+            dadosOngAtuais = ong;
 
-            // preencher UI
             if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = ong.nome || '—');
             if (nomeTitulo) nomeTitulo.textContent = ong.nome || '—';
             if (emailSpan) emailSpan.textContent = ong.email || '-';
@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             </div>
         `;
+
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
         const fill = () => {
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('edit-cep').value = ong.cep || '';
             document.getElementById('edit-senha').value = '';
         };
+
         fill();
 
         document.getElementById('btn-cancelar-edicao').addEventListener('click', fecharModalEdicao);
@@ -148,23 +150,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (cnpjSpan) cnpjSpan.textContent = updated.cnpj || cnpj;
             if (whatsappSpan) whatsappSpan.textContent = updated.whatsapp || whatsapp;
 
-            // atualiza o storage mantendo estrutura
+            // atualizar localStorage mantendo compatibilidade com login
             const novoUsuario = {
                 tipo: 'ong',
-                info: updated
+                info: updated,   // ⚡ salva no mesmo formato do login
             };
             localStorage.setItem('usuarioAtual', JSON.stringify(novoUsuario));
 
             alert('Dados atualizados com sucesso.');
             fecharModalEdicao();
             await carregarDadosDaOng();
+
         } catch (err) {
             console.error('Erro ao salvar edição:', err);
             alert('Falha ao salvar. Verifique os dados e tente novamente.');
         }
     }
 
-    // --- ligar botão editar ---
+    // --- ligar botão de edição ---
     if (btnEditarDados) {
         btnEditarDados.addEventListener('click', (e) => {
             e.preventDefault();
