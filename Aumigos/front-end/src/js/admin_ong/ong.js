@@ -1,6 +1,6 @@
 // /src/js/admin_ong/ong.js
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- validação de login ---
+    // --- validação básica de login ---
     const usuarioJSON = localStorage.getItem('usuarioAtual');
     if (!usuarioJSON) {
         alert("Faça login primeiro.");
@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
+    // Pega apenas o ID do storage
     const info = usuarioStorage.info || {};
-    const ongId = info.id || info.ong_id;
+    const ongId = info.id;
     if (!ongId) {
         alert("Erro: ONG sem ID.");
         window.location.href = "/src/pages/login/login.html";
@@ -29,43 +30,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     const emailSpan = document.getElementById('ong-email');
     const cnpjSpan = document.getElementById('ong-cnpj');
     const whatsappSpan = document.getElementById('ong-whatsapp');
+
     const btnEditarDados = document.querySelector('#Dados .btn-edit');
 
     let dadosOngAtuais = null;
 
-    // --- preencher nome local ---
+    // --- preencher rapidamente o nome do storage ---
     function preencherNomeLocal(nome) {
         if (!nome) return;
         nomeSpans.forEach(el => el.textContent = nome);
+        if (nomeTitulo) nomeTitulo.textContent = nome;
     }
     preencherNomeLocal(info.nome);
 
-    // --- buscar dados reais da ONG ---
+    // --- buscar dados completos do backend ---
     async function carregarDadosDaOng() {
         try {
-            let ong = null;
+            const res = await axios.get(`https://tcc-3-ds-etec.onrender.com/ongs/${ongId}`);
+            const ong = res.data;
+            dadosOngAtuais = ong || {};
 
-            // Tenta buscar pelo ID primeiro
-            try {
-                const res = await axios.get(`https://tcc-3-ds-etec.onrender.com/ongs/${ongId}`);
-                ong = res.data;
-            } catch (errId) {
-                console.warn("Falha ao buscar ONG pelo ID, tentando buscar todas e filtrar...", errId);
-
-                // Fallback: buscar todas e filtrar
-                const resAll = await axios.get('https://tcc-3-ds-etec.onrender.com/ongs');
-                const todas = resAll.data.dados || resAll.data;
-                ong = todas.find(o => o.id == ongId || o.ong_id == ongId);
-            }
-
-            if (!ong) {
-                alert("Não foi possível localizar a ONG no servidor.");
-                return;
-            }
-
-            dadosOngAtuais = ong;
-
-            // --- preencher UI ---
+            // Atualiza tela com dados completos
             if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = ong.nome || '—');
             if (nomeTitulo) nomeTitulo.textContent = ong.nome || '—';
             if (emailSpan) emailSpan.textContent = ong.email || '-';
@@ -73,8 +58,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (whatsappSpan) whatsappSpan.textContent = ong.whatsapp || '-';
 
         } catch (err) {
-            console.error('Erro ao carregar dados da ONG:', err);
-            alert('Não foi possível carregar os dados da ONG. Verifique a conexão com o servidor.');
+            console.error('Falha ao buscar ONG pelo ID, tentando buscar todas e filtrar...', err);
+
+            // fallback seguro: tenta buscar todas e filtrar pelo ID
+            try {
+                const resAll = await axios.get(`https://tcc-3-ds-etec.onrender.com/ongs`);
+                const todasOngs = resAll.data || [];
+                const ong = todasOngs.find(o => o.id === ongId);
+                if (!ong) throw new Error('ONG não encontrada na lista');
+
+                dadosOngAtuais = ong;
+
+                if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = ong.nome || '—');
+                if (nomeTitulo) nomeTitulo.textContent = ong.nome || '—';
+                if (emailSpan) emailSpan.textContent = ong.email || '-';
+                if (cnpjSpan) cnpjSpan.textContent = ong.cnpj || '-';
+                if (whatsappSpan) whatsappSpan.textContent = ong.whatsapp || '-';
+
+            } catch (err2) {
+                console.error('Erro ao carregar dados da ONG:', err2);
+                alert('Não foi possível carregar os dados da ONG. Verifique a conexão com o servidor.');
+            }
         }
     }
 
@@ -140,7 +144,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (m) m.remove();
     }
 
-    // --- salvar edição ---
     async function salvarEdicao() {
         const nome = document.getElementById('edit-nome').value.trim();
         const email = document.getElementById('edit-email').value.trim();
@@ -165,10 +168,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (cnpjSpan) cnpjSpan.textContent = updated.cnpj || cnpj;
             if (whatsappSpan) whatsappSpan.textContent = updated.whatsapp || whatsapp;
 
-            // Atualiza storage mantendo compatibilidade
+            // Atualiza localStorage apenas com dados essenciais
             const novoUsuario = {
                 tipo: 'ong',
-                info: updated
+                info: {
+                    id: ongId,
+                    nome: updated.nome || nome
+                }
             };
             localStorage.setItem('usuarioAtual', JSON.stringify(novoUsuario));
 
@@ -182,7 +188,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- ligar botão editar ---
     if (btnEditarDados) {
         btnEditarDados.addEventListener('click', (e) => {
             e.preventDefault();
