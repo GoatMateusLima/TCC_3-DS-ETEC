@@ -11,12 +11,14 @@ async function fazerLogin(event) {
         // ✅ Salvando informações do usuário no localStorage
         localStorage.setItem('usuarioAtual', JSON.stringify({
             tipo: data.tipo,
-            nome: data.usuario.nome
+            nome: data.ong.nome,
+            id: data.ong.ong_id
         }));
 
         if (data.tipo === 'ong') {
             localStorage.setItem('ongLogada', JSON.stringify({
-                nome: data.usuario.nome
+                nome: data.ong.nome,
+                id: data.ong.ong_id
             }));
         }
 
