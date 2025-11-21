@@ -41,7 +41,11 @@ async function createPet(req, res) {
             .single();
 
         if (ongError || !ong) {
-            return res.status(400).json({ error: 'ONG não encontrada.' });
+            // Resposta de debug temporária para diagnosticar deploy: mostra o valor recebido para ong_id
+            return res.status(400).json({ 
+                error: 'ONG não encontrada.',
+                debug: { received_ong_id: ong_id, body_keys: Object.keys(req.body) }
+            });
         }
         if (ong.status_validacao !== 'aprovado') {
              return res.status(403).json({ error: 'ONG ainda não validada para cadastrar pets.' });
