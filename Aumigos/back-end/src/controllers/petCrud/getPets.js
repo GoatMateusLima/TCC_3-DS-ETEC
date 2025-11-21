@@ -3,17 +3,21 @@ const db = require('../../config/dbClient');
 async function getPets(req, res) {
     console.log('[INFO] Requisição recebida para listagem de Pets');
     try {
-        const { id_ong, especie, status } = req.query; 
-        const ong_id = id_ong; 
+        // Aceita variações: ong_id, id_ong, ongId
+        const { id_ong, especie, status } = req.query;
+        const ong_id = req.query.ong_id || id_ong || req.query.ongId || null;
 
         let query = db.from('animal').select('*');
 
         // Filtro por ONG
-        if (ong_id) query = query.eq('ong_id', ong_id); 
+        if (ong_id) query = query.eq('ong_id', ong_id);
         
         // Outros filtros
         if (especie) query = query.ilike('especie', `%${especie}%`);
-        if (status) query = query.eq('status_adocao', status);
+        if (status) {
+            // tenta campo status_adocao (schema) e fallback para status
+            query = query.eq('status_adocao', status);
+        }
 
         const { data, error } = await query;
         if (error) {

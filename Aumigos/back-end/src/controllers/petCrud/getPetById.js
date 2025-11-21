@@ -4,7 +4,7 @@ async function getPetById(req, res) {
     console.log('[INFO] Requisição recebida para buscar Pet por ID');
     try {
         const petId = req.params.id;
-        const { ong_id } = req.query; 
+        const ong_id = req.query.ong_id || req.query.id_ong || req.query.ongId || null;
 
         if (!petId || !ong_id) {
             return res.status(400).json({ error: 'ID do pet e ID da ONG são obrigatórios.' });

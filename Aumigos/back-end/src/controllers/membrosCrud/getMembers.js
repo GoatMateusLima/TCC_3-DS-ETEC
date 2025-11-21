@@ -2,7 +2,8 @@ const db = require('../../config/dbClient');
 
 async function getMembers(req, res) {
     try {
-        const ongId = req.query.ong_id;
+        // aceita variações: ong_id, id_ong, ongId
+        const ongId = req.query.ong_id || req.query.id_ong || req.query.ongId;
         if (!ongId) return res.status(400).json({ error: 'ONG não informada.' });
 
         const { data, error } = await db

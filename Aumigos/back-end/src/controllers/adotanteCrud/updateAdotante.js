@@ -13,7 +13,7 @@ async function updateAdotante(req, res) {
         const { data, error } = await db
             .from('adotante')
             .update(updateData)
-            .eq('id', id)
+            .eq('adotante_id', id)
             .select();
 
         if (error) throw error;

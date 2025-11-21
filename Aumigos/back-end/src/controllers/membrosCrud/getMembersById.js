@@ -3,7 +3,7 @@ const db = require('../../config/dbClient');
 async function getMemberById(req, res) {
     try {
         const memberId = req.params.id;
-        const ongId = req.query.ong_id; // do login
+        const ongId = req.query.ong_id || req.query.id_ong || req.query.ongId; // do login
 
         if (!ongId) return res.status(400).json({ error: 'ONG não informada.' });
 

@@ -9,12 +9,12 @@ async function createPet(req, res) {
 
     // Mapeamento dos campos do frontend para o SQL
     let { 
-        id_ong, nome, especie, raca, idade, genero, descricao, status_adocao 
+        id_ong, ong_id: body_ong_id, nome, especie, raca, idade, genero, sexo, descricao, status_adocao 
     } = req.body;
     
-    // Nomes alinhados ao SQL
-    const ong_id = id_ong; 
-    const sexo = genero;
+    // Nomes alinhados ao SQL - aceita tanto 'id_ong' quanto 'ong_id'
+    const ong_id = body_ong_id || id_ong || req.body.ongId || null; 
+    const genero_final = genero || sexo;
     const data_entrada = new Date();
     
     let petCriado = null;
@@ -22,7 +22,7 @@ async function createPet(req, res) {
 
     try {
         // 1. Validação de Campos
-        if (!ong_id || !nome || !especie || !descricao || !sexo || !file) {
+        if (!ong_id || !nome || !especie || !descricao || !genero_final || !file) {
             console.error('[ERRO] Campos obrigatórios faltando.');
             return res.status(400).json({ error: 'Campos obrigatórios faltando, incluindo a imagem.' });
         }
@@ -43,7 +43,7 @@ async function createPet(req, res) {
 
         // 3. Cria o Pet no Banco de Dados SEM A IMAGEM (para obter o animal_id)
         const petData = {
-            ong_id, nome, especie, raca, idade, sexo, descricao, data_entrada,
+            ong_id, nome, especie, raca, idade, sexo: genero_final, descricao, data_entrada,
             status_adocao: status_adocao || 'disponivel', 
         };
         

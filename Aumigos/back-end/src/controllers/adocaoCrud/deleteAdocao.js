@@ -7,7 +7,7 @@ async function deleteAdocao(req, res) {
         // 1. Busca adoção para atualizar status do pet
         const { data: adocao, error: fetchError } = await supabase
             .from('adocao')
-            .select('pet_id')
+            .select('animal_id')
             .eq('adocao_id', id)
             .single();
 
@@ -22,7 +22,7 @@ async function deleteAdocao(req, res) {
         if (error) return res.status(500).json({ error: 'Erro ao deletar adoção.' });
 
         // 3. Atualiza status do pet
-        await supabase.from('animal').update({ status: 'disponível' }).eq('animal_id', adocao.pet_id);
+        await supabase.from('animal').update({ status: 'disponível' }).eq('animal_id', adocao.animal_id);
 
         res.status(200).json({ message: 'Adoção deletada com sucesso.' });
     } catch (err) {

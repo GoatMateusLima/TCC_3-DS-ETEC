@@ -4,9 +4,9 @@ const { deletePetImage } = require('../../services/supabaseService'); // CAMINHO
 async function deletePet(req, res) {
     console.log('[INFO] Requisição recebida para deleção de Pet');
     try {
-        const petId = req.params.id; 
-        const { id_ong } = req.body;
-        const ong_id = id_ong; 
+        const petId = req.params.id;
+        // aceita id_ong, ong_id ou ongId no body
+        const ong_id = req.body.ong_id || req.body.id_ong || req.body.ongId || null;
 
         if (!ong_id) {
             return res.status(400).json({ error: 'ID da ONG é obrigatório.' });
@@ -19,7 +19,7 @@ async function deletePet(req, res) {
             .eq('animal_id', petId)
             .single();
 
-        if (petError || !pet || pet.ong_id !== ong_id) {
+        if (petError || !pet || String(pet.ong_id) !== String(ong_id)) {
             return res.status(403).json({ error: 'Acesso negado. Este pet não pertence à sua ONG ou não existe.' });
         }
         

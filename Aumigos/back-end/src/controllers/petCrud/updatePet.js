@@ -9,12 +9,15 @@ async function updatePet(req, res) {
     try {
         const petId = req.params.id;
         
-        const { id_ong, nome, especie, raca, idade, genero, descricao, status_adocao } = req.body;
-        const ong_id = id_ong; 
+        const { id_ong, ong_id: body_ong_id, nome, especie, raca, idade, genero, sexo, descricao, status_adocao } = req.body;
+        const ong_id = body_ong_id || id_ong || req.body.ongId || null; 
+        const genero_final = genero || sexo;
 
         if (!ong_id) {
             return res.status(400).json({ error: 'ID da ONG é obrigatório.' });
         }
+
+        console.log(`[DEBUG] updatePet start petId=${petId} ong_id=${ong_id} file=${file ? 'yes' : 'no'}`);
 
         // 1. Busca o Pet e Verifica a Permissão
         const { data: petExistente, error: petError } = await db
@@ -23,14 +26,14 @@ async function updatePet(req, res) {
             .eq('animal_id', petId)
             .single();
 
-        if (petError || !petExistente || petExistente.ong_id !== ong_id) {
+        if (petError || !petExistente || String(petExistente.ong_id) !== String(ong_id)) {
             return res.status(403).json({ error: 'Acesso negado. Este pet não pertence à sua ONG ou não existe.' });
         }
 
         // 2. Prepara os dados para atualização (Mapeando para o SQL)
         const updateData = { nome, especie, raca, idade, descricao, status_adocao };
 
-        if (genero) updateData.sexo = genero;
+        if (genero_final) updateData.sexo = genero_final;
         
         let novoLinkImagem = petExistente.link_img;
 
@@ -61,6 +64,8 @@ async function updatePet(req, res) {
             .update(updateData)
             .eq('animal_id', petId)
             .select();
+
+        console.log('[DEBUG] updatePet db returned', { data, error: error ? error.message : null });
 
         if (error) throw error;
 

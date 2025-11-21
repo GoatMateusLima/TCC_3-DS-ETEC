@@ -12,7 +12,7 @@ async function updateAdocao(req, res) {
         // 1. Busca registro de adoção
         const { data: adocao, error: fetchError } = await supabase
             .from('adocao')
-            .select('pet_id')
+            .select('animal_id')
             .eq('adocao_id', id)
             .single();
 
@@ -28,7 +28,7 @@ async function updateAdocao(req, res) {
 
         // 3. Atualiza status do pet
         const novoStatus = status === 'aprovado' ? 'adotado' : 'disponível';
-        await supabase.from('animal').update({ status: novoStatus }).eq('animal_id', adocao.pet_id);
+        await supabase.from('animal').update({ status: novoStatus }).eq('animal_id', adocao.animal_id);
 
         res.status(200).json({ message: 'Adoção atualizada com sucesso.' });
     } catch (err) {

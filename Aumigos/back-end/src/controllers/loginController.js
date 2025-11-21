@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 async function login(req, res) {
   const { email, senha } = req.body;
-  console.log('Tentativa de login:', req.body);
+  console.log('Tentativa de login para:', email);
 
   try {
     // Verifica se é ONG (ONGs podem não ter senha criptografada, então comparamos direto)
@@ -20,11 +20,22 @@ async function login(req, res) {
     }
 
     if (ongData) {
-      // Supondo que a senha da ONG esteja criptografada no banco
+      // Compatibilidade: se a senha armazenada estiver em hash bcrypt, use bcrypt.compare.
+      // Caso contrário (senhas em texto), permita comparação direta para compatibilidade legacy.
       const ongSafe = { ...ongData };
+      const stored = ongData.senha;
       delete ongSafe.senha;
 
-      if (!ongData.senha || !(await bcrypt.compare(senha, ongData.senha))) {
+      const isBcryptHash = typeof stored === 'string' && /^\$2[aby]\$/.test(stored);
+
+      let valid = false;
+      if (isBcryptHash) {
+        valid = await bcrypt.compare(senha, stored);
+      } else {
+        valid = stored === senha;
+      }
+
+      if (!valid) {
         return res.status(401).json({ erro: 'Senha incorreta' });
       }
 

@@ -54,10 +54,19 @@ app.get('/:page', (req, res, next) => {
 // Serve index.html apenas para GETs que aceitam HTML. Assim evitamos
 // responder a POST/PUT/DELETE de APIs com o index.html (e reduzimos o risco
 // de problemas em alguns provedores de deploy).
-app.get('*', (req, res) => {
-    if (req.method !== 'GET') return res.status(404).send('Not found');
-    if (!req.accepts || !req.accepts('html')) return res.status(404).send('Not found');
-    return res.sendFile(path.join(frontEndPath, 'index.html'));
+// Use '/*' em vez de '*' para compatibilidade com path-to-regexp
+// Fallback seguro usando app.use para evitar problemas com path-to-regexp
+app.use((req, res, next) => {
+    // Só queremos interceptar GETs que aceitam HTML (rotas de SPA)
+    try {
+        if (req.method === 'GET' && req.accepts && req.accepts('html')) {
+            return res.sendFile(path.join(frontEndPath, 'index.html'));
+        }
+    } catch (err) {
+        console.error('Erro no fallback do SPA:', err);
+        // segue para o próximo middleware/rota
+    }
+    return next();
 });
 
 const PORT = process.env.PORT || 3000;

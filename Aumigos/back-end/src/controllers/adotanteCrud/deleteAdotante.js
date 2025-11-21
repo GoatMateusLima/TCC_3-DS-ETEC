@@ -4,7 +4,7 @@ async function deleteAdotante(req, res) {
     try {
         const { id } = req.params;
 
-        const { data, error } = await db.from('adotante').delete().eq('id', id);
+        const { data, error } = await db.from('adotante').delete().eq('adotante_id', id);
 
         if (error) throw error;
 

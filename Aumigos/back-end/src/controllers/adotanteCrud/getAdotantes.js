@@ -5,7 +5,7 @@ async function getAdotantes(req, res) {
         const { id } = req.params;
 
         if (id) {
-            const { data, error } = await db.from('adotante').select('*').eq('id', id).single();
+            const { data, error } = await db.from('adotante').select('*').eq('adotante_id', id).single();
             if (error || !data) return res.status(404).json({ error: 'Adotante não encontrado.' });
             const safe = { ...data };
             delete safe.senha;
