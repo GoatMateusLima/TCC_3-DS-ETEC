@@ -163,6 +163,38 @@
         </div>
     </div>
 
+    <!-- Modal Membro -->
+    <div class="modal" id="modal-membro" style="display:none;">
+        <div class="modal-content">
+            <h3>Adicionar / Editar Membro</h3>
+            <form id="form-membro">
+                <input type="hidden" id="membro-id" name="membro-id">
+                <label for="membro-nome">Nome *</label>
+                <input type="text" id="membro-nome" name="nome" required>
+
+                <label for="membro-cpf">CPF</label>
+                <input type="text" id="membro-cpf" name="cpf">
+
+                <label for="membro-email">Email</label>
+                <input type="email" id="membro-email" name="email">
+
+                <label for="membro-whatsapp">WhatsApp</label>
+                <input type="text" id="membro-whatsapp" name="whatsapp">
+
+                <label for="membro-funcao">Função</label>
+                <input type="text" id="membro-funcao" name="funcao">
+
+                <label id="membro-senha-label" for="membro-senha">Senha *</label>
+                <input type="password" id="membro-senha" name="senha">
+
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
+                    <button type="button" onclick="document.getElementById('modal-membro').style.display='none';" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-verde">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <footer class="rodape">
         <div class="rodape-div">
             <div class="rodape-div-1">

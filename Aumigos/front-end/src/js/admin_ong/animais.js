@@ -1,8 +1,10 @@
 // animais.js
-document.addEventListener('DOMContentLoaded', async () => {
+
+async function initAnimais() {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
     if (!ong.id) {
-        alert("ONG não logada. Faça login primeiro.");
+        // não redireciona automaticamente em produção sem checagem
+        console.warn("ONG não logada. Redirecionando para login.");
         window.location.href = "/src/pages/login/login.html";
         return;
     }
@@ -12,12 +14,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Carregar animais ---
     async function carregarAnimais() {
+        if (!tbody) return;
         tbody.innerHTML = '<tr><td colspan="8">Carregando animais...</td></tr>';
         try {
             const res = await axios.get(`/pets?ong_id=${ongId}`);
             const animais = res.data;
 
-            if (!animais.length) {
+            if (!animais || !animais.length) {
                 tbody.innerHTML = '<tr><td colspan="8">Nenhum animal cadastrado.</td></tr>';
                 return;
             }
@@ -45,8 +48,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Abrir modal para cadastro ---
     window.abrirModalAnimal = () => {
-        resetModal();
-        document.getElementById("modal-animal").style.display = "flex";
+        if (typeof resetModal === 'function') resetModal();
+        const modal = document.getElementById("modal-animal");
+        if (modal) modal.style.display = "flex";
     };
 
     // liga botão + Adicionar Animal (presente no HTML)
@@ -68,12 +72,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById("animal-descricao").value = a.descricao || '';
             document.getElementById("animal-status").value = a.status_adocao;
 
-            document.getElementById("animal-imagem-label").textContent = "Alterar Imagem";
-            document.getElementById("animal-imagem").required = false;
-            document.getElementById("animal-imagem-url-display").textContent = a.link_img || '';
-            document.getElementById("animal-imagem-url-display").style.display = 'block';
+            const label = document.getElementById("animal-imagem-label");
+            if (label) label.textContent = "Alterar Imagem";
+            const imgInput = document.getElementById("animal-imagem");
+            if (imgInput) imgInput.required = false;
+            const urlDisplay = document.getElementById("animal-imagem-url-display");
+            if (urlDisplay) {
+                urlDisplay.textContent = a.link_img || '';
+                urlDisplay.style.display = 'block';
+            }
 
-            document.getElementById("modal-animal").style.display = "flex";
+            const modal = document.getElementById("modal-animal");
+            if (modal) modal.style.display = "flex";
         } catch (err) {
             console.error("Erro ao carregar animal:", err);
             alert("Não foi possível carregar o animal.");
@@ -81,7 +91,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- Salvar animal ---
-    document.getElementById("form-animal").addEventListener("submit", async (e) => {
+    const formAnimal = document.getElementById("form-animal");
+    if (formAnimal) formAnimal.addEventListener("submit", async (e) => {
         e.preventDefault();
         const form = e.target;
         const animalId = form.querySelector("#animal-id").value;
@@ -111,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await axios.post(`/pets`, fd);
                 alert("Animal cadastrado!");
             }
-            fecharModal("modal-animal");
+            if (typeof fecharModal === 'function') fecharModal("modal-animal");
             carregarAnimais();
         } catch (err) {
             console.error("Erro ao salvar animal:", err);
@@ -137,4 +148,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // expõe para que outros scripts possam recarregar a lista (ex: adocao.js)
     window.carregarAnimais = carregarAnimais;
     carregarAnimais();
-});
+}
+
+// garante execução mesmo que o script seja carregado após o evento DOMContentLoaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnimais);
+} else {
+    initAnimais();
+}

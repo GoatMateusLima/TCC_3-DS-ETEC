@@ -131,3 +131,23 @@ async function excluirMembro(id) {
         }
     }
 }
+
+// Inicialização segura: liga submit do formulário e carrega membros quando DOM pronto
+async function initMembros() {
+    const form = document.getElementById('form-membro');
+    if (form) form.addEventListener('submit', salvarMembro);
+
+    // expõe funções globalmente para uso por HTML inline
+    window.abrirModalMembro = abrirModalMembro;
+    window.abrirModalMembroParaEdicao = abrirModalMembroParaEdicao;
+    window.excluirMembro = excluirMembro;
+
+    // carrega tabela se presente
+    try { await carregarMembros(); } catch (e) { console.warn('carregarMembros falhou', e); }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMembros);
+} else {
+    initMembros();
+}
