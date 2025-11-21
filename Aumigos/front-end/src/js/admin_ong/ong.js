@@ -1,19 +1,12 @@
 // /src/js/admin_ong/ong.js
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- validação básica de login ---
-    const usuarioJSON = localStorage.getItem('usuario');
-    if (!usuarioJSON) {
-        alert("Faça login primeiro.");
-        window.location.href = "login.html";
-        return;
-    }
-    const usuario = JSON.parse(usuarioJSON);
-    if (usuario.tipo !== 'ong') {
-        alert("Acesso negado. Área exclusiva para ONG.");
-        window.location.href = "login.html";
-        return;
-    }
-    const ongId = usuario.id;
+    // --- validação básica de login usando requireAuth ---
+    // chama a função global que já lida com redirect se não estiver logado ou não for ong
+    const usuario = window.requireAuth(['ong']);
+    if (!usuario) return; // já redirecionou se necessário
+
+    // garante que temos ID
+    const ongId = usuario.id || usuario.ong_id || usuario.id_ong;
     if (!ongId) {
         alert("Erro: ONG sem ID.");
         return;
@@ -63,7 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- cria um modal simples (inserido dinamicamente) ---
     function criarModalEdicao() {
-        // se já existe, retorna
         if (document.getElementById('modal-editar-ong')) return;
 
         const modalHtml = `
@@ -95,7 +87,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-        // preencher campos com dados atuais
         const fill = () => {
             const ong = dadosOngAtuais || {};
             document.getElementById('edit-nome').value = ong.nome || '';
@@ -111,7 +102,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         fill();
 
-        // handlers
         document.getElementById('btn-cancelar-edicao').addEventListener('click', fecharModalEdicao);
         document.getElementById('fechar-modal-x').addEventListener('click', fecharModalEdicao);
         document.getElementById('btn-salvar-edicao').addEventListener('click', salvarEdicao);
@@ -128,7 +118,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (m) m.remove();
     }
 
-    // --- salvar edição (faz PUT para render) ---
     async function salvarEdicao() {
         const nome = document.getElementById('edit-nome').value.trim();
         const email = document.getElementById('edit-email').value.trim();
@@ -141,21 +130,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         const senha = document.getElementById('edit-senha').value.trim();
 
         const payload = { nome, email, cnpj, whatsapp, rua, numero, bairro, cep };
-        if (senha) payload.senha = senha; // backend faz hash
+        if (senha) payload.senha = senha;
 
         try {
             const res = await axios.put(`https://tcc-3-ds-etec.onrender.com/ongs/${ongId}`, payload);
-            // assume resposta com { message, ong }
             const updated = res.data.ong || res.data;
 
-            // atualiza UI
             if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = updated.nome || nome);
             if (nomeTitulo) nomeTitulo.textContent = updated.nome || nome;
             if (emailSpan) emailSpan.textContent = updated.email || email;
             if (cnpjSpan) cnpjSpan.textContent = updated.cnpj || cnpj;
             if (whatsappSpan) whatsappSpan.textContent = updated.whatsapp || whatsapp;
 
-            // atualiza cache local para uso rápido (manter apenas minimo: tipo,id,nome)
             const novoUsuario = {
                 tipo: 'ong',
                 id: ongId,
@@ -165,7 +151,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             alert('Dados atualizados com sucesso.');
             fecharModalEdicao();
-            // recarrega dados do backend pra garantir consistência
             await carregarDadosDaOng();
 
         } catch (err) {
@@ -174,14 +159,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- ligar botão editar ---
     if (btnEditarDados) {
         btnEditarDados.addEventListener('click', (e) => {
             e.preventDefault();
             abrirModalEdicao();
         });
     } else {
-        // se o botão não existir (sua página tem onclick alert), tenta substituir qualquer botão com textContent 'Editar Dados'
         const fallback = Array.from(document.querySelectorAll('button')).find(b => /editar\s+dados/i.test(b.textContent));
         if (fallback) fallback.addEventListener('click', (e) => { e.preventDefault(); abrirModalEdicao(); });
     }
