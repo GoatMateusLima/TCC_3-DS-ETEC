@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/src/css/reset.css">
     <link rel="stylesheet" href="/src/css/pages/faq.css">
     <link rel="stylesheet" href="/src/css/pages/ong.css">
+    <link rel="srylesheet" href="/src/css/pages/o">
 </head>
 
 <body>
@@ -37,20 +38,15 @@
                     <li><a href="#" data-target="Adocao" class="faq-link">Adoções</a></li>
                     <li><a href="#" data-target="Dados" class="faq-link">Dados da ONG</a></li>
                 </ul>
-                <button onclick="logout()"
-                    style="margin-top: 20px; padding: 10px; width: 100%; background: #e74c3c; color: white; border: none; border-radius: 6px;">Sair</button>
+                <button onclick="logout()" class="btn-sair">Sair</button>
             </section>
         </aside>
 
         <section class="container-info-faq">
-
             <section class="ong-parceira" id="Membros">
                 <h2>Membros da ONG</h2>
-                <input type="text" class="search-input" placeholder="Buscar membro..."
-                    onkeyup="filtrarTabela('tabela-membros', this.value)">
-                <button class="btn" style="background:#27ae60;color:white;" onclick="abrirModalMembro()">+
-                    Adicionar Membro</button>
-
+                <input type="text" class="search-input" placeholder="Buscar membro..." onkeyup="filtrarTabela('tabela-membros', this.value)">
+                <button class="btn btn-verde" onclick="abrirModalMembro()">+ Adicionar Membro</button>
                 <table class="dashboard-table" id="tabela-membros">
                     <thead>
                         <tr>
@@ -66,13 +62,11 @@
                     <tbody></tbody>
                 </table>
             </section>
+
             <section class="sobre-projetos" id="Animais">
                 <h2>Animais para Adoção</h2>
-                <input type="text" class="search-input" placeholder="Buscar animal..."
-                    onkeyup="filtrarTabela('tabela-animais', this.value)">
-                <button class="btn" style="background:#27ae60;color:white;" onclick="abrirModalAnimal()">+
-                    Adicionar Animal</button>
-
+                <input type="text" class="search-input" placeholder="Buscar animal..." onkeyup="filtrarTabela('tabela-animais', this.value)">
+                <button class="btn btn-verde" onclick="abrirModalAnimal()">+ Adicionar Animal</button>
                 <table class="dashboard-table" id="tabela-animais">
                     <thead>
                         <tr>
@@ -89,6 +83,7 @@
                     <tbody></tbody>
                 </table>
             </section>
+
             <section class="projetos-sociais" id="Adocao">
                 <h2>Adoções em Andamento</h2>
                 <table class="dashboard-table" id="tabela-adocoes">
@@ -102,123 +97,23 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </section>
+
             <section class="faq" id="Dados">
                 <h2>Dados da ONG</h2>
-                <div style="background:#333; padding:20px; border-radius:8px; color:white;">
+                <div class="dados-ong">
                     <p><strong>Nome:</strong> <span id="ong-nome">Carregando...</span></p>
                     <p><strong>Email:</strong> <span id="ong-email">-</span></p>
                     <p><strong>CNPJ:</strong> <span id="ong-cnpj">-</span></p>
                     <p><strong>WhatsApp:</strong> <span id="ong-whatsapp">-</span></p>
-                    <button class="btn btn-edit" onclick="alert('Em breve: edição dos dados da ONG')">Editar
-                        Dados</button>
+                    <button class="btn btn-edit">Editar Dados</button>
                 </div>
             </section>
         </section>
     </main>
 
-    <div class="modal" id="modal-membro">
-        <div class="modal-content">
-            <h3>Adicionar / Editar Membro</h3>
-            <form onsubmit="salvarMembro(event)">
-                <input type="hidden" id="membro-id">
-
-                <label for="membro-nome">Nome *</label>
-                <input type="text" placeholder="Nome completo" id="membro-nome" required>
-
-                <label for="membro-cpf">CPF *</label>
-                <input type="text" placeholder="CPF" id="membro-cpf" required>
-
-                <label for="membro-email">Email *</label>
-                <input type="email" placeholder="Email" id="membro-email" required>
-
-                <label for="membro-senha" id="membro-senha-label">Senha *</label>
-                <input type="password" id="membro-senha"
-                    placeholder="Deixe em branco para manter a senha atual (na edição)" required>
-
-                <label for="membro-whatsapp">WhatsApp *</label>
-                <input type="text" placeholder="WhatsApp" id="membro-whatsapp" required>
-
-                <label for="membro-funcao">Função *</label>
-                <input type="text" placeholder="Função" id="membro-funcao" required>
-
-                <button type="submit"
-                    style="background:#27ae60;color:white;width:100%;padding:12px;margin-top:10px;">Salvar</button>
-                <button type="button" onclick="fecharModal('modal-membro')"
-                    style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:10px;">Cancelar</button>
-            </form>
-        </div>
-    </div>
-    <div class="modal" id="modal-animal">
-        <div class="modal-content">
-            <h3>Adicionar / Editar Animal</h3>
-            <form id="form-animal" onsubmit="salvarAnimal(event)" enctype="multipart/form-data">
-                <input type="hidden" id="animal-id">
-
-                <label for="animal-nome">Nome *</label>
-                <input type="text" placeholder="Nome do animal" id="animal-nome" required>
-
-                <label for="animal-especie">Espécie *</label>
-                <input type="text" placeholder="Espécie (cão/gato)" id="animal-especie" required>
-
-                <label for="animal-raca">Raça</label>
-                <input type="text" placeholder="Raça" id="animal-raca">
-
-                <label for="animal-idade">Idade *</label>
-                <input type="text" placeholder="Idade (ex: 2 anos)" id="animal-idade" required>
-
-                <label for="animal-genero">Gênero *</label>
-                <select id="animal-genero" required>
-                    <option value="">Selecione</option>
-                    <option value="Macho">Macho</option>
-                    <option value="Fêmea">Fêmea</option>
-                </select>
-
-                <label for="animal-status">Status de Adoção *</label>
-                <select id="animal-status" required>
-                    <option value="disponivel">Disponível</option>
-                    <option value="reservado">Reservado</option>
-                    <option value="adotado">Adotado</option>
-                </select>
-
-                <label for="animal-descricao">Descrição</label>
-                <textarea placeholder="Detalhes e histórico do animal" id="animal-descricao" rows="3"></textarea>
-
-                <label for="animal-imagem" id="animal-imagem-label">Imagem *</label>
-                <input type="file" id="animal-imagem" name="imagem" accept="image/*">
-                <p id="animal-imagem-url-display" style="margin-top: 5px; font-size: 0.9em; display:none;"></p>
-
-
-                <button type="submit"
-                    style="background:#27ae60;color:white;width:100%;padding:12px;margin-top:20px;">Salvar
-                    Animal</button>
-                <button type="button" onclick="fecharModal('modal-animal')"
-                    style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:10px;">Cancelar</button>
-            </form>
-        </div>
-    </div>
-    <div class="modal" id="modal-adocao-detalhes">
-        <div class="modal-content">
-            <h3>Detalhes da Adoção #<span id="adocao-id-detalhes"></span></h3>
-            <div id="adocao-detalhes-body">
-                <p><strong>Animal:</strong> <span id="detalhe-animal-nome"></span></p>
-                <p><strong>Adotante:</strong> <span id="detalhe-adotante-nome"></span></p>
-                <p><strong>CPF:</strong> <span id="detalhe-adotante-cpf"></span></p>
-                <p><strong>Data da Solicitação:</strong> <span id="detalhe-data-solicitacao"></span></p>
-                <p><strong>Status Atual:</strong> <span id="detalhe-status-atual"></span></p>
-                <hr>
-                <h4>Ações</h4>
-                <div id="adocao-acoes">
-                </div>
-            </div>
-
-            <button type="button" onclick="fecharModal('modal-adocao-detalhes')"
-                style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:20px;">Fechar</button>
-        </div>
-    </div>
     <footer class="rodape">
         <div class="rodape-div">
             <div class="rodape-div-1">
@@ -227,8 +122,8 @@
                 </div>
             </div>
             <div class="rodape-div-2">
-                <div class="rodape-div-2-coluna"><span><b>Contatos</b></span><a
-                        href="mailto:aumigosparasempre24@gmail.com">aumigosparasempre24@gmail.com</a>
+                <div class="rodape-div-2-coluna"><span><b>Contatos</b></span>
+                    <a href="mailto:aumigosparasempre24@gmail.com">aumigosparasempre24@gmail.com</a>
                     <p>+55 63 99200-0000</p>
                 </div>
             </div>
@@ -247,15 +142,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <script src="/src/js/admin_ong/ong.js"></script>
-    <script src="/src/js/admin_ong/membros.js"></script>
-    <script src="/src/js/admin_ong/animais.js"></script>
-    <script src="/src/js/admin_ong/adocao.js"></script>
-    <script src="/src/js/admin_ong/funcoes_gerais.js"></script>
-
-    <script src="/src/js/global/menu.js"></script>
-    <script src="/src/js/global/verificacao_login.js"></script>
 </body>
-
 </html>

@@ -1,61 +1,213 @@
- /* Estilo rápido e bonito pras tabelas e modais */
-        .dashboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #333;
-            color: white;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .dashboard-table th, .dashboard-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #555;
-        }
-        .dashboard-table th {
-            background: #ff6b35;
-        }
-        .dashboard-table tr:hover {
-            background: #444;
-        }
-        .btn { padding: 6px 12px; margin: 0 4px; border: none; border-radius: 4px; cursor: pointer; }
-        .btn-edit { background: #f1c40f; }
-        .btn-delete { background: #e74c3c; color: white; }
-        .btn-adopt { background: #27ae60; color: white; }
-        .btn-finalizar { background: #3498db; color: white; }
+/* Fonte moderna para todo o painel */
+body, input, select, textarea, button {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #f5f5f5;
+    background-color: #1c1c1c;
+}
 
-        .search-input {
-            width: 100%;
-            padding: 12px;
-            margin: 15px 0;
-            border-radius: 8px;
-            border: none;
-            font-size: 1rem;
-        }
+/* Aside/menu */
+.menu-faq {
+    background: #222;
+    padding: 30px 20px;
+    min-width: 220px;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-        .modal-content {
-            background: #222;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            color: white;
-        }
-        .modal input, .modal select, .modal textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 6px;
-            border: none;
-        }
-        h1.ong-name { color: #ff6b35; margin: 0 0 30px 0; font-size: 1.8rem; }
+.menu-faq h1.ong-name {
+    color: #ff6b35;
+    font-size: 1.9rem;
+    margin-bottom: 40px;
+    text-align: center;
+    word-break: break-word;
+}
+
+/* Links do menu */
+.menu-faq .lista-faq {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.menu-faq .lista-faq li {
+    margin: 10px 0;
+}
+
+.menu-faq .lista-faq a {
+    color: #f5f5f5;
+    text-decoration: none;
+    padding: 8px 12px;
+    display: block;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.menu-faq .lista-faq a.active,
+.menu-faq .lista-faq a:hover {
+    background: #ff6b35;
+    color: #222;
+}
+
+/* Container principal */
+.container-info-faq {
+    flex: 1;
+    padding: 30px;
+    overflow-x: auto;
+}
+
+/* Cards de dados da ONG */
+.dados-ong {
+    background: #2c2c2c;
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dados-ong p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.dados-ong strong {
+    color: #ff6b35;
+}
+
+/* Botão de editar */
+.dados-ong button {
+    margin-top: 15px;
+    align-self: flex-start;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    background: #2980b9;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.dados-ong button:hover {
+    background: #1c5980;
+}
+
+/* Tabelas */
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: #2c2c2c;
+    color: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dashboard-table th, .dashboard-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.dashboard-table th {
+    background: #ff6b35;
+}
+
+.dashboard-table tr:hover {
+    background: #3a3a3a;
+}
+
+/* Inputs e pesquisa */
+.search-input {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    background: #333;
+    color: white;
+}
+
+/* Botões padronizados */
+.btn {
+    padding: 6px 12px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-edit { background: #f1c40f; color: #222; }
+.btn-delete { background: #e74c3c; color: white; }
+.btn-adopt { background: #27ae60; color: white; }
+.btn-finalizar { background: #3498db; color: white; }
+.btn-verde { background: #27ae60; color: white; }
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.75);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: #2c2c2c;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    color: white;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Responsividade modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+}
+
+/* Inputs e selects dentro do modal */
+.modal input, .modal select, .modal textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: none;
+    background: #333;
+    color: white;
+}
+
+/* Botão de fechar modal */
+#fechar-modal-x {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Hover e interações */
+.dashboard-table tr:hover,
+.btn:hover,
+.modal-content button:hover {
+    opacity: 0.85;
+}
