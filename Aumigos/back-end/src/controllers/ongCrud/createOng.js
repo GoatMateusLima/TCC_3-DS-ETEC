@@ -140,10 +140,12 @@ async function createOng(req, res) {
                 });
             }
 
-            console.log('[SUCESSO] ONG cadastrada com sucesso:', data);
+            const safe = { ...data[0] };
+            delete safe.senha;
+            console.log('[SUCESSO] ONG cadastrada com sucesso:', safe);
             return res.status(201).json({ 
                 message: 'ONG cadastrada com sucesso!', 
-                ong: data[0] 
+                ong: safe 
             });
         } catch (err) {
             console.error('[ERRO] Falha inesperada ao inserir ONG:', err.message);

@@ -47,9 +47,12 @@ async function createAdotante(req, res) {
 
         if (insertError) throw insertError;
 
+        const adotanteSafe = { ...data[0] };
+        delete adotanteSafe.senha;
+
         res.status(201).json({
             message: 'Adotante criado com sucesso.',
-            adotante: data[0]
+            adotante: adotanteSafe
         });
     } catch (err) {
         console.error('Erro ao criar adotante:', err);

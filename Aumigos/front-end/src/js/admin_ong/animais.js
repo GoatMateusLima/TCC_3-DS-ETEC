@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function carregarAnimais() {
         tbody.innerHTML = '<tr><td colspan="8">Carregando animais...</td></tr>';
         try {
-            const res = await axios.get(`https://tcc-3-ds-etec.onrender.com/pets?id_ong=${ongId}`);
+            const res = await axios.get(`/pets?id_ong=${ongId}`);
             const animais = res.data;
 
             if (!animais.length) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Abrir modal para edição ---
     window.editarAnimal = async (animalId) => {
         try {
-            const res = await axios.get(`https://tcc-3-ds-etec.onrender.com/pets/${animalId}?ong_id=${ongId}`);
+            const res = await axios.get(`/pets/${animalId}?ong_id=${ongId}`);
             const a = res.data.pet;
 
             document.getElementById("animal-id").value = a.animal_id;
@@ -97,10 +97,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             if (animalId) {
-                await axios.put(`https://tcc-3-ds-etec.onrender.com/pets/${animalId}`, fd);
+                await axios.put(`/pets/${animalId}`, fd);
                 alert("Animal atualizado!");
             } else {
-                await axios.post(`https://tcc-3-ds-etec.onrender.com/pets`, fd);
+                await axios.post(`/pets`, fd);
                 alert("Animal cadastrado!");
             }
             fecharModal("modal-animal");
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.excluirAnimal = async (id) => {
         if (!confirm("Deseja realmente excluir este animal?")) return;
         try {
-            await axios.delete(`https://tcc-3-ds-etec.onrender.com/pets/${id}`, { data: { id_ong: ongId } });
+            await axios.delete(`/pets/${id}`, { data: { id_ong: ongId } });
             alert("Animal removido!");
             carregarAnimais();
         } catch (err) {

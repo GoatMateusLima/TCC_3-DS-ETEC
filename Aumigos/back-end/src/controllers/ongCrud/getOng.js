@@ -10,7 +10,13 @@ async function getOngs(req, res) {
 
         if (error) return res.status(500).json({ error: 'Erro ao buscar ONGs.', details: error });
 
-        res.status(200).json(data);
+        const safe = data.map(d => {
+            const x = { ...d };
+            delete x.senha;
+            return x;
+        });
+
+        res.status(200).json(safe);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Erro interno ao buscar ONGs.' });

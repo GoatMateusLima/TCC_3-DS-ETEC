@@ -20,12 +20,16 @@ async function login(req, res) {
     }
 
     if (ongData) {
-      // Supondo que a senha da ONG não esteja criptografada
-      if (ongData.senha !== senha) {
+      // Supondo que a senha da ONG esteja criptografada no banco
+      const ongSafe = { ...ongData };
+      delete ongSafe.senha;
+
+      if (!ongData.senha || !(await bcrypt.compare(senha, ongData.senha))) {
         return res.status(401).json({ erro: 'Senha incorreta' });
       }
-      console.log('ONG encontrada:', ongData);
-      return res.json({ tipo: 'ong', dados: ongData });
+
+      console.log('ONG encontrada:', ongSafe);
+      return res.json({ tipo: 'ong', dados: ongSafe });
     }
 
     // Verifica se é Adotante
@@ -41,12 +45,14 @@ async function login(req, res) {
     }
 
     if (adotanteData) {
-      const senhaValida = await bcrypt.compare(senha, adotanteData.senha);
+      const senhaValida = await bcrypt.compare(senha, adotanteData.senha || '');
       if (!senhaValida) {
         return res.status(401).json({ erro: 'Senha incorreta' });
       }
-      console.log('Adotante encontrado:', adotanteData);
-      return res.json({ tipo: 'adotante', dados: adotanteData });
+      const adotanteSafe = { ...adotanteData };
+      delete adotanteSafe.senha;
+      console.log('Adotante encontrado:', adotanteSafe);
+      return res.json({ tipo: 'adotante', dados: adotanteSafe });
     }
 
     // Nenhum encontrado

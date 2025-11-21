@@ -74,8 +74,10 @@ async function createMember(req, res) {
             return res.status(500).json({ error: 'Erro ao criar membro.' });
         }
 
-        console.log('[SUCESSO] Membro cadastrado com sucesso:', data);
-        res.status(201).json(data[0]);
+        const safe = { ...data[0] };
+        delete safe.senha;
+        console.log('[SUCESSO] Membro cadastrado com sucesso:', safe);
+        res.status(201).json(safe);
 
     } catch (err) {
         console.error('[ERRO FATAL] Exceção não tratada no createMember:', err.message);

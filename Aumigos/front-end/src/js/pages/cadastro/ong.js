@@ -22,7 +22,7 @@ export function initOngForm() {
     }
 
     try {
-      const response = await axios.post('https://tcc-3-ds-etec.onrender.com/ongs', {
+      const response = await axios.post('/ongs', {
         nome, email, senha, cnpj, whatsapp
       });
       mostrarMensagem('sucesso', response.data.message || 'ONG cadastrada.');

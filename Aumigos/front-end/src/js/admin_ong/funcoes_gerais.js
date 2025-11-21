@@ -38,7 +38,9 @@ function filtrarTabela(tabelaId, texto) {
  */
 function logout() {
     localStorage.removeItem("ongLogada");
-    window.location.href = "/login-ong";
+    localStorage.removeItem("usuarioAtual");
+    // redireciona para tela de login
+    window.location.href = "/src/pages/login/login.html";
 }
 
 // ============= NAVEGAÇÃO POR HASH =============

@@ -9,7 +9,7 @@ async function carregarAdocoes() {
     tbody.innerHTML = '<tr><td colspan="6">Carregando adoções...</td></tr>';
 
     try {
-        const response = await axios.get(`https://tcc-3-ds-etec.onrender.com/adocao/adocao?ongId=${ong.id}`);
+        const response = await axios.get(`/adocao/adocao?ongId=${ong.id}`);
         const adocoes = response.data;
 
         tbody.innerHTML = adocoes.map(a => `
@@ -39,7 +39,7 @@ async function carregarAdocoes() {
 async function finalizarAdocao(id) {
     if (confirm(`Tem certeza que deseja finalizar a adoção ID ${id}?`)) {
         try {
-            await axios.put(`https://tcc-3-ds-etec.onrender.com/adocao/adocao/${id}`, { status: 'Finalizada' });
+            await axios.put(`/adocao/adocao/${id}`, { status: 'Finalizada' });
             alert("Adoção finalizada com sucesso!");
             carregarAdocoes();
         } catch (error) {

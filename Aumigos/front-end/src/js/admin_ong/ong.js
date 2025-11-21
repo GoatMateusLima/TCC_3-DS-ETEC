@@ -47,13 +47,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Tenta buscar pelo ID primeiro
             try {
-                const res = await axios.get(`https://tcc-3-ds-etec.onrender.com/ongs/${ongId}`);
+                const res = await axios.get(`/ongs/${ongId}`);
                 ong = res.data;
             } catch (errId) {
                 console.warn("Falha ao buscar ONG pelo ID, tentando buscar todas e filtrar...", errId);
 
                 // Fallback: buscar todas e filtrar
-                const resAll = await axios.get('https://tcc-3-ds-etec.onrender.com/ongs');
+                const resAll = await axios.get('/ongs');
                 const todas = resAll.data.dados || resAll.data;
                 ong = todas.find(o => o.id == ongId || o.ong_id == ongId);
             }
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (senha) payload.senha = senha;
 
         try {
-            const res = await axios.put(`https://tcc-3-ds-etec.onrender.com/ongs/${ongId}`, payload);
+            const res = await axios.put(`/ongs/${ongId}`, payload);
             const updated = res.data.ong || res.data;
 
             if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = updated.nome || nome);

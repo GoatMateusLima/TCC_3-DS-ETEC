@@ -7,7 +7,7 @@ async function carregarMembros() {
     tbody.innerHTML = '<tr><td colspan="7">Carregando membros...</td></tr>';
 
     try {
-        const response = await axios.get(`https://tcc-3-ds-etec.onrender.com/members?ong_id=${ong.id}`);
+        const response = await axios.get(`/members?ong_id=${ong.id}`);
         const membros = response.data;
 
         tbody.innerHTML = membros.map(m => `
@@ -60,14 +60,14 @@ async function salvarMembro(e) {
     
     try {
         if (membroId) {
-            await axios.put(`https://tcc-3-ds-etec.onrender.com/members/${membroId}`, dadosMembro);
+            await axios.put(`/members/${membroId}`, dadosMembro);
             alert("Membro atualizado com sucesso!");
         } else {
             if (!dadosMembro.senha) {
                 alert("A senha é obrigatória para cadastrar um novo membro.");
                 return;
             }
-            await axios.post(`https://tcc-3-ds-etec.onrender.com/members`, dadosMembro);
+            await axios.post(`/members`, dadosMembro);
             alert("Membro criado com sucesso!");
         }
 
@@ -97,7 +97,7 @@ async function abrirModalMembroParaEdicao(id) {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
     
     try {
-        const response = await axios.get(`https://tcc-3-ds-etec.onrender.com/members/${id}?ong_id=${ong.id}`);
+        const response = await axios.get(`/members/${id}?ong_id=${ong.id}`);
         const membro = response.data;
         
         document.getElementById("membro-id").value = membro.membro_id;
@@ -121,7 +121,7 @@ async function abrirModalMembroParaEdicao(id) {
 async function excluirMembro(id) {
     if (confirm("Tem certeza que quer excluir este membro permanentemente?")) {
         try {
-            await axios.delete(`https://tcc-3-ds-etec.onrender.com/members/${id}`);
+            await axios.delete(`/members/${id}`);
             alert("Membro excluído com sucesso!");
             carregarMembros();
         } catch (error) {

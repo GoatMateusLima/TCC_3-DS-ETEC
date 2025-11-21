@@ -1,5 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+
+// Multer em memória para lidar com uploads via FormData
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const createPet = require('../controllers/petCrud/createPet');
 const getPets = require('../controllers/petCrud/getPets');
@@ -8,11 +13,11 @@ const deletePet = require('../controllers/petCrud/deletePet');
 const { getPetById } = require('../controllers/petCrud/getPetById');
 
 // CRUD
-router.post('/', createPet);
+router.post('/', upload.single('imagem'), createPet);
 router.get('/', getPets);
-router.get('/:id', getPets);
+// GET by id -> encaminha para getPetById
 router.get('/:id', getPetById);
-router.put('/:id', updatePet);
+router.put('/:id', upload.single('imagem'), updatePet);
 router.delete('/:id', deletePet);
 
 module.exports = router;

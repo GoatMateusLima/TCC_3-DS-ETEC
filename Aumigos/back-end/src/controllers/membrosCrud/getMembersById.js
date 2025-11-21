@@ -23,7 +23,9 @@ async function getMemberById(req, res) {
             return res.status(404).json({ error: 'Membro não encontrado ou não pertence à ONG.' });
         }
 
-        res.status(200).json(data[0]);
+        const safe = { ...data[0] };
+        delete safe.senha;
+        res.status(200).json(safe);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Erro inesperado.' });

@@ -32,8 +32,10 @@ async function updateMember(req, res) {
             return res.status(404).json({ error: 'Membro não encontrado para atualização.' });
         }
 
-        console.log('[SUCESSO] Membro atualizado com sucesso:', data[0]);
-        res.status(200).json(data[0]);
+        const safe = { ...data[0] };
+        delete safe.senha;
+        console.log('[SUCESSO] Membro atualizado com sucesso:', safe);
+        res.status(200).json(safe);
 
     } catch (err) {
         console.error('[ERRO FATAL] Exceção não tratada no updateMember:', err.message);

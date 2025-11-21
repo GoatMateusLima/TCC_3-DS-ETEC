@@ -23,7 +23,7 @@ export function initAdotanteForm() {
     }
 
     try {
-      const res = await axios.post('https://tcc-3-ds-etec.onrender.com/adotante', {
+      const res = await axios.post('/adotante', {
         nome, cpf, email, senha, whatsapp, data_nascimento: dataNascimento
       });
       mostrarMensagem('sucesso', res.data.message || 'Adotante cadastrado.');
