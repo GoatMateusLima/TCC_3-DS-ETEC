@@ -96,37 +96,55 @@ async function initAnimais() {
         e.preventDefault();
         const form = e.target;
         const animalId = form.querySelector("#animal-id").value;
+        // Validações client-side
+        const nome = form.querySelector("#animal-nome").value.trim();
+        const especie = form.querySelector("#animal-especie").value.trim();
+        const idade = form.querySelector("#animal-idade").value;
+        const generoVal = form.querySelector("#animal-genero").value;
+        const statusVal = form.querySelector("#animal-status").value;
+
+        if (!nome || !especie || !idade || !generoVal || !statusVal) {
+            alert('Preencha todos os campos obrigatórios: nome, espécie, idade, sexo e status.');
+            return;
+        }
+
+        const img = form.querySelector("#animal-imagem").files[0];
+        if (!animalId && !img) {
+            // Ao criar um novo animal, imagem é obrigatória
+            alert('Imagem é obrigatória ao cadastrar um novo animal.');
+            return;
+        }
 
         const fd = new FormData();
         // Enviar ambos os nomes (id_ong e ong_id) por compatibilidade com o back-end
         fd.append("id_ong", ongId);
         fd.append("ong_id", ongId);
-        fd.append("nome", form.querySelector("#animal-nome").value);
-        fd.append("especie", form.querySelector("#animal-especie").value);
+        fd.append("nome", nome);
+        fd.append("especie", especie);
         fd.append("raca", form.querySelector("#animal-raca").value);
-        fd.append("idade", form.querySelector("#animal-idade").value);
+        fd.append("idade", idade);
         // Envia tanto 'sexo' quanto 'genero' para cobrir ambos os nomes
-        fd.append("sexo", form.querySelector("#animal-genero").value);
-        fd.append("genero", form.querySelector("#animal-genero").value);
+        fd.append("sexo", generoVal);
+        fd.append("genero", generoVal);
         fd.append("descricao", form.querySelector("#animal-descricao").value);
-        fd.append("status_adocao", form.querySelector("#animal-status").value);
+        fd.append("status_adocao", statusVal);
 
-        const img = form.querySelector("#animal-imagem").files[0];
         if (img) fd.append("imagem", img);
 
         try {
             if (animalId) {
-                await axios.put(`/pets/${animalId}`, fd);
-                alert("Animal atualizado!");
+                const resp = await axios.put(`/pets/${animalId}`, fd);
+                alert(resp.data?.message || "Animal atualizado!");
             } else {
-                await axios.post(`/pets`, fd);
-                alert("Animal cadastrado!");
+                const resp = await axios.post(`/pets`, fd);
+                alert(resp.data?.message || "Animal cadastrado!");
             }
             if (typeof fecharModal === 'function') fecharModal("modal-animal");
             carregarAnimais();
         } catch (err) {
             console.error("Erro ao salvar animal:", err);
-            alert("Falha ao salvar animal.");
+            const serverMsg = err.response?.data?.error || err.response?.data?.message || err.message;
+            alert("Falha ao salvar animal: " + serverMsg);
         }
     });
 
