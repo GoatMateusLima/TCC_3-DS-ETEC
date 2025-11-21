@@ -132,6 +132,15 @@ async function initAnimais() {
         if (img) fd.append("imagem", img);
 
         try {
+            // Debug: listar keys/values do FormData (não imprime conteúdo binário)
+            for (const pair of fd.entries()) {
+                if (pair[0] === 'imagem') {
+                    console.debug('[DEBUG] FormData ->', pair[0], 'file=', pair[1]?.name || '(file)');
+                } else {
+                    console.debug('[DEBUG] FormData ->', pair[0], pair[1]);
+                }
+            }
+
             if (animalId) {
                 const resp = await axios.put(`/pets/${animalId}`, fd);
                 alert(resp.data?.message || "Animal atualizado!");

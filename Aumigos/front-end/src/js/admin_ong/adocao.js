@@ -180,6 +180,7 @@ window.abrirModalNovaAdocao = async function() {
         if (!escolhaAdotante || !escolhaAnimal) return alert('Selecione um adotante e um animal.');
         try {
             const payload = { animal_id: escolhaAnimal.animal_id || escolhaAnimal.id, adotante_id: escolhaAdotante.adotante_id || escolhaAdotante.id };
+            console.debug('[DEBUG] Payload adocao ->', payload);
             await axios.post('/adocao', payload);
             alert('Adoção criada com sucesso.');
             modal.remove();
