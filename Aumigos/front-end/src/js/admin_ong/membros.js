@@ -121,7 +121,8 @@ async function abrirModalMembroParaEdicao(id) {
 async function excluirMembro(id) {
     if (confirm("Tem certeza que quer excluir este membro permanentemente?")) {
         try {
-            await axios.delete(`/members/${id}`);
+            const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
+            await axios.delete(`/members/${id}`, { data: { ong_id: ong.id, id_ong: ong.id } });
             alert("Membro excluído com sucesso!");
             carregarMembros();
         } catch (error) {

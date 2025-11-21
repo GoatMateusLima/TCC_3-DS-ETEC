@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function carregarAnimais() {
         tbody.innerHTML = '<tr><td colspan="8">Carregando animais...</td></tr>';
         try {
-            const res = await axios.get(`/pets?id_ong=${ongId}`);
+            const res = await axios.get(`/pets?ong_id=${ongId}`);
             const animais = res.data;
 
             if (!animais.length) {
@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         resetModal();
         document.getElementById("modal-animal").style.display = "flex";
     };
+
+    // liga botão + Adicionar Animal (presente no HTML)
+    const btnAdicionarAnimal = document.getElementById('btn-adicionar-animal');
+    if (btnAdicionarAnimal) btnAdicionarAnimal.addEventListener('click', () => window.abrirModalAnimal());
 
     // --- Abrir modal para edição ---
     window.editarAnimal = async (animalId) => {
@@ -83,12 +87,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const animalId = form.querySelector("#animal-id").value;
 
         const fd = new FormData();
+        // Enviar ambos os nomes (id_ong e ong_id) por compatibilidade com o back-end
         fd.append("id_ong", ongId);
+        fd.append("ong_id", ongId);
         fd.append("nome", form.querySelector("#animal-nome").value);
         fd.append("especie", form.querySelector("#animal-especie").value);
         fd.append("raca", form.querySelector("#animal-raca").value);
         fd.append("idade", form.querySelector("#animal-idade").value);
+        // Envia tanto 'sexo' quanto 'genero' para cobrir ambos os nomes
         fd.append("sexo", form.querySelector("#animal-genero").value);
+        fd.append("genero", form.querySelector("#animal-genero").value);
         fd.append("descricao", form.querySelector("#animal-descricao").value);
         fd.append("status_adocao", form.querySelector("#animal-status").value);
 
@@ -115,7 +123,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.excluirAnimal = async (id) => {
         if (!confirm("Deseja realmente excluir este animal?")) return;
         try {
-            await axios.delete(`/pets/${id}`, { data: { id_ong: ongId } });
+            // Envia 'ong_id' no corpo para o delete, compatível com o backend
+            await axios.delete(`/pets/${id}`, { data: { ong_id: ongId, id_ong: ongId } });
             alert("Animal removido!");
             carregarAnimais();
         } catch (err) {
@@ -125,5 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     // --- Inicializar ---
+    // expõe para que outros scripts possam recarregar a lista (ex: adocao.js)
+    window.carregarAnimais = carregarAnimais;
     carregarAnimais();
 });
