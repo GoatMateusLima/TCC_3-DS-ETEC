@@ -1,19 +1,6 @@
 // /src/js/admin_ong/animais.js
 document.addEventListener("DOMContentLoaded", async () => {
-    // --- validação de login da ONG ---
-    const ongJSON = localStorage.getItem("ongLogada");
-    if (!ongJSON) {
-        alert("ONG não logada.");
-        window.location.href = "/src/pages/login/login.html";
-        return;
-    }
-
-    const ong = JSON.parse(ongJSON);
-    if (!ong.id) {
-        alert("ONG logada sem ID válido.");
-        window.location.href = "/src/pages/login/login.html";
-        return;
-    }
+    
 
     // --- elementos da tabela e botão ---
     const tbody = document.querySelector("#tabela-animais tbody");
