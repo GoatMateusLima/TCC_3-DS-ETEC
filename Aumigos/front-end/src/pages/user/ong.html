@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/src/css/reset.css">
     <link rel="stylesheet" href="/src/css/pages/faq.css">
     <link rel="stylesheet" href="/src/css/pages/ong.css">
-    <link rel="srylesheet" href="/src/css/pages/o">
 </head>
 
 <body>
@@ -43,6 +42,7 @@
         </aside>
 
         <section class="container-info-faq">
+            <!-- Membros -->
             <section class="ong-parceira" id="Membros">
                 <h2>Membros da ONG</h2>
                 <input type="text" class="search-input" placeholder="Buscar membro..." onkeyup="filtrarTabela('tabela-membros', this.value)">
@@ -63,10 +63,11 @@
                 </table>
             </section>
 
+            <!-- Animais -->
             <section class="sobre-projetos" id="Animais">
                 <h2>Animais para Adoção</h2>
                 <input type="text" class="search-input" placeholder="Buscar animal..." onkeyup="filtrarTabela('tabela-animais', this.value)">
-                <button class="btn btn-verde" onclick="abrirModalAnimal()">+ Adicionar Animal</button>
+                <button id="btn-adicionar-animal" class="btn btn-verde">+ Adicionar Animal</button>
                 <table class="dashboard-table" id="tabela-animais">
                     <thead>
                         <tr>
@@ -84,6 +85,7 @@
                 </table>
             </section>
 
+            <!-- Adoções -->
             <section class="projetos-sociais" id="Adocao">
                 <h2>Adoções em Andamento</h2>
                 <table class="dashboard-table" id="tabela-adocoes">
@@ -101,6 +103,7 @@
                 </table>
             </section>
 
+            <!-- Dados da ONG -->
             <section class="faq" id="Dados">
                 <h2>Dados da ONG</h2>
                 <div class="dados-ong">
@@ -113,6 +116,52 @@
             </section>
         </section>
     </main>
+
+    <!-- Modal Animal -->
+    <div class="modal" id="modal-animal" style="display:none;">
+        <div class="modal-content">
+            <h3>Adicionar / Editar Animal</h3>
+            <form id="form-animal">
+                <input type="hidden" id="animal-id" name="animal-id">
+                <label for="animal-nome">Nome *</label>
+                <input type="text" id="animal-nome" name="nome" required>
+                
+                <label for="animal-especie">Espécie *</label>
+                <input type="text" id="animal-especie" name="especie" required>
+
+                <label for="animal-raca">Raça</label>
+                <input type="text" id="animal-raca" name="raca">
+
+                <label for="animal-idade">Idade *</label>
+                <input type="number" id="animal-idade" name="idade" required>
+
+                <label for="animal-genero">Sexo *</label>
+                <select id="animal-genero" name="genero" required>
+                    <option value="M">M</option>
+                    <option value="F">F</option>
+                </select>
+
+                <label for="animal-status">Status *</label>
+                <select id="animal-status" name="status_adocao" required>
+                    <option value="disponivel">Disponível</option>
+                    <option value="em processo">Em processo</option>
+                    <option value="concluido">Concluído</option>
+                </select>
+
+                <label for="animal-descricao">Descrição</label>
+                <textarea id="animal-descricao" name="descricao"></textarea>
+
+                <label id="animal-imagem-label" for="animal-imagem">Imagem *</label>
+                <input type="file" id="animal-imagem" name="imagem" accept="image/*">
+                <div id="animal-imagem-url-display" style="display:none; font-size:0.9rem; margin-top:4px; color:#ccc;"></div>
+
+                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
+                    <button type="button" onclick="document.getElementById('modal-animal').style.display='none';" class="btn">Cancelar</button>
+                    <button type="submit" class="btn btn-verde">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <footer class="rodape">
         <div class="rodape-div">
@@ -145,7 +194,7 @@
     <script src="/src/js/admin_ong/ong.js"></script>
     <script src="/src/js/admin_ong/membros.js"></script>
     <script src="/src/js/admin_ong/animais.js"></script>
-    <script src="/src/js/admin_ong/adocoes.js"></script>    
+    <script src="/src/js/admin_ong/adocoes.js"></script>
     <script src="/src/js/admin_ong/funcoes_gerais.js"></script>
 </body>
 </html>
