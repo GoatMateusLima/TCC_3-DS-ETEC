@@ -1,10 +1,9 @@
 function verificarConta() {
-    const usuario = JSON.parse(localStorage.getItem("usuarioAtual"));
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
 
     // Se não tem ninguém logado → login
-
     if (!usuario || !usuario.tipo) {
-        window.location.href = "/src/pages/login.html";
+        window.location.href = "/src/pages/login/login.html";
         return;
     }
 
@@ -22,7 +21,7 @@ function verificarConta() {
             break;
 
         default:
-            window.location.href = "/src/pages/login.html";
+            window.location.href = "/src/pages/login/login.html";
             break;
     }
 }

@@ -15,16 +15,20 @@ async function fazerLogin(event) {
             return;
         }
 
-        // 🔥 SALVAR TODO O USUÁRIO — NADA DE PICOTAR
+        // SALVA TUDO - COMPLETO
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
         alert(data.message);
 
-        // 🔥 REDIRECIONAMENTO
-        if (data.tipo === 'ong') {
+        // REDIRECIONA USANDO O CAMINHO CERTO: data.usuario.tipo
+        if (data.usuario.tipo === 'ong') {
             window.location.href = '/src/pages/user/ong.html';
-        } else if (data.tipo === 'adotante') {
+
+        } else if (data.usuario.tipo === 'adotante') {
             window.location.href = '/index.html';
+
+        } else if (data.usuario.tipo === 'membro') {
+            window.location.href = '/src/pages/user/membro_ong.html';
         }
 
     } catch (error) {
