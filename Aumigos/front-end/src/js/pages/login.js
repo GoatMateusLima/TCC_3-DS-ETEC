@@ -11,11 +11,13 @@ async function fazerLogin(event) {
         // ✅ Salvando informações do usuário no localStorage
         localStorage.setItem('usuarioAtual', JSON.stringify({
             tipo: data.tipo,
-            info: data.usuario
+            nome: data.usuario.nome
         }));
 
         if (data.tipo === 'ong') {
-            localStorage.setItem('ongLogada', JSON.stringify(data.usuario));
+            localStorage.setItem('ongLogada', JSON.stringify({
+                nome: data.usuario.nome
+            }));
         }
 
         alert(data.message);
