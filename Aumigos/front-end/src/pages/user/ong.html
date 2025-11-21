@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel ADMIN ONG</title>
+    <link rel="shortcut icon" href="../../assets/img/ico/Icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/globais.css">
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/pages/faq.css">
+    <link rel="stylesheet" href="../../css/pages/ong.css">
+</head>
+
+<body>
+
+    <header>
+        <a href="/" class="logo-link">
+            <figure class="logo">
+                <img src="../../assets/img/2.webp" alt="Logo Aumigos">
+            </figure>
+        </a>
+        <nav class="navegacao">
+            <a id="btn-conta-desktop" href="javascript:void(0)">Conta</a>
+            <a href="/dashboard">Quero adotar</a>
+        </nav>
+    </header>
+
+    <main class="corpo-faq">
+        <aside class="menu-faq">
+            <section class="links-faq">
+                <h1 class="ong-name">Carregando...</h1>
+                <ul class="lista-faq">
+                    <li><a href="#" data-target="Membros" class="faq-link active">Membros</a></li>
+                    <li><a href="#" data-target="Animais" class="faq-link">Animais</a></li>
+                    <li><a href="#" data-target="Adocao" class="faq-link">Adoções</a></li>
+                    <li><a href="#" data-target="Dados" class="faq-link">Dados da ONG</a></li>
+                </ul>
+                <button onclick="logout()"
+                    style="margin-top: 20px; padding: 10px; width: 100%; background: #e74c3c; color: white; border: none; border-radius: 6px;">Sair</button>
+            </section>
+        </aside>
+
+        <section class="container-info-faq">
+
+            <section class="ong-parceira" id="Membros">
+                <h2>Membros da ONG</h2>
+                <input type="text" class="search-input" placeholder="Buscar membro..."
+                    onkeyup="filtrarTabela('tabela-membros', this.value)">
+                <button class="btn" style="background:#27ae60;color:white;" onclick="abrirModalMembro()">+
+                    Adicionar Membro</button>
+
+                <table class="dashboard-table" id="tabela-membros">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Email</th>
+                            <th>WhatsApp</th>
+                            <th>Função</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section class="sobre-projetos" id="Animais">
+                <h2>Animais para Adoção</h2>
+                <input type="text" class="search-input" placeholder="Buscar animal..."
+                    onkeyup="filtrarTabela('tabela-animais', this.value)">
+                <button class="btn" style="background:#27ae60;color:white;" onclick="abrirModalAnimal()">+
+                    Adicionar Animal</button>
+
+                <table class="dashboard-table" id="tabela-animais">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Espécie</th>
+                            <th>Raça</th>
+                            <th>Idade</th>
+                            <th>Sexo</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+            <section class="projetos-sociais" id="Adocao">
+                <h2>Adoções em Andamento</h2>
+                <table class="dashboard-table" id="tabela-adocoes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Animal</th>
+                            <th>Adotante</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </section>
+            <section class="faq" id="Dados">
+                <h2>Dados da ONG</h2>
+                <div style="background:#333; padding:20px; border-radius:8px; color:white;">
+                    <p><strong>Nome:</strong> <span id="ong-nome">Carregando...</span></p>
+                    <p><strong>Email:</strong> <span id="ong-email">-</span></p>
+                    <p><strong>CNPJ:</strong> <span id="ong-cnpj">-</span></p>
+                    <p><strong>WhatsApp:</strong> <span id="ong-whatsapp">-</span></p>
+                    <button class="btn btn-edit" onclick="alert('Em breve: edição dos dados da ONG')">Editar
+                        Dados</button>
+                </div>
+            </section>
+            </section>
+    </main>
+
+    <div class="modal" id="modal-membro">
+        <div class="modal-content">
+            <h3>Adicionar / Editar Membro</h3>
+            <form onsubmit="salvarMembro(event)">
+                <input type="hidden" id="membro-id">
+
+                <label for="membro-nome">Nome *</label>
+                <input type="text" placeholder="Nome completo" id="membro-nome" required>
+
+                <label for="membro-cpf">CPF *</label>
+                <input type="text" placeholder="CPF" id="membro-cpf" required>
+
+                <label for="membro-email">Email *</label>
+                <input type="email" placeholder="Email" id="membro-email" required>
+
+                <label for="membro-senha" id="membro-senha-label">Senha *</label>
+                <input type="password" id="membro-senha"
+                    placeholder="Deixe em branco para manter a senha atual (na edição)" required>
+
+                <label for="membro-whatsapp">WhatsApp *</label>
+                <input type="text" placeholder="WhatsApp" id="membro-whatsapp" required>
+
+                <label for="membro-funcao">Função *</label>
+                <input type="text" placeholder="Função" id="membro-funcao" required>
+
+                <button type="submit"
+                    style="background:#27ae60;color:white;width:100%;padding:12px;margin-top:10px;">Salvar</button>
+                <button type="button" onclick="fecharModal('modal-membro')"
+                    style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:10px;">Cancelar</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="modal-animal">
+        <div class="modal-content">
+            <h3>Adicionar / Editar Animal</h3>
+            <form id="form-animal" onsubmit="salvarAnimal(event)" enctype="multipart/form-data"> 
+                <input type="hidden" id="animal-id">
+
+                <label for="animal-nome">Nome *</label>
+                <input type="text" placeholder="Nome do animal" id="animal-nome" required>
+
+                <label for="animal-especie">Espécie *</label>
+                <input type="text" placeholder="Espécie (cão/gato)" id="animal-especie" required>
+
+                <label for="animal-raca">Raça</label>
+                <input type="text" placeholder="Raça" id="animal-raca">
+
+                <label for="animal-idade">Idade *</label>
+                <input type="text" placeholder="Idade (ex: 2 anos)" id="animal-idade" required>
+
+                <label for="animal-genero">Gênero *</label>
+                <select id="animal-genero" required> 
+                    <option value="">Selecione</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Fêmea">Fêmea</option>
+                </select>
+                
+                <label for="animal-status">Status de Adoção *</label>
+                <select id="animal-status" required>
+                    <option value="disponivel">Disponível</option>
+                    <option value="reservado">Reservado</option>
+                    <option value="adotado">Adotado</option>
+                </select>
+                
+                <label for="animal-descricao">Descrição</label>
+                <textarea placeholder="Detalhes e histórico do animal" id="animal-descricao" rows="3"></textarea>
+
+                <label for="animal-imagem" id="animal-imagem-label">Imagem *</label>
+                <input type="file" id="animal-imagem" name="imagem" accept="image/*">
+                <p id="animal-imagem-url-display" style="margin-top: 5px; font-size: 0.9em; display:none;"></p>
+                
+
+                <button type="submit"
+                    style="background:#27ae60;color:white;width:100%;padding:12px;margin-top:20px;">Salvar Animal</button>
+                <button type="button" onclick="fecharModal('modal-animal')"
+                    style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:10px;">Cancelar</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="modal-adocao-detalhes">
+        <div class="modal-content">
+            <h3>Detalhes da Adoção #<span id="adocao-id-detalhes"></span></h3>
+            <div id="adocao-detalhes-body">
+                <p><strong>Animal:</strong> <span id="detalhe-animal-nome"></span></p>
+                <p><strong>Adotante:</strong> <span id="detalhe-adotante-nome"></span></p>
+                <p><strong>CPF:</strong> <span id="detalhe-adotante-cpf"></span></p>
+                <p><strong>Data da Solicitação:</strong> <span id="detalhe-data-solicitacao"></span></p>
+                <p><strong>Status Atual:</strong> <span id="detalhe-status-atual"></span></p>
+                <hr>
+                <h4>Ações</h4>
+                <div id="adocao-acoes">
+                    </div>
+            </div>
+            
+            <button type="button" onclick="fecharModal('modal-adocao-detalhes')"
+                style="background:#95a5a6;color:white;width:100%;padding:12px;margin-top:20px;">Fechar</button>
+        </div>
+    </div>
+    <footer class="rodape">
+        <div class="rodape-div">
+            <div class="rodape-div-1">
+                <div class="rodape-div-1-coluna"><span><b>AUMIGOS</b></span>
+                    <p>Reunimos amantes de animais e ONGs em um só lugar.</p>
+                </div>
+            </div>
+            <div class="rodape-div-2">
+                <div class="rodape-div-2-coluna"><span><b>Contatos</b></span><a
+                        href="mailto:aumigosparasempre24@gmail.com">aumigosparasempre24@gmail.com</a>
+                    <p>+55 63 99200-0000</p>
+                </div>
+            </div>
+            <div class="rodape-div-3">
+                <div class="rodape-div-3-coluna"><span><b>Links</b></span>
+                    <p><a href="/">Home</a></p>
+                </div>
+            </div>
+            <div class="rodape-div-4">
+                <div class="rodape-div-4-coluna"><span><b>Outros</b></span>
+                    <p>Políticas de Privacidade</p>
+                </div>
+            </div>
+        </div>
+        <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../../js/pages/admin_ong/ong.js"></script>
+    <script src="../../js/pages/admin_ong/membros.js"></script>
+    <script src="../../js/pages/admin_ong/animais.js"></script>
+    <script src="../../js/pages/admin_ong/adocao.js"></script>
+    <script src="../../js/admin_ong/funcoes_gerais.js"></script>
+
+    <script src="../../js/global/menu.js"></script>
+    <script src="../../js/global/verificacao_login.js"></script>
+</body>
+
+</html>
