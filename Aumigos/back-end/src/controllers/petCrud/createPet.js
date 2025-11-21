@@ -16,6 +16,11 @@ async function createPet(req, res) {
     const ong_id = body_ong_id || id_ong || req.body.ongId || null; 
     const genero_final = genero || sexo;
     const data_entrada = new Date();
+
+    // Debug temporário: informar o que chegaria ao servidor (ajuda a diagnosticar deploy)
+    console.debug('[DEBUG createPet] req.body keys:', Object.keys(req.body));
+    console.debug('[DEBUG createPet] parsed values:', { ong_id, nome, especie, genero_final });
+    if (file) console.debug('[DEBUG createPet] req.file info:', { originalname: file.originalname, mimetype: file.mimetype, size: file.size });
     
     let petCriado = null;
     let urlImagem = null; 
