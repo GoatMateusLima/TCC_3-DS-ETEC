@@ -10,19 +10,17 @@ async function fazerLogin(event) {
 
         console.log("LOGIN RECEBIDO:", data);
 
-        if (!data.usuario || !data.usuario.id) {
-            alert("Erro: backend não está enviando ID.");
+        if (!data.usuario) {
+            alert("Erro: backend não enviou usuário.");
             return;
         }
 
-        localStorage.setItem('usuario', JSON.stringify({
-            tipo: data.tipo,
-            id: data.usuario.id,
-            nome: data.usuario.nome
-        }));
+        // 🔥 SALVAR TODO O USUÁRIO — NADA DE PICOTAR
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
 
         alert(data.message);
 
+        // 🔥 REDIRECIONAMENTO
         if (data.tipo === 'ong') {
             window.location.href = '/src/pages/user/ong.html';
         } else if (data.tipo === 'adotante') {
