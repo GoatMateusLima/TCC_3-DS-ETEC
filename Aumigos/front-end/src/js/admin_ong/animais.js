@@ -1,6 +1,8 @@
-// animais.js — VERSÃO FINAL FUNCIONANDO (igual ao login)
+// animais.js — VERSÃO ATUALIZADA
 
 document.getElementById('form-animal').addEventListener('submit', salvarAnimal);
+
+let listaAnimais = [];
 
 /**
  * Carrega a lista de animais do backend.
@@ -9,14 +11,19 @@ async function carregarAnimais() {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
     const tbody = document.querySelector("#tabela-animais tbody");
     if (!tbody || !ong.id) return;
-    
+
     tbody.innerHTML = '<tr><td colspan="8">Carregando animais...</td></tr>';
 
     try {
         const response = await axios.get(`https://tcc-3-ds-etec.onrender.com/pets?id_ong=${ong.id}`); 
-        const animais = response.data;
+        listaAnimais = response.data || [];
 
-        tbody.innerHTML = animais.map(a => `
+        if (listaAnimais.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8">Nenhum animal cadastrado.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = listaAnimais.map(a => `
             <tr>
                 <td>${a.animal_id}</td>
                 <td>${a.nome}</td>
@@ -32,14 +39,21 @@ async function carregarAnimais() {
             </tr>
         `).join("");
 
-        if (animais.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8">Nenhum animal cadastrado.</td></tr>';
-        }
-
     } catch (error) {
         console.error("Erro ao carregar animais:", error);
         tbody.innerHTML = '<tr><td colspan="8">Erro ao carregar animais.</td></tr>';
     }
+}
+
+/**
+ * Filtra a tabela de animais pelo termo passado.
+ */
+function filtrarAnimais(termo) {
+    const filtro = termo.toLowerCase();
+    const linhas = document.querySelectorAll("#tabela-animais tbody tr");
+    linhas.forEach(linha => {
+        linha.style.display = linha.textContent.toLowerCase().includes(filtro) ? '' : 'none';
+    });
 }
 
 /**
@@ -50,9 +64,8 @@ async function salvarAnimal(e) {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
     const animalId = document.getElementById("animal-id").value;
     const form = e.target;
-    
+
     const formData = new FormData();
-    
     formData.append('id_ong', ong.id);
     formData.append('nome', form.querySelector("#animal-nome").value);
     formData.append('especie', form.querySelector("#animal-especie").value);
@@ -63,9 +76,8 @@ async function salvarAnimal(e) {
     formData.append('status_adocao', form.querySelector("#animal-status").value);
 
     const imagemFile = form.querySelector("#animal-imagem").files[0];
-    if (imagemFile) {
-        formData.append('imagem', imagemFile);
-    } else if (!animalId) {
+    if (imagemFile) formData.append('imagem', imagemFile);
+    else if (!animalId) {
         alert("A imagem do animal é obrigatória para o cadastro.");
         return;
     }
@@ -80,8 +92,7 @@ async function salvarAnimal(e) {
         }
 
         fecharModal("modal-animal");
-        carregarAnimais(); 
-
+        carregarAnimais();
     } catch (error) {
         console.error("Erro ao salvar animal:", error.response || error);
         const msg = error.response?.data?.error || "Erro desconhecido ao salvar animal.";
@@ -89,24 +100,29 @@ async function salvarAnimal(e) {
     }
 }
 
+/**
+ * Abre o modal para cadastro de um novo animal
+ */
 function abrirModalAnimal() {
     document.getElementById("animal-id").value = "";
     document.getElementById("animal-status").value = 'disponivel';
     document.getElementById("animal-imagem-url-display").style.display = 'none';
     document.getElementById("animal-imagem-label").textContent = "Imagem *";
     document.getElementById("animal-imagem").required = true;
-
+    document.getElementById("form-animal").reset();
     abrirModal("modal-animal");
 }
 
+/**
+ * Abre o modal para edição de um animal existente
+ */
 async function abrirModalAnimalParaEdicao(id) {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
-    
     try {
         const response = await axios.get(`https://tcc-3-ds-etec.onrender.com/pets/${id}?ong_id=${ong.id}`);
-        const animal = response.data.pet; 
+        const animal = response.data.pet;
 
-        document.getElementById("animal-id").value = animal.animal_id; 
+        document.getElementById("animal-id").value = animal.animal_id;
         document.getElementById("animal-nome").value = animal.nome;
         document.getElementById("animal-especie").value = animal.especie;
         document.getElementById("animal-raca").value = animal.raca || '';
@@ -114,15 +130,15 @@ async function abrirModalAnimalParaEdicao(id) {
         document.getElementById("animal-genero").value = animal.sexo;
         document.getElementById("animal-descricao").value = animal.descricao || '';
         document.getElementById("animal-status").value = animal.status_adocao;
-        
+
         const linkImg = animal.link_img || 'Nenhuma imagem cadastrada.';
         document.getElementById("animal-imagem-url-display").textContent = linkImg;
         document.getElementById("animal-imagem-url-display").style.display = 'block';
-        
+
         document.getElementById("animal-imagem-label").textContent = "Alterar Imagem";
         document.getElementById("animal-imagem").required = false;
         document.getElementById("animal-imagem").value = '';
-        
+
         abrirModal("modal-animal");
     } catch (error) {
         console.error("Erro ao carregar animal:", error);
@@ -130,18 +146,36 @@ async function abrirModalAnimalParaEdicao(id) {
     }
 }
 
+/**
+ * Exclui um animal
+ */
 async function excluirAnimal(id) {
-    if (confirm("Excluir animal permanentemente? Isso também removerá a imagem do Storage.")) {
-        const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
-        try {
-            await axios.delete(`https://tcc-3-ds-etec.onrender.com/pets/${id}`, {
-                data: { id_ong: ong.id }
-            });
-            alert("Animal removido com sucesso!");
-            carregarAnimais(); 
-        } catch (error) {
-            console.error("Erro ao excluir:", error.response || error);
-            alert("Erro ao excluir animal.");
-        }
+    if (!confirm("Excluir animal permanentemente? Isso também removerá a imagem do Storage.")) return;
+    const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
+    try {
+        await axios.delete(`https://tcc-3-ds-etec.onrender.com/pets/${id}`, {
+            data: { id_ong: ong.id }
+        });
+        alert("Animal removido com sucesso!");
+        carregarAnimais();
+    } catch (error) {
+        console.error("Erro ao excluir:", error.response || error);
+        alert("Erro ao excluir animal.");
     }
 }
+
+/**
+ * Função global para abrir modal flexível
+ */
+function abrirModal(idModal) {
+    const modal = document.getElementById(idModal);
+    if (modal) modal.style.display = 'flex';
+}
+
+function fecharModal(idModal) {
+    const modal = document.getElementById(idModal);
+    if (modal) modal.style.display = 'none';
+}
+
+// --- Carrega os animais ao abrir a página ---
+carregarAnimais();
