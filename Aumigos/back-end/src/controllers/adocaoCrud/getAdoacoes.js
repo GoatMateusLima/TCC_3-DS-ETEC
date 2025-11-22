@@ -1,28 +1,103 @@
 const supabase = require('../../config/dbClient');
 
-async function getAdoacoes(req, res) {
+async function getAdocao(req, res) {
     try {
-        const ong_id = req.query.ong_id;
+        const idParam = req.params.id;
 
-        // Busca adocaos com os relacionamentos de animal e adotante
-        const { data, error } = await supabase
-            .from('adocao')
-            .select('*, animal(*), adotante(*)')
-            .order('data_adocao', { ascending: false });
+        // ========================
+        // BUSCAR ADOÇÃO POR ID
+        // ========================
+        if (idParam) {
+            const adocao_id = Number(idParam);
 
-        if (error) return res.status(500).json({ error: 'Erro ao buscar adoções.', details: error });
+            const { data, error } = await supabase
+                .from('adocao')
+                .select(`
+                    adocao_id,
+                    data_adocao,
+                    status,
+                    ong_id,
+                    animal:animal_id (
+                        animal_id,
+                        nome,
+                        especie,
+                        raca,
+                        sexo,
+                        link_img,
+                        ong_id
+                    ),
+                    adotante:adotante_id (
+                        adotante_id,
+                        nome,
+                        email,
+                        telefone
+                    )
+                `)
+                .eq('adocao_id', adocao_id)
+                .single();
 
-        // Se fornecer ong_id, filtra pela ong através do animal.ong_id
-        let filtered = data;
-        if (ong_id) {
-            filtered = data.filter(a => a.animal && String(a.animal.ong_id) === String(ong_id));
+            if (error || !data) {
+                console.error('[ERRO getAdocao - fetch single]', error);
+                return res.status(404).json({ error: 'Adoção não encontrada.' });
+            }
+
+            return res.status(200).json({ adocao: data });
         }
 
-        res.status(200).json(filtered);
+        // ========================
+        // LISTAR ADOÇÕES
+        // ========================
+
+        const ong_id = req.query.ong_id ? Number(req.query.ong_id) : null;
+
+        let query = supabase
+            .from('adocao')
+            .select(`
+                adocao_id,
+                data_adocao,
+                status,
+                ong_id,
+                animal:animal_id (
+                    animal_id,
+                    nome,
+                    especie,
+                    raca,
+                    sexo,
+                    link_img,
+                    ong_id
+                ),
+                adotante:adotante_id (
+                    adotante_id,
+                    nome,
+                    email,
+                    whatsapp
+                )
+            `);
+
+        // AGORA FUNCIONA → porque ong_id existe na tabela adoção
+        if (ong_id) {
+            query = query.eq('ong_id', ong_id);
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+            console.error('[ERRO getAdocao - list]', error);
+            return res.status(500).json({
+                error: 'Erro ao listar adoções.',
+                details: error.message
+            });
+        }
+
+        return res.status(200).json({ adocoes: data || [] });
+
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro interno ao buscar adoções.' });
+        console.error('[ERRO getAdocao - unexpected]', err);
+        return res.status(500).json({
+            error: 'Erro interno ao buscar adoções.',
+            details: err.message
+        });
     }
 }
 
-module.exports = getAdoacoes;
+module.exports = getAdocao;

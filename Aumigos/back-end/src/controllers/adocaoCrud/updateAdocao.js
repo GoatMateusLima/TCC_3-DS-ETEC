@@ -2,38 +2,49 @@ const supabase = require('../../config/dbClient');
 
 async function updateAdocao(req, res) {
     try {
-        const { id } = req.params;
-        const { status } = req.body; // 'aprovado' ou 'recusado'
+        const idParam = req.params.id;
+        const status = String(req.body.status || '').trim();
 
-        if (!status || !['aprovado', 'recusado'].includes(status)) {
-            return res.status(400).json({ error: 'Status inválido.' });
+        if (!idParam || !status) {
+            return res.status(400).json({ error: 'Campos obrigatórios faltando: adocao_id (via rota) e status (no body).' });
         }
 
-        // 1. Busca registro de adoção
-        const { data: adocao, error: fetchError } = await supabase
-            .from('adocao')
-            .select('animal_id')
-            .eq('adocao_id', id)
-            .single();
+        const adocao_id = Number(idParam);
 
-        if (fetchError || !adocao) return res.status(404).json({ error: 'Adoção não encontrada.' });
-
-        // 2. Atualiza status da adoção
-        const { error: updateError } = await supabase
+        // Atualiza a adoção (e pega a linha atualizada)
+        const { data: adocaoRows, error: updateError } = await supabase
             .from('adocao')
             .update({ status })
-            .eq('adocao_id', id);
+            .eq('adocao_id', adocao_id)
+            .select()
+            .limit(1);
 
-        if (updateError) return res.status(500).json({ error: 'Erro ao atualizar adoção.' });
+        if (updateError) {
+            console.error('[ERRO updateAdocao - update]', updateError);
+            return res.status(500).json({ error: 'Erro ao atualizar adoção.', details: updateError.message });
+        }
 
-        // 3. Atualiza status do pet
-        const novoStatus = status === 'aprovado' ? 'adotado' : 'disponível';
-        await supabase.from('animal').update({ status: novoStatus }).eq('animal_id', adocao.animal_id);
+        if (!adocaoRows || adocaoRows.length === 0) {
+            return res.status(404).json({ error: 'Adoção não encontrada para atualizar.' });
+        }
 
-        res.status(200).json({ message: 'Adoção atualizada com sucesso.' });
+        const adocao = adocaoRows[0];
+
+        // Atualiza o status do animal vinculado
+        const { error: animalError } = await supabase
+            .from('animal')
+            .update({ status })
+            .eq('animal_id', adocao.animal_id);
+
+        if (animalError) {
+            console.error('[ERRO updateAdocao - update animal]', animalError);
+            return res.status(500).json({ error: 'Erro ao atualizar status do animal.', details: animalError.message });
+        }
+
+        return res.status(200).json({ message: 'Adoção atualizada com sucesso!', adocao });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erro interno ao atualizar adoção.' });
+        console.error('[ERRO updateAdocao - unexpected]', err);
+        return res.status(500).json({ error: 'Erro interno ao atualizar adoção.', details: err.message });
     }
 }
 

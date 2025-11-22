@@ -2,8 +2,9 @@ const supabase = require('../../config/dbClient');
 
 async function createAdocao(req, res) {
     try {
-        // Espera campos conforme schema Supabase: animal_id e adotante_id
-        const { animal_id, adotante_id } = req.body;
+        // Validação básica
+        const animal_id = Number(req.body.animal_id);
+        const adotante_id = Number(req.body.adotante_id);
 
         console.debug('[DEBUG createAdocao] req.body keys:', Object.keys(req.body));
 
@@ -11,25 +12,40 @@ async function createAdocao(req, res) {
             return res.status(400).json({ error: 'Campos obrigatórios faltando: animal_id e adotante_id.' });
         }
 
-        // 1. Verifica se o pet já está em adoção
-        // Seleciona tanto status_adocao quanto status para lidar com variações de schema
-        const { data: pet, error: petError } = await supabase
+        // 0. Verifica existência do animal (evita FK violation surpreendente)
+        const { data: animalExists, error: animalErr } = await supabase
             .from('animal')
-            .select('animal_id, status_adocao, status')
+            .select('animal_id, status')
             .eq('animal_id', animal_id)
-            .single();
+            .limit(1);
 
-        if (petError) return res.status(400).json({ error: 'Erro ao buscar pet.' });
+        if (animalErr) {
+            console.error('[ERRO createAdocao - check animal]', animalErr);
+            return res.status(500).json({ error: 'Erro ao verificar animal.', details: animalErr.message });
+        }
+        if (!animalExists || animalExists.length === 0) {
+            return res.status(404).json({ error: 'Animal não encontrado.' });
+        }
 
-        const currentStatus = pet.status_adocao || pet.status || null;
-        if (currentStatus === 'adotado' || currentStatus === 'em análise') {
-            return res.status(400).json({ error: 'Pet já está em processo de adoção ou adotado.' });
+        // 1. Verifica se já existe adoção para este animal (usa limit(1) — evita maybeSingle)
+        const { data: existing, error: checkError } = await supabase
+            .from('adocao')
+            .select('adocao_id, status')
+            .eq('animal_id', animal_id)
+            .limit(1);
+
+        if (checkError) {
+            console.error('[ERRO createAdocao - check existing]', checkError);
+            return res.status(500).json({ error: 'Erro ao verificar adoção existente.', details: checkError.message });
+        }
+        if (existing && existing.length > 0) {
+            return res.status(400).json({ error: 'Este animal já possui uma adoção registrada.', status: existing[0].status });
         }
 
         // 2. Cria registro de adoção
         const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
-        const { data, error } = await supabase
+        const { data: insertData, error: insertError } = await supabase
             .from('adocao')
             .insert([{
                 animal_id,
@@ -37,21 +53,37 @@ async function createAdocao(req, res) {
                 data_adocao: today,
                 status: 'em análise'
             }])
-            .select();
+            .select(); // retorna o que foi inserido
 
-        if (error) return res.status(500).json({ error: 'Erro ao criar adoção.', details: error });
-
-        // 3. Atualiza status do animal — atualiza a coluna existente (status_adocao ou status)
-        if ('status_adocao' in pet) {
-            await supabase.from('animal').update({ status_adocao: 'em análise' }).eq('animal_id', animal_id);
-        } else {
-            await supabase.from('animal').update({ status: 'em análise' }).eq('animal_id', animal_id);
+        if (insertError) {
+            console.error('[ERRO createAdocao - insert]', insertError);
+            return res.status(500).json({ error: 'Erro ao criar adoção.', details: insertError.message });
         }
 
-        res.status(201).json({ message: 'Adoção criada com sucesso!', adocao: data[0] });
+        const created = Array.isArray(insertData) ? insertData[0] : insertData;
+
+        // 3. Atualiza status do animal; se falhar, remove a adoção criada (rollback simples)
+        const { error: updateError } = await supabase
+            .from('animal')
+            .update({ status: 'em análise' })
+            .eq('animal_id', animal_id);
+
+        if (updateError) {
+            // rollback simples: remove a adoção criada
+            console.error('[ERRO createAdocao - update animal]', updateError);
+            try {
+                await supabase.from('adocao').delete().eq('adocao_id', created.adocao_id);
+                console.warn('[ROLLBACK] adocao removida após falha ao atualizar animal:', created.adocao_id);
+            } catch (rbErr) {
+                console.error('[ROLLBACK FAILED] não foi possível remover adocao criada:', rbErr);
+            }
+            return res.status(500).json({ error: 'Erro ao atualizar status do animal.', details: updateError.message });
+        }
+
+        return res.status(201).json({ message: 'Adoção criada com sucesso!', adocao: created });
     } catch (err) {
-        console.error('[ERRO createAdocao]', err);
-        res.status(500).json({ error: 'Erro interno ao criar adoção.' });
+        console.error('[ERRO createAdocao - unexpected]', err);
+        return res.status(500).json({ error: 'Erro interno ao criar adoção.', details: err.message });
     }
 }
 
