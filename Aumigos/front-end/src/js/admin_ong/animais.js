@@ -116,18 +116,12 @@ async function initAnimais() {
         }
 
         const fd = new FormData();
-        // Enviar ambos os nomes (id_ong e ong_id) por compatibilidade com o back-end
-        fd.append("id_ong", ongId);
         fd.append("ong_id", ongId);
         fd.append("nome", nome);
         fd.append("especie", especie);
         fd.append("raca", form.querySelector("#animal-raca").value);
-        fd.append("idade", idade);
-        // Envia tanto 'sexo' quanto 'genero' para cobrir ambos os nomes
         fd.append("sexo", generoVal);
-        fd.append("genero", generoVal);
         fd.append("descricao", form.querySelector("#animal-descricao").value);
-        fd.append("status_adocao", statusVal);
 
         if (img) fd.append("imagem", img);
 

@@ -1,62 +1,43 @@
 const db = require('../../config/dbClient');
-const { uploadPetImage } = require('../../services/supabaseService'); // CAMINHO CORRIGIDO
+const { uploadPetImage } = require('../../services/supabaseService');
 
 async function createPet(req, res) {
     console.log('[INFO] Requisição recebida para criação de Pet com Imagem');
 
-    // Assumimos que o Multer processou o arquivo e está em req.file
-    const file = req.file; 
+    const file = req.file;
+    let { id_ong, ong_id: body_ong_id, nome, especie, raca, sexo, descricao } = req.body;
 
-    // Mapeamento dos campos do frontend para o SQL
-    let { 
-        id_ong, ong_id: body_ong_id, nome, especie, raca, idade, genero, sexo, descricao, status_adocao 
-    } = req.body;
-    
-    // Nomes alinhados ao SQL - aceita tanto 'id_ong' quanto 'ong_id'
-    const ong_id = body_ong_id || id_ong || req.body.ongId || null; 
-    const genero_final = genero || sexo;
+    const ong_id = body_ong_id || id_ong || req.body.ongId || null;
     const data_entrada = new Date();
 
-    // Debug temporário: informar o que chegaria ao servidor (ajuda a diagnosticar deploy)
     console.debug('[DEBUG createPet] req.body keys:', Object.keys(req.body));
-    console.debug('[DEBUG createPet] parsed values:', { ong_id, nome, especie, genero_final });
+    console.debug('[DEBUG createPet] parsed values:', { ong_id, nome, especie, raca, sexo });
     if (file) console.debug('[DEBUG createPet] req.file info:', { originalname: file.originalname, mimetype: file.mimetype, size: file.size });
-    
+
     let petCriado = null;
-    let urlImagem = null; 
 
     try {
-        // 1. Validação de Campos
-        // descricao não é obrigatória: aceita string vazia
-        if (!ong_id || !nome || !especie || !genero_final || !file) {
-            console.error('[ERRO] Campos obrigatórios faltando.');
-            return res.status(400).json({ error: 'Campos obrigatórios faltando: ong_id, nome, especie, genero e imagem.' });
+        // 1. Validação
+        if (!ong_id || !nome || !especie || !raca || !sexo || !file) {
+            return res.status(400).json({ error: 'Campos obrigatórios faltando: ong_id, nome, especie, raca, sexo e imagem.' });
         }
 
-        // 2. Verifica se ONG existe e está validada
+        // 2. Verifica ONG
         const { data: ong, error: ongError } = await db
             .from('ong')
-            .select('ong_id, status_validacao')
+            .select('ong_id, status_registro')
             .eq('ong_id', ong_id)
             .single();
 
         if (ongError || !ong) {
-            // Resposta de debug temporária para diagnosticar deploy: mostra o valor recebido para ong_id
-            return res.status(400).json({ 
-                error: 'ONG não encontrada.',
-                debug: { received_ong_id: ong_id, body_keys: Object.keys(req.body) }
-            });
+            return res.status(400).json({ error: 'ONG não encontrada.' });
         }
-        if (ong.status_validacao !== 'aprovado') {
-             return res.status(403).json({ error: 'ONG ainda não validada para cadastrar pets.' });
+        if (ong.status_registro !== true) {
+            return res.status(403).json({ error: 'ONG ainda não validada para cadastrar pets.' });
         }
 
-        // 3. Cria o Pet no Banco de Dados SEM A IMAGEM (para obter o animal_id)
-        const petData = {
-            ong_id, nome, especie, raca, idade, sexo: genero_final, descricao, data_entrada,
-            status_adocao: status_adocao || 'disponivel', 
-        };
-        
+        // 3. Cria Pet sem imagem
+        const petData = { ong_id, nome, especie, raca, sexo, descricao, data_entrada, link_img: null };
         const { data: dataInsert, error: insertError } = await db
             .from('animal')
             .insert([petData])
@@ -66,47 +47,30 @@ async function createPet(req, res) {
 
         petCriado = dataInsert[0];
         const animal_id = petCriado.animal_id;
-        console.log(`[DEBUG] Pet criado temporariamente com animal_id: ${animal_id}`);
 
+        // 4. Upload da imagem
+        const urlImagem = await uploadPetImage(file.buffer, file.originalname, animal_id);
+        if (!urlImagem) throw new Error("Falha ao obter URL da imagem após o upload.");
 
-        // 4. Upload da Imagem para o Supabase Storage (com resize)
-        urlImagem = await uploadPetImage(file.buffer, file.originalname, animal_id);
-
-        if (!urlImagem) {
-            throw new Error("Falha ao obter URL da imagem após o upload.");
-        }
-        console.log(`[DEBUG] URL da Imagem obtida: ${urlImagem}`);
-
-
-        // 5. Atualiza o Pet no Banco com o Link da Imagem (link_img)
+        // 5. Atualiza Pet com link da imagem
         const { data: dataUpdate, error: updateError } = await db
             .from('animal')
-            .update({ link_img: urlImagem }) // Alinhado ao SQL: link_img
+            .update({ link_img: urlImagem })
             .eq('animal_id', animal_id)
             .select();
 
         if (updateError) throw updateError;
 
-
-        console.log('[SUCESSO] Pet cadastrado e imagem salva:', dataUpdate[0]);
-        res.status(201).json({
-            message: 'Pet cadastrado com sucesso!',
-            pet: dataUpdate[0]
-        });
+        res.status(201).json({ message: 'Pet cadastrado com sucesso!', pet: dataUpdate[0] });
 
     } catch (err) {
         console.error('[ERRO FATAL] Falha no fluxo de criação:', err.message);
-        
-        // ROLLBACK
+
         if (petCriado && petCriado.animal_id) {
-            console.warn(`[ROLLBACK] Deletando pet ID ${petCriado.animal_id} devido a erro.`);
             await db.from('animal').delete().eq('animal_id', petCriado.animal_id);
         }
-        
-        res.status(500).json({ 
-            error: 'Erro interno ao cadastrar pet. Falha no banco ou upload da imagem.', 
-            details: err.message 
-        });
+
+        res.status(500).json({ error: 'Erro interno ao cadastrar pet.', details: err.message });
     }
 }
 
