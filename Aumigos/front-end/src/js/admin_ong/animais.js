@@ -1,9 +1,6 @@
-// animais.js
-
 async function initAnimais() {
     const ong = JSON.parse(localStorage.getItem("ongLogada") || "{}");
     if (!ong.id) {
-        // não redireciona automaticamente em produção sem checagem
         console.warn("ONG não logada. Redirecionando para login.");
         window.location.href = "/src/pages/login/login.html";
         return;
@@ -15,13 +12,13 @@ async function initAnimais() {
     // --- Carregar animais ---
     async function carregarAnimais() {
         if (!tbody) return;
-        tbody.innerHTML = '<tr><td colspan="8">Carregando animais...</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6">Carregando animais...</td></tr>';
         try {
             const res = await axios.get(`/pets?ong_id=${ongId}`);
             const animais = res.data;
 
             if (!animais || !animais.length) {
-                tbody.innerHTML = '<tr><td colspan="8">Nenhum animal cadastrado.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6">Nenhum animal cadastrado.</td></tr>';
                 return;
             }
 
@@ -31,9 +28,7 @@ async function initAnimais() {
                     <td>${a.nome}</td>
                     <td>${a.especie}</td>
                     <td>${a.raca || '-'}</td>
-                    <td>${a.idade}</td>
                     <td>${a.sexo}</td>
-                    <td><span class="status-${a.status_adocao}">${a.status_adocao}</span></td>
                     <td>
                         <button class="btn btn-edit" onclick="editarAnimal(${a.animal_id})">Editar</button>
                         <button class="btn btn-delete" onclick="excluirAnimal(${a.animal_id})">Excluir</button>
@@ -42,7 +37,7 @@ async function initAnimais() {
             `).join('');
         } catch (err) {
             console.error("Erro ao carregar animais:", err);
-            tbody.innerHTML = '<tr><td colspan="8">Erro ao carregar animais.</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6">Erro ao carregar animais.</td></tr>';
         }
     }
 
@@ -53,7 +48,6 @@ async function initAnimais() {
         if (modal) modal.style.display = "flex";
     };
 
-    // liga botão + Adicionar Animal (presente no HTML)
     const btnAdicionarAnimal = document.getElementById('btn-adicionar-animal');
     if (btnAdicionarAnimal) btnAdicionarAnimal.addEventListener('click', () => window.abrirModalAnimal());
 
@@ -67,10 +61,8 @@ async function initAnimais() {
             document.getElementById("animal-nome").value = a.nome;
             document.getElementById("animal-especie").value = a.especie;
             document.getElementById("animal-raca").value = a.raca || '';
-            document.getElementById("animal-idade").value = a.idade;
             document.getElementById("animal-genero").value = a.sexo;
             document.getElementById("animal-descricao").value = a.descricao || '';
-            document.getElementById("animal-status").value = a.status_adocao;
 
             const label = document.getElementById("animal-imagem-label");
             if (label) label.textContent = "Alterar Imagem";
@@ -96,21 +88,20 @@ async function initAnimais() {
         e.preventDefault();
         const form = e.target;
         const animalId = form.querySelector("#animal-id").value;
-        // Validações client-side
+
         const nome = form.querySelector("#animal-nome").value.trim();
         const especie = form.querySelector("#animal-especie").value.trim();
-        const idade = form.querySelector("#animal-idade").value;
-        const generoVal = form.querySelector("#animal-genero").value;
-        const statusVal = form.querySelector("#animal-status").value;
+        const raca = form.querySelector("#animal-raca").value.trim();
+        const sexo = form.querySelector("#animal-genero").value;
+        const descricao = form.querySelector("#animal-descricao").value;
 
-        if (!nome || !especie || !idade || !generoVal || !statusVal) {
-            alert('Preencha todos os campos obrigatórios: nome, espécie, idade, sexo e status.');
+        if (!nome || !especie || !raca || !sexo) {
+            alert('Preencha todos os campos obrigatórios: nome, espécie, raça e sexo.');
             return;
         }
 
         const img = form.querySelector("#animal-imagem").files[0];
         if (!animalId && !img) {
-            // Ao criar um novo animal, imagem é obrigatória
             alert('Imagem é obrigatória ao cadastrar um novo animal.');
             return;
         }
@@ -119,14 +110,13 @@ async function initAnimais() {
         fd.append("ong_id", ongId);
         fd.append("nome", nome);
         fd.append("especie", especie);
-        fd.append("raca", form.querySelector("#animal-raca").value);
-        fd.append("sexo", generoVal);
-        fd.append("descricao", form.querySelector("#animal-descricao").value);
+        fd.append("raca", raca);
+        fd.append("sexo", sexo);
+        fd.append("descricao", descricao);
 
         if (img) fd.append("imagem", img);
 
         try {
-            // Debug: listar keys/values do FormData (não imprime conteúdo binário)
             for (const pair of fd.entries()) {
                 if (pair[0] === 'imagem') {
                     console.debug('[DEBUG] FormData ->', pair[0], 'file=', pair[1]?.name || '(file)');
@@ -155,8 +145,7 @@ async function initAnimais() {
     window.excluirAnimal = async (id) => {
         if (!confirm("Deseja realmente excluir este animal?")) return;
         try {
-            // Envia 'ong_id' no corpo para o delete, compatível com o backend
-            await axios.delete(`/pets/${id}`, { data: { ong_id: ongId, id_ong: ongId } });
+            await axios.delete(`/pets/${id}`, { data: { ong_id: ongId } });
             alert("Animal removido!");
             carregarAnimais();
         } catch (err) {
@@ -165,13 +154,10 @@ async function initAnimais() {
         }
     };
 
-    // --- Inicializar ---
-    // expõe para que outros scripts possam recarregar a lista (ex: adocao.js)
     window.carregarAnimais = carregarAnimais;
     carregarAnimais();
 }
 
-// garante execução mesmo que o script seja carregado após o evento DOMContentLoaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAnimais);
 } else {
