@@ -5,13 +5,13 @@ async function createPet(req, res) {
     console.log('[INFO] Requisição recebida para criação de Pet com Imagem');
 
     const file = req.file;
-    let { id_ong, ong_id: body_ong_id, nome, especie, raca, sexo, descricao } = req.body;
+    let { id_ong, ong_id: body_ong_id, nome, especie, raca, sexo, descricao, status, idade} = req.body;
 
     const ong_id = body_ong_id || id_ong || req.body.ongId || null;
     const data_entrada = new Date();
 
     console.debug('[DEBUG createPet] req.body keys:', Object.keys(req.body));
-    console.debug('[DEBUG createPet] parsed values:', { ong_id, nome, especie, raca, sexo });
+    console.debug('[DEBUG createPet] parsed values:', { ong_id, nome, especie, raca, sexo, descricao, status, idade });
     if (file) console.debug('[DEBUG createPet] req.file info:', { originalname: file.originalname, mimetype: file.mimetype, size: file.size });
 
     let petCriado = null;

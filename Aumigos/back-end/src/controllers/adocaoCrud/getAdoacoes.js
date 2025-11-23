@@ -24,13 +24,14 @@ async function getAdocao(req, res) {
                         raca,
                         sexo,
                         link_img,
-                        ong_id
+                        ong_id,
+                        status
                     ),
                     adotante:adotante_id (
                         adotante_id,
                         nome,
                         email,
-                        telefone
+                        whatsapp
                     )
                 `)
                 .eq('adocao_id', adocao_id)

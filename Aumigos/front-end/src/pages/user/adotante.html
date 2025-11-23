@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel ADOTANTE</title>
+    <link rel="shortcut icon" href="/src/assets/img/ico/Icon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/src/css/globais.css">
+    <link rel="stylesheet" href="/src/css/reset.css">
+    <link rel="stylesheet" href="/src/css/pages/faq.css">
+    <link rel="stylesheet" href="/src/css/pages/ong.css">
+</head>
+
+<body>
+
+    <header>
+        <a href="/" class="logo-link">
+            <figure class="logo">
+                <img src="/src/assets/img/2.webp" alt="Logo Aumigos">
+            </figure>
+        </a>
+        <nav class="navegacao">
+            <a id="btn-conta-desktop" href="javascript:void(0)">Conta</a>
+            <a href="/dashboard">Quero adotar</a>
+        </nav>
+    </header>
+
+    <main class="corpo-faq">
+        <aside class="menu-faq">
+            <section class="links-faq">
+                <div class="campo-branco">
+                    <h1 class="adotante-name">Carregando...</h1>
+                </div>
+                
+                <ul class="lista-faq">
+                    <li><a href="#" data-target="dados" class="faq-link">Dados do Adotante</a></li>
+                    <li><a href="#" data-target="adocao" class="faq-link active">Adoções</a></li>
+                </ul>
+                <button onclick="logout()" class="btn-sair">Sair da conta</button>
+            </section>
+        </aside>
+
+        <section class="container-info-faq">
+
+            <!-- Dados do Adotante -->
+            <section class="faq" id="dados">
+                <h2>Dados do Adotante</h2>
+                <div class="dados-ong">
+                    <p><strong>Nome:</strong> <span id="ong-nome">Carregando...</span></p>
+                    <p><strong>Email:</strong> <span id="ong-email">-</span></p>
+                    <p><strong>CPF:</strong> <span id="ong-cnpj">-</span></p>
+                    <p><strong>WhatsApp:</strong> <span id="ong-whatsapp">-</span></p>
+                    <section class="btn-dadosOng">
+                        <button class="btn btn-edit">Editar Dados</button>
+
+                        
+                        <button class="btn btn-danger" id="btn-excluir-adotante">Excluir Adotante</button>
+                    </section>
+
+                </div>
+            </section>
+
+            <!-- Adoções -->
+            <section class="projetos-sociais" id="adocao">
+                <h2 class="titulo-adocao">Adoções</h2>
+
+                <!-- TABELA DE ADOÇÕES -->
+                <table class="dashboard-table" id="tabela-adocoes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Imagem</th>
+                            <th>Animal</th>
+                            <th>Adotante</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adocao-tbody"></tbody>
+                </table>
+            </section>
+
+        </section>
+    </main>
+
+
+    <footer class="rodape">
+        <div class="rodape-div">
+            <div class="rodape-div-1">
+                <div class="rodape-div-1-coluna"><span><b>AUMIGOS</b></span>
+                    <p>Reunimos amantes de animais e ONGs em um só lugar.</p>
+                </div>
+            </div>
+            <div class="rodape-div-2">
+                <div class="rodape-div-2-coluna"><span><b>Contatos</b></span>
+                    <a href="mailto:aumigosparasempre24@gmail.com">aumigosparasempre24@gmail.com</a>
+                    <p>+55 63 99200-0000</p>
+                </div>
+            </div>
+            <div class="rodape-div-3">
+                <div class="rodape-div-3-coluna"><span><b>Links</b></span>
+                    <p><a href="/">Home</a></p>
+                </div>
+            </div>
+            <div class="rodape-div-4">
+                <div class="rodape-div-4-coluna"><span><b>Outros</b></span>
+                    <p>Políticas de Privacidade</p>
+                </div>
+            </div>
+        </div>
+        <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/src/js/perfil_adotante/adotante.js"></script>
+    <script src="/src/js/admin_ong/funcoes_gerais.js"></script>
+    
+</body>
+
+</html>

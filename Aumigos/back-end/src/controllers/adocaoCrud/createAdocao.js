@@ -5,17 +5,21 @@ async function createAdocao(req, res) {
         // Validação básica
         const animal_id = Number(req.body.animal_id);
         const adotante_id = Number(req.body.adotante_id);
+        const ong_id = Number(req.body.ong_id); // ← ADICIONAR ESTA LINHA
 
         console.debug('[DEBUG createAdocao] req.body keys:', Object.keys(req.body));
+        console.debug('[DEBUG createAdocao] valores:', { ong_id, animal_id, adotante_id }); // ← DEBUG
 
-        if (!animal_id || !adotante_id) {
-            return res.status(400).json({ error: 'Campos obrigatórios faltando: animal_id e adotante_id.' });
+        if (!ong_id || !animal_id || !adotante_id) { // ← ADICIONAR ong_id NA VALIDAÇÃO
+            return res.status(400).json({ 
+                error: 'Campos obrigatórios faltando: ong_id, animal_id e adotante_id.' 
+            });
         }
 
         // 0. Verifica existência do animal (evita FK violation surpreendente)
         const { data: animalExists, error: animalErr } = await supabase
             .from('animal')
-            .select('animal_id, status')
+            .select('animal_id, status, ong_id') // ← PEGAR ong_id DO ANIMAL TAMBÉM
             .eq('animal_id', animal_id)
             .limit(1);
 
@@ -27,7 +31,12 @@ async function createAdocao(req, res) {
             return res.status(404).json({ error: 'Animal não encontrado.' });
         }
 
-        // 1. Verifica se já existe adoção para este animal (usa limit(1) — evita maybeSingle)
+        // VERIFICAR SE O ANIMAL PERTENCE À ONG
+        if (animalExists[0].ong_id !== ong_id) {
+            return res.status(403).json({ error: 'Animal não pertence a esta ONG.' });
+        }
+
+        // 1. Verifica se já existe adoção para este animal
         const { data: existing, error: checkError } = await supabase
             .from('adocao')
             .select('adocao_id, status')
@@ -42,18 +51,19 @@ async function createAdocao(req, res) {
             return res.status(400).json({ error: 'Este animal já possui uma adoção registrada.', status: existing[0].status });
         }
 
-        // 2. Cria registro de adoção
+        // 2. Cria registro de adoção - AGORA COM ong_id
         const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
         const { data: insertData, error: insertError } = await supabase
             .from('adocao')
             .insert([{
+                ong_id: ong_id, // ← ADICIONAR AQUI
                 animal_id,
                 adotante_id,
                 data_adocao: today,
                 status: 'em análise'
             }])
-            .select(); // retorna o que foi inserido
+            .select();
 
         if (insertError) {
             console.error('[ERRO createAdocao - insert]', insertError);
@@ -62,7 +72,7 @@ async function createAdocao(req, res) {
 
         const created = Array.isArray(insertData) ? insertData[0] : insertData;
 
-        // 3. Atualiza status do animal; se falhar, remove a adoção criada (rollback simples)
+        // 3. Atualiza status do animal
         const { error: updateError } = await supabase
             .from('animal')
             .update({ status: 'em análise' })

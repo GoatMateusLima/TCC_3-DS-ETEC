@@ -10,6 +10,8 @@ async function initAnimais() {
     const tbody = document.querySelector("#tabela-animais tbody");
 
     // --- Carregar animais ---
+
+    
     async function carregarAnimais() {
         if (!tbody) return;
         tbody.innerHTML = '<tr><td colspan="6">Carregando animais...</td></tr>';
@@ -24,11 +26,15 @@ async function initAnimais() {
 
             tbody.innerHTML = animais.map(a => `
                 <tr>
+                    <td>${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 100px; max-height: 100px;">` : '-'}</td>
                     <td>${a.animal_id}</td>
                     <td>${a.nome}</td>
                     <td>${a.especie}</td>
                     <td>${a.raca || '-'}</td>
+                    <td>${a.idade || '-'}</td>
                     <td>${a.sexo}</td>
+                    <td>${a.status || '-'}</td>
+                    <td>${a.descricao ? a.descricao.substring(0, 100) + (a.descricao.length > 100 ? '...' : '') : '-'}</td>
                     <td>
                         <button class="btn btn-edit" onclick="editarAnimal(${a.animal_id})">Editar</button>
                         <button class="btn btn-delete" onclick="excluirAnimal(${a.animal_id})">Excluir</button>

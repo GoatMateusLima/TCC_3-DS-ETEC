@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (emailSpan) emailSpan.textContent = ong.email || '-';
             if (cnpjSpan) cnpjSpan.textContent = ong.cnpj || '-';
             if (whatsappSpan) whatsappSpan.textContent = ong.whatsapp || '-';
+           
 
         } catch (err) {
             console.error('Erro ao carregar dados da ONG:', err);
@@ -85,9 +86,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (document.getElementById('modal-editar-ong')) return;
 
         const modalHtml = `
-            <div class="modal" id="modal-editar-ong" style="display:flex;align-items:center;justify-content:center;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;">
-                <div style="width:90%;max-width:720px;background:#fff;border-radius:8px;padding:18px;position:relative;">
-                    <h3 style="margin:0 0 12px;">Editar Dados da ONG</h3>
+            <div class="modal" id="modal-editar-ong" style="display:flex;align-items:center;justify-content:center;position:fixed;inset:0;background:rgba(0, 0, 0, 0);z-index:9999;">
+                <div style="width:90%;max-width:720px;background:rgba(56, 56, 56, 0.93);border-radius:8px;padding:18px;position:relative;">
+                    <h3 style="margin:0 0 12px; color:white;">Editar Dados da ONG</h3>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
                         <input id="edit-nome" placeholder="Nome" />
                         <input id="edit-email" placeholder="Email" />
@@ -100,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <input id="edit-senha" type="password" placeholder="Nova senha (opcional)" />
                     </div>
                     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
-                        <button id="btn-cancelar-edicao" style="padding:10px 14px;border-radius:6px;border:1px solid #ccc;background:#f5f5f5;">Cancelar</button>
+                        <button id="btn-cancelar-edicao" style="padding:10px 14px;border-radius:6px;border:1px solid #000000ff;background:white;color:black;">Cancelar</button>
                         <button id="btn-salvar-edicao" style="padding:10px 14px;border-radius:6px;border:none;background:#27ae60;color:#fff;">Salvar</button>
                     </div>
                     <button id="fechar-modal-x" style="position:absolute;top:8px;right:8px;background:transparent;border:none;font-size:20px;cursor:pointer;">×</button>

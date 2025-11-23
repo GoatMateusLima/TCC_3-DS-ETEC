@@ -37,7 +37,7 @@
                     <li><a href="#" data-target="Adocao" class="faq-link">Adoções</a></li>
                     <li><a href="#" data-target="Dados" class="faq-link">Dados da ONG</a></li>
                 </ul>
-                <button onclick="logout()" class="btn-sair">Sair</button>
+
             </section>
         </aside>
 
@@ -45,7 +45,8 @@
             <!-- Membros -->
             <section class="ong-parceira" id="Membros">
                 <h2>Membros da ONG</h2>
-                <input type="text" class="search-input" placeholder="Buscar membro..." onkeyup="filtrarTabela('tabela-membros', this.value)">
+                <input type="text" class="search-input" placeholder="Buscar membro..."
+                    onkeyup="filtrarTabela('tabela-membros', this.value)">
                 <button class="btn btn-verde" onclick="abrirModalMembro()">+ Adicionar Membro</button>
                 <table class="dashboard-table" id="tabela-membros">
                     <thead>
@@ -66,11 +67,13 @@
             <!-- Animais -->
             <section class="sobre-projetos" id="Animais">
                 <h2>Animais para Adoção</h2>
-                <input type="text" class="search-input" placeholder="Buscar animal..." onkeyup="filtrarTabela('tabela-animais', this.value)">
+                <input type="text" class="search-input" placeholder="Buscar animal..."
+                    onkeyup="filtrarTabela('tabela-animais', this.value)">
                 <button id="btn-adicionar-animal" class="btn btn-verde">+ Adicionar Animal</button>
                 <table class="dashboard-table" id="tabela-animais">
                     <thead>
                         <tr>
+                            <th>Foto</th>
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Espécie</th>
@@ -78,7 +81,7 @@
                             <th>Idade</th>
                             <th>Sexo</th>
                             <th>Status</th>
-                            <th>Ações</th>
+                            <th>Descrição</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -87,11 +90,19 @@
 
             <!-- Adoções -->
             <section class="projetos-sociais" id="Adocao">
-                <h2>Adoções em Andamento</h2>
+                <h2 class="titulo-adocao">Adoções</h2>
+
+                <input type="text" class="search-input" placeholder="Buscar animal..."
+                    onkeyup="filtrarTabela('tabela-adocoes', this.value)">
+
+                <button id="btn-nova-adocao" class="btn btn-verde">+ Nova Adoção</button>
+
+                <!-- TABELA DE ADOÇÕES -->
                 <table class="dashboard-table" id="tabela-adocoes">
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Imagem</th>
                             <th>Animal</th>
                             <th>Adotante</th>
                             <th>Data</th>
@@ -99,9 +110,10 @@
                             <th>Ações</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id="adocao-tbody"></tbody>
                 </table>
             </section>
+
 
             <!-- Dados da ONG -->
             <section class="faq" id="Dados">
@@ -111,21 +123,111 @@
                     <p><strong>Email:</strong> <span id="ong-email">-</span></p>
                     <p><strong>CNPJ:</strong> <span id="ong-cnpj">-</span></p>
                     <p><strong>WhatsApp:</strong> <span id="ong-whatsapp">-</span></p>
-                    <button class="btn btn-edit">Editar Dados</button>
+                    <section class="btn-dadosOng">
+                        <button class="btn btn-edit">Editar Dados</button>
+
+                        <button onclick="logout()" class="btn-sair">Sair da conta</button>
+                        <button class="btn btn-danger" id="btn-excluir-ong">Excluir Ong</button>
+                    </section>
+
                 </div>
             </section>
         </section>
     </main>
 
-    <!-- Modal Animal -->
-    <div class="modal" id="modal-animal" style="display:none;">
+
+    <!-- MODAL DETALHES -->
+    <div id="modal-detalhes" class="modal hidden">
         <div class="modal-content">
+            <h2 id="modal-title"></h2>
+
+            <div class="modal-flex">
+                <div class="modal-img-area">
+                    <img id="modal-img" src="" alt="">
+                </div>
+
+                <div class="modal-info">
+                    <h3>Animal</h3>
+                    <p><strong>ID:</strong> <span id="animal-id"></span></p>
+                    <p><strong>Nome:</strong> <span id="animal-nome"></span></p>
+                    <p><strong>Espécie:</strong> <span id="animal-especie"></span></p>
+                    <p><strong>Raça:</strong> <span id="animal-raca"></span></p>
+                    <p><strong>Sexo:</strong> <span id="animal-sexo"></span></p>
+                    <p><strong>Status:</strong> <span id="animal-status"></span></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h3>Adotante</h3>
+            <p><strong>ID:</strong> <span id="adotante-id"></span></p>
+            <p><strong>Nome:</strong> <span id="adotante-nome"></span></p>
+            <p><strong>Email:</strong> <span id="adotante-email"></span></p>
+            <p><strong>Telefone:</strong> <span id="adotante-telefone"></span></p>
+
+            <hr>
+
+            <h3>Status da Adoção</h3>
+            <p><strong>Status:</strong> <span id="adocao-status"></span></p>
+            <p><strong>Data:</strong> <span id="adocao-data"></span></p>
+
+            <button id="modal-close-btn" class="btn btn-preto">Fechar</button>
+        </div>
+    </div>
+
+    <!-- MODAL NOVA ADOÇÃO -->
+    <div id="modal-nova-adocao" class="modal hidden">
+        <div class="fundo-preto">
+
+
+            <div class="modal-content">
+                <h2>Nova Adoção</h2>
+
+                <div style="display: flex; gap: 20px; margin-bottom: 20px; ">
+                    <!-- Adotantes -->
+                    <div style="flex: 1;">
+                        <h4>Selecione o Adotante</h4>
+                        <input type="text" id="buscar-adotante-modal" placeholder="Buscar adotante..."
+                            style="width: 100%; padding: 8px; margin-bottom: 10px; color:white;">
+                        <div class="cont-modal">
+                            <div id="lista-adotantes-modal"
+                                style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- Animais -->
+                    <div style="flex: 1;">
+                        <h4>Selecione o Animal</h4>
+                        <input type="text" id="buscar-animal-modal" placeholder="Buscar animal..."
+                            style="width: 100%; padding: 8px; margin-bottom: 10px; color:white;">
+                        <div class="cont-modal">
+                            <div id="lista-animais-modal"
+                                style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 10px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button id="modal-nova-close-btn" class="btn">Cancelar</button>
+                    <button id="btn-criar-adocao" class="btn btn-verde">Criar Adoção</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal Animal -->
+
+    <div class="modal" id="modal-animal" style="display:none;">
+        <div class="modal-content-ea">
             <h3>Adicionar / Editar Animal</h3>
             <form id="form-animal">
                 <input type="hidden" id="animal-id" name="animal-id">
                 <label for="animal-nome">Nome *</label>
                 <input type="text" id="animal-nome" name="nome" required>
-                
+
                 <label for="animal-especie">Espécie *</label>
                 <input type="text" id="animal-especie" name="especie" required>
 
@@ -153,10 +255,12 @@
 
                 <label id="animal-imagem-label" for="animal-imagem">Imagem *</label>
                 <input type="file" id="animal-imagem" name="imagem" accept="image/*">
-                <div id="animal-imagem-url-display" style="display:none; font-size:0.9rem; margin-top:4px; color:#ccc;"></div>
+                <div id="animal-imagem-url-display" style="display:none; font-size:0.9rem; margin-top:4px; color:#ccc;">
+                </div>
 
                 <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
-                    <button type="button" onclick="document.getElementById('modal-animal').style.display='none';" class="btn">Cancelar</button>
+                    <button type="button" onclick="document.getElementById('modal-animal').style.display='none';"
+                        class="btn">Cancelar</button>
                     <button type="submit" class="btn btn-verde">Salvar</button>
                 </div>
             </form>
@@ -188,7 +292,8 @@
                 <input type="password" id="membro-senha" name="senha">
 
                 <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
-                    <button type="button" onclick="document.getElementById('modal-membro').style.display='none';" class="btn">Cancelar</button>
+                    <button type="button" onclick="document.getElementById('modal-membro').style.display='none';"
+                        class="btn">Cancelar</button>
                     <button type="submit" class="btn btn-verde">Salvar</button>
                 </div>
             </form>
@@ -228,5 +333,7 @@
     <script src="/src/js/admin_ong/animais.js"></script>
     <script src="/src/js/admin_ong/adocao.js"></script>
     <script src="/src/js/admin_ong/funcoes_gerais.js"></script>
+    <script src="/src/js/admin_ong/deleteOngModal.js"></script>
 </body>
+
 </html>

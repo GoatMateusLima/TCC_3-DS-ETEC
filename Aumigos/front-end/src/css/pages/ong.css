@@ -51,6 +51,25 @@ body, input, select, textarea, button {
     transition: background 0.3s, color 0.3s;
 }
 
+.links-faq{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+}
+
+.links-faq .btn-sair{
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #e74c3c;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
 .menu-faq .lista-faq a.active,
 .menu-faq .lista-faq a:hover {
     background: #ff6b35;
@@ -70,6 +89,7 @@ body, input, select, textarea, button {
 /* Cards de dados da ONG */
 .dados-ong {
     background: #2c2c2c;
+    
     padding: 30px;
     border-radius: 12px;
     display: flex;
@@ -88,6 +108,17 @@ body, input, select, textarea, button {
     color: #ff6b35;
 }
 
+.dados-ong span {
+    color: #ffffff;
+}
+
+.btn-dadosOng{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin:20px;
+
+}
 /* Botão de editar */
 .dados-ong button {
     margin-top: 15px;
@@ -95,7 +126,7 @@ body, input, select, textarea, button {
     padding: 12px 20px;
     border-radius: 8px;
     border: none;
-    background: #2980b9;
+    background: #03c95c;
     color: white;
     font-weight: 600;
     cursor: pointer;
@@ -189,8 +220,6 @@ body, input, select, textarea, button {
     background: #2c2c2c;
     padding: 30px;
     border-radius: 12px;
-    width: 80%;
-    max-width: 600px;
     color: white;
     position: relative;
     box-shadow: 0 6px 18px rgba(0,0,0,0.5);
@@ -239,4 +268,137 @@ body, input, select, textarea, button {
 .btn:hover,
 .modal-content button:hover {
     opacity: 0.9;
+}
+
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.fundo-preto{
+    background: rgba(0, 0, 0, 0.5);
+    
+    border-radius: 20px;
+}
+
+.campo-branco{
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    width: 95%;
+    height: 25%;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#lista-adotantes-modal{
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+}
+#lista-adotantes-modal div{
+    background-color: white;
+    color: black;
+
+}
+
+#lista-animais-modal{
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+#lista-animais-modal div{
+    color: black;
+    background-color: white;
+
+}
+
+.cont-modal{
+    max-height: 200px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.modal-content-ea{
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.877), rgba(248, 126, 0, 0.15));
+    box-shadow: 0 4px 20px rgba(249, 178, 51, 0.2);
+    width: 100%;
+    max-width: 900px;
+    border-radius: 10px;
+    padding: 20px;
+    color: rgb(255, 255, 255);
+    max-height: 92vh;
+    overflow: auto;
+
+}
+.modal-content {
+    background: linear-gradient(135deg, rgba(249, 178, 51, 0.08), rgba(248, 126, 0, 0.15));
+    box-shadow: 0 4px 20px rgba(249, 178, 51, 0.2);
+    width: 100%;
+    max-width: 900px;
+    border-radius: 10px;
+    
+    padding: 20px;
+    color: rgb(255, 255, 255);
+    max-height: 92vh;
+    overflow: auto;
+}
+
+.modal-flex {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.modal-img-area img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #ddd;
+}
+
+/* ESTILO DO MODAL */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right:0; bottom:0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.lista-scroll {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #444;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.lista-scroll div:hover {
+    background: #27ae60;
+    color: #fff;
 }
