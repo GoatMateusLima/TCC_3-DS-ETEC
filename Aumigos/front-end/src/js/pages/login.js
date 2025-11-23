@@ -1,4 +1,4 @@
-// /src/js/login.js (ATUALIZADO)
+// /src/js/login.js
 async function fazerLogin(event) {
     event.preventDefault();
 
@@ -14,60 +14,76 @@ async function fazerLogin(event) {
         const response = await axios.post('/login', { email, senha });
         const data = response.data;
 
-        console.log("LOGIN RECEBIDO:", data);
+        console.log("[DEBUG] Resposta do backend:", data);
 
         if (!data || !data.tipo || !data.dados) {
             alert("Erro: resposta do backend inválida.");
             return;
         }
 
-        // sanitize: não armazenar senha nem dados sensíveis
+        // Sanitiza: remove senha e dados sensíveis
         const rawInfo = data.dados || {};
         const info = { ...rawInfo };
         delete info.senha;
 
-        // garante um campo id canônico para uso front-end (id)
+        // Garante um id canônico
         info.id = info.id || info.ong_id || info.adotante_id || info.membro_id || null;
 
+        if (!info.id) {
+            console.error("[ERRO] ID do usuário não encontrado:", info);
+            alert("Erro: ID do usuário não encontrado.");
+            return;
+        }
+
+        // Salva no localStorage de forma consistente
         const usuarioStorage = {
             tipo: data.tipo,
             info
         };
-
-        // salva de forma compatível com código existente
         localStorage.setItem('usuarioAtual', JSON.stringify(usuarioStorage));
-        
-        if (data.tipo === 'ong') {
-            // alguns scripts antigos esperam 'ongLogada' com ao menos { id }
-            localStorage.setItem('ongLogada', JSON.stringify({ id: info.id, nome: info.nome || '' }));
-        } else if (data.tipo === 'membro') {
-            // Salva também a ONG do membro para compatibilidade
-            if (info.ong_id) {
-                localStorage.setItem('ongLogada', JSON.stringify({ id: info.ong_id }));
-            }
+
+        // Salva também para scripts antigos que esperam objetos separados
+        switch (data.tipo) {
+            case 'ong':
+                localStorage.setItem('ongLogada', JSON.stringify({ id: info.id, nome: info.nome || '' }));
+                break;
+            case 'membro':
+                localStorage.setItem('membroLogado', JSON.stringify({ id: info.id, nome: info.nome || '' }));
+                break;
+            case 'adotante':
+                localStorage.setItem('adotanteLogado', JSON.stringify({ id: info.id, nome: info.nome || '' }));
+                break;
+            default:
+                console.warn("[WARN] Tipo de usuário desconhecido:", data.tipo);
         }
+
+        console.log(`[INFO] Login OK - tipo: ${data.tipo}, id: ${info.id}`);
 
         alert(data.message || 'Login realizado com sucesso.');
 
-        // --- redirecionamento ---
-        if (data.tipo === 'ong') {
-            window.location.href = '/src/pages/user/ong.html';
-        } else if (data.tipo === 'adotante') {
-            window.location.href = '/index.html';
-        } else if (data.tipo === 'membro') {
-            window.location.href = '/src/pages/user/membro_ong.html';
-        } else {
-            alert('Tipo de usuário desconhecido.');
-            window.location.href = '/src/pages/login/login.html';
+        // Redirecionamento
+        switch (data.tipo) {
+            case 'ong':
+                window.location.href = '/src/pages/user/ong.html';
+                break;
+            case 'membro':
+                window.location.href = '/src/pages/user/membro_ong.html';
+                break;
+            case 'adotante':
+                window.location.href = '/index.html';
+                break;
+            default:
+                alert('Tipo de usuário desconhecido.');
+                window.location.href = '/src/pages/login/login.html';
         }
 
     } catch (error) {
-        console.error('Erro ao fazer login:', error.response?.data || error);
+        console.error('[ERRO] Falha no login:', error.response?.data || error);
         alert(error.response?.data?.message || 'Erro ao conectar com o servidor.');
     }
 }
 
-// --- adicionar listener ao form ---
+// --- adiciona listener ao form ---
 document.addEventListener('DOMContentLoaded', () => {
     const formLogin = document.getElementById('form-login');
     if (formLogin) formLogin.addEventListener('submit', fazerLogin);
