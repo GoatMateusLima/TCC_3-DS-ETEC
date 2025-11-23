@@ -128,7 +128,8 @@ async function createOng(req, res) {
                     cep: cep || dadosCnpj.cep || null,
                     whatsapp,
                     data_criacao: data_criacao || new Date(),
-                    status_registro: true
+                    status_registro: true,
+                    uf: dadosCnpj.uf || null,
                 }])
                 .select();
 

@@ -1,0 +1,2 @@
+
+terminando de criar usuarios, nesse ultimo percurso de criacao pelo tempo limitado de quase 5 a 10 dias para entregar eu recorri a usar o copilot para fazer uma varrida geral em todo projeto, usei o grok, deepseek e gpt5 mini para auxiliar em bugs que eu estava sem tempo para focar e achar o problema, de resto estou feliz por essa conclusaoss
