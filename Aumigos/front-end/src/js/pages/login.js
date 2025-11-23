@@ -1,4 +1,4 @@
-// /src/js/login.js
+// /src/js/login.js (ATUALIZADO)
 async function fazerLogin(event) {
     event.preventDefault();
 
@@ -36,9 +36,15 @@ async function fazerLogin(event) {
 
         // salva de forma compatível com código existente
         localStorage.setItem('usuarioAtual', JSON.stringify(usuarioStorage));
+        
         if (data.tipo === 'ong') {
             // alguns scripts antigos esperam 'ongLogada' com ao menos { id }
             localStorage.setItem('ongLogada', JSON.stringify({ id: info.id, nome: info.nome || '' }));
+        } else if (data.tipo === 'membro') {
+            // Salva também a ONG do membro para compatibilidade
+            if (info.ong_id) {
+                localStorage.setItem('ongLogada', JSON.stringify({ id: info.ong_id }));
+            }
         }
 
         alert(data.message || 'Login realizado com sucesso.');
@@ -48,6 +54,8 @@ async function fazerLogin(event) {
             window.location.href = '/src/pages/user/ong.html';
         } else if (data.tipo === 'adotante') {
             window.location.href = '/index.html';
+        } else if (data.tipo === 'membro') {
+            window.location.href = '/src/pages/user/membro_ong.html';
         } else {
             alert('Tipo de usuário desconhecido.');
             window.location.href = '/src/pages/login/login.html';

@@ -1,4 +1,4 @@
-// src/controllers/loginController.js
+// src/controllers/loginController.js (ATUALIZADO)
 const supabase = require('../config/dbClient');
 const bcrypt = require('bcrypt');
 
@@ -7,7 +7,7 @@ async function login(req, res) {
   console.log('Tentativa de login para:', email);
 
   try {
-    // Verifica se é ONG (ONGs podem não ter senha criptografada, então comparamos direto)
+    // Verifica se é ONG
     const { data: ongData, error: ongError } = await supabase
       .from('ong')
       .select('*')
@@ -20,8 +20,6 @@ async function login(req, res) {
     }
 
     if (ongData) {
-      // Compatibilidade: se a senha armazenada estiver em hash bcrypt, use bcrypt.compare.
-      // Caso contrário (senhas em texto), permita comparação direta para compatibilidade legacy.
       const ongSafe = { ...ongData };
       const stored = ongData.senha;
       delete ongSafe.senha;
@@ -64,6 +62,29 @@ async function login(req, res) {
       delete adotanteSafe.senha;
       console.log('Adotante encontrado:', adotanteSafe);
       return res.json({ tipo: 'adotante', dados: adotanteSafe });
+    }
+
+    // 🔥 VERIFICA SE É MEMBRO (tabela membros_ong)
+    const { data: membroData, error: membroError } = await supabase
+      .from('membros_ong')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+    if (membroError && membroError.code !== 'PGRST116') {
+      console.error('Erro Membro:', membroError);
+      return res.status(500).json({ erro: 'Erro no banco de dados (Membro)' });
+    }
+
+    if (membroData) {
+      const senhaValida = await bcrypt.compare(senha, membroData.senha || '');
+      if (!senhaValida) {
+        return res.status(401).json({ erro: 'Senha incorreta' });
+      }
+      const membroSafe = { ...membroData };
+      delete membroSafe.senha;
+      console.log('Membro encontrado:', membroSafe);
+      return res.json({ tipo: 'membro', dados: membroSafe });
     }
 
     // Nenhum encontrado
