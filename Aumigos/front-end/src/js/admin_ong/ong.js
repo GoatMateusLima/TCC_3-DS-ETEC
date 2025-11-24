@@ -1,4 +1,4 @@
-// /src/js/admin_ong/ong.js - versão resiliente que lida com localStorage incompleto
+// /src/js/admin_ong/ong.js - versão final corrigida com UF
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("[ONG] Iniciando painel da ONG...");
 
@@ -26,8 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Tenta extrair ID imediatamente (novo formato: usuario.id ou usuario.ong_id)
-    let ongId = usuario.info.id || usuario.info.ong_id || null;
+    let ongId = usuario.id || usuario.ong_id || null;
     let dadosOngAtuais = null;
 
     const nomeSpans = document.querySelectorAll('.ong-name');
@@ -35,9 +34,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const emailSpan = document.getElementById('ong-email');
     const cnpjSpan = document.getElementById('ong-cnpj');
     const whatsappSpan = document.getElementById('ong-whatsapp');
+    const ruaSpan = document.getElementById('ong-rua');
+    const numeroSpan = document.getElementById('ong-numero');
+    const bairroSpan = document.getElementById('ong-bairro');
+    const cepSpan = document.getElementById('ong-cep');
+    const ufSpan = document.getElementById('ong-uf');
     const btnEditarDados = document.querySelector('#Dados .btn-edit');
 
-    // Printa nome local (se houver)
     function preencherNomeLocal(nome) {
         if (!nome) return;
         nomeSpans.forEach(el => el.textContent = nome);
@@ -45,18 +48,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     preencherNomeLocal(usuario.nome);
 
-    // Se não tiver ID, tenta resolver via servidor usando o nome
     async function resolveOngIdPorNome(nome) {
         if (!nome) return null;
         try {
-            // Tenta rota que filtre por nome (se existir)
-            // Ex.: /ongs?nome=Patinhas (ajuste se backend tiver outra query)
             const q = encodeURIComponent(nome);
             const resFiltro = await axios.get(`/ongs?nome=${q}`);
             const lista = resFiltro.data.dados || resFiltro.data || [];
             if (lista && lista.length === 1) return lista[0].id || lista[0].ong_id || null;
             if (lista && lista.length > 1) {
-                // tenta encontrar match exato
                 const exact = lista.find(o => (o.nome || '').toLowerCase() === nome.toLowerCase());
                 if (exact) return exact.id || exact.ong_id || null;
             }
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.warn("[ONG] Falha ao buscar /ongs?nome=, tentando buscar todas", err);
         }
 
-        // fallback: buscar todas e procurar pelo nome
         try {
             const resAll = await axios.get('/ongs');
             const todas = resAll.data.dados || resAll.data || [];
@@ -76,11 +74,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Carrega dados da ONG; se não tiver id, tenta resolver
     async function carregarDadosDaOng() {
         try {
             if (!ongId) {
-                // tenta resolver por nome
                 ongId = await resolveOngIdPorNome(usuario.nome);
                 if (!ongId) {
                     alert("Não foi possível identificar a ONG. Faça login novamente ou contate o admin.");
@@ -89,22 +85,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log("[ONG] ID resolvido por nome:", ongId);
             }
 
-            // buscar dados oficiais da ONG
             const res = await axios.get(`/ongs/${ongId}`);
             const ong = res.data || res.data.ong || res.data.dados || res.data;
             if (!ong) throw new Error("Resposta inválida ao buscar ONG");
 
             dadosOngAtuais = ong;
 
-            // preenche UI
             if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = ong.nome || '—');
             if (nomeTitulo) nomeTitulo.textContent = ong.nome || '—';
             if (emailSpan) emailSpan.textContent = ong.email || '-';
             if (cnpjSpan) cnpjSpan.textContent = ong.cnpj || '-';
             if (whatsappSpan) whatsappSpan.textContent = ong.whatsapp || '-';
+            if (ruaSpan) ruaSpan.textContent = ong.rua || '-';
+            if (numeroSpan) numeroSpan.textContent = ong.numero || '-';
+            if (bairroSpan) bairroSpan.textContent = ong.bairro || '-';
+            if (cepSpan) cepSpan.textContent = ong.cep || '-';
+            if (ufSpan) ufSpan.textContent = ong.uf || '-';
 
-            // NORMALIZA o localStorage para o novo formato padronizado
-            const novoUsuario = Object.assign({ tipo: 'ong' }, {
+            const novoUsuario = {
+                tipo: 'ong',
                 id: ong.id || ong.ong_id,
                 nome: ong.nome,
                 email: ong.email,
@@ -113,8 +112,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 rua: ong.rua,
                 numero: ong.numero,
                 bairro: ong.bairro,
-                cep: ong.cep
-            });
+                cep: ong.cep,
+                uf: ong.uf
+            };
             localStorage.setItem('usuarioAtual', JSON.stringify(novoUsuario));
             console.log("[ONG] localStorage atualizado e padronizado.");
 
@@ -126,7 +126,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await carregarDadosDaOng();
 
-    // --- criar modal de edição ---
     function criarModalEdicao() {
         if (document.getElementById('modal-editar-ong')) return;
 
@@ -145,6 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <input id="edit-numero" placeholder="Número" value="${ong.numero || ''}">
                         <input id="edit-bairro" placeholder="Bairro" value="${ong.bairro || ''}">
                         <input id="edit-cep" placeholder="CEP" value="${ong.cep || ''}">
+                        <input id="uf-edit" placeholder="UF" value="${ong.uf || ''}">
                         <input id="edit-senha" type="password" placeholder="Nova senha (opcional)">
                     </div>
                     <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
@@ -174,7 +174,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (modal) modal.remove();
     }
 
-    // --- salvar edição ---
     async function salvarEdicao() {
         const payload = {
             nome: document.getElementById('edit-nome').value.trim(),
@@ -184,7 +183,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             rua: document.getElementById('edit-rua').value.trim(),
             numero: document.getElementById('edit-numero').value.trim(),
             bairro: document.getElementById('edit-bairro').value.trim(),
-            cep: document.getElementById('edit-cep').value.trim()
+            cep: document.getElementById('edit-cep').value.trim(),
+            uf: document.getElementById('uf-edit').value.trim()
         };
 
         const senha = document.getElementById('edit-senha').value.trim();
@@ -193,15 +193,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             const res = await axios.put(`/ongs/${ongId}`, payload);
             const updated = res.data.ong || res.data || payload;
-            // Atualiza UI
+
             if (nomeSpans.length) nomeSpans.forEach(el => el.textContent = updated.nome);
             if (nomeTitulo) nomeTitulo.textContent = updated.nome;
             if (emailSpan) emailSpan.textContent = updated.email;
             if (cnpjSpan) cnpjSpan.textContent = updated.cnpj;
             if (whatsappSpan) whatsappSpan.textContent = updated.whatsapp;
 
-            // Atualiza localStorage padronizado
-            const novoUsuario = Object.assign({ tipo: 'ong' }, {
+            const novoUsuario = {
+                tipo: 'ong',
                 id: updated.id || ongId,
                 nome: updated.nome,
                 email: updated.email,
@@ -210,8 +210,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 rua: updated.rua,
                 numero: updated.numero,
                 bairro: updated.bairro,
-                cep: updated.cep
-            });
+                cep: updated.cep,
+                uf: updated.uf
+            };
             localStorage.setItem("usuarioAtual", JSON.stringify(novoUsuario));
 
             alert("Dados atualizados com sucesso.");
@@ -223,7 +224,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // ligar botão editar (se existir)
     if (btnEditarDados) {
         btnEditarDados.addEventListener('click', (e) => {
             e.preventDefault();
