@@ -100,17 +100,8 @@
             </nav>
 
             <section class="container-cards">
-                <section class="">
-                    <article class="card-animais">
-                        <figure class="img-pet">
-                            <img src="/src/assets/img/cao.jpg" alt="imagem do pet">
-                        </figure>
-                        <h2>ong tal</h2>
-                        <h3 id="name">joao</h3>
-                        <p id="loc-pet">adshda</p>
-
-
-                    </article>
+                <section class="" id="cat-container">
+                    
                 </section>
 
             </section>
@@ -189,7 +180,76 @@
         <p class="rodape-direitos">Copyright © 2023 – Todos os Direitos Reservados.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <!-- SCRIPTS COM CAMINHO CORRETO -->
+     <script>
+
+
+        const f = async () => {
+            const animaisReq = await axios.get(`/pets`);
+            const animais = animaisReq.data;
+
+            const ongsReq = await axios.get("/ongs");
+            const ongs = ongsReq.data;
+
+            tbody = document.getElementById("cat-container");
+
+            if (!animais || !animais.length) {
+                tbody.innerHTML = '<tr><td colspan="6">Nenhum animal cadastrado.</td></tr>';
+                return;
+            }
+
+            animais.forEach(a => {
+                if (a.status === "disponivel") {
+                    let ong = null;
+
+                    ongs.forEach(o => {
+                        if (o.ong_id === a.ong_id) {
+                            ong = o;
+                        }
+                    });
+
+                    if(ong === null) {
+                        ong = "Ong não encontrada";
+                    }
+
+                    tbody.innerHTML +=  `
+                    <article class="card-animais" id="ca">
+                        <figure class="img-pet">
+                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 100px; max-height: 100px;">` : '-'}
+                        </figure>
+                        <h2>${ong.nome}</h2>
+                        <h3 id="name">${a.nome}</h3>
+                        <p id="loc-pet">${ong.cep},${ong.bairro}, ${ong.uf}</p>
+
+                        <button id="modal-pet">Quero Adotar</button>
+                    </article>
+
+                    <section style="display:none;">
+                        <figure class="img-pet">
+                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 100px; max-height: 100px;">` : '-'}
+                        </figure>
+                        <section>
+                        <h2>${ong.nome}</h2>
+                        <h3 id="name">${a.nome}</h3>
+                        <p id="loc-pet">${ong.cep},${ong.bairro}, ${ong.uf}</p>
+                        </section>
+                        <button>formulario</button>
+                    </section>
+
+                    <section class="formulario-adocao" id="formulario-adocao">
+                        <form>
+
+                        </form>
+                    </section>
+                    `
+                };
+            });
+        }
+
+        f();
+     </script>
     <script src="/src/js/global/menu.js"></script>
     <script src="/src/js/global/verificacao_login.js"></script>
     <script src="/src/js/banner/bannercomentario.js"></script>
