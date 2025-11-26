@@ -3,15 +3,23 @@
     width: 300px;
     height: 400px;
     border-radius: 30px;
+    overflow:hidden;
+    display: flex;
+    flex-direction: column;
 
 }
+
 
 .img-pet{
     overflow: hidden;
     padding: 10px;
+    display: flex;
+    justify-content: center;
+    
 }
 .img-pet img{
     width: 200px;
+    border-radius: 15px;
     height: 200px;
     object-fit: cover;
 }
@@ -47,7 +55,9 @@
     background-color: #ebebeb;
     padding: 5px;
 }
-
+.informacoes{
+    font-size: 18px;
+}
 .pesquisar-animais{
     width: 50%;
 }
@@ -71,6 +81,7 @@
 }
 
 .apresent p {
+    color:#704635;
     text-align: center;
 }
 

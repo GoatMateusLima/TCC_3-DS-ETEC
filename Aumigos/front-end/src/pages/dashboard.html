@@ -217,11 +217,13 @@
                     tbody.innerHTML +=  `
                     <article class="card-animais" id="ca">
                         <figure class="img-pet">
-                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 100px; max-height: 100px;">` : '-'}
+                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 300px; max-height: 200px;">` : '-'}
                         </figure>
+                        <section class="informacoes">
                         <h2>${ong.nome}</h2>
                         <h3 id="name">${a.nome}</h3>
                         <p id="loc-pet">Cep:${ong.cep}, Bairro:${ong.bairro}, ${ong.uf}</p>
+                        </section>
 
                         <button id="modal-pet">Quero Adotar</button>
                     </article>
