@@ -83,16 +83,16 @@
                 <div class="pesquisar-animais">
                     <input type="text" placeholder="Pesquisar por nome, raça ou idade" class="input-pesquisa"
                         id="input-pesquisa">
-                    <button></button>
+                    <button>&#128269</button>
                 </div>
 
                 <section class="filtros-animais">
                     <h3>filtros-animais</h3>
-                    <select name="Especie" id="especie-select">
+                    <select name="Especie" id="especie-select" class="especie">
                         <option value="cachorro">cachorro</option>
                         <option value="gato">gato</option>
                     </select>
-                    <select name="sexo" id="sexo-select">
+                    <select name="sexo" id="sexo-select" class="especie">
                         <option value="M">Macho</option>
                         <option value="F">Fêmea</option>
                     </select>
@@ -100,7 +100,7 @@
             </nav>
 
             <section class="container-cards">
-                <section class="" id="cat-container">
+                <section class="cat-container" id="cat-container">
                     
                 </section>
 
@@ -221,7 +221,7 @@
                         </figure>
                         <h2>${ong.nome}</h2>
                         <h3 id="name">${a.nome}</h3>
-                        <p id="loc-pet">${ong.cep},${ong.bairro}, ${ong.uf}</p>
+                        <p id="loc-pet">Cep:${ong.cep}, Bairro:${ong.bairro}, ${ong.uf}</p>
 
                         <button id="modal-pet">Quero Adotar</button>
                     </article>
@@ -239,7 +239,7 @@
                     </section>
 
                     <section class="formulario-adocao" id="formulario-adocao">
-                        <form>
+                        <form >
 
                         </form>
                     </section>
