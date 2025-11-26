@@ -4,9 +4,30 @@
     height: 400px;
     border-radius: 30px;
     overflow:hidden;
+    gap: 10px;
     display: flex;
     flex-direction: column;
 
+}
+
+.card-animais:hover{
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transform: scale(1.00);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.card-animais button{
+    background-color: white;
+    border: none;
+    width: 80%;
+    height: 50px;
+    margin: 0 auto;
+    border-radius: 15px;
+    color: #f87e00;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 
@@ -50,21 +71,52 @@
 }
 .container-nav-cards{
     display: flex;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     width: 100%;
+    height: 100px;
     background-color: #ebebeb;
     padding: 5px;
+    overflow: hidden;
 }
 .informacoes{
+    background-color: whitesmoke;
     font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .pesquisar-animais{
-    width: 50%;
+    display: flex;
+    justify-content: center;
+    width: 50vw;
 }
 .pesquisar-animais input{
-    width: 50%;
-    height: 4em
+    width:100% ;
+    height: 50px;
+    border-radius: 15px;
+    border: none;
+    padding: 6px;
+    font-size: 18px;
 
+}
+
+.button-pesquisar{
+    background-color: #f87e00;
+    border: none;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 
@@ -74,14 +126,39 @@
     background-color: #fde6d6;
     display:flex;
     flex-direction: column;
-    border-radius: 30px;
-    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 30px;
     align-items: center;
+    box-sizing: border-box;
 
 }
 
 .apresent p {
     color:#704635;
+    font-size: 18px;
     text-align: center;
 }
 
+.filtros-animais{
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+.filtros-animais-container{
+    display: flex;
+    gap: 10px;
+}
+
+.filtros-animais-container select{
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    font-size: 16px;
+}

@@ -74,34 +74,42 @@
         <section class="main-content">
             <section class="apresent">
                 <h2>Campanha de adoção</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem maxime ducimus rerum praesentium
-                    placeat illo accusantium expedita explicabo repellendus asperiores voluptatum, nesciunt quo iste
-                    vitae enim sapiente perspiciatis eum doloremque!</p>
+                <p>A campanha de adoção do Aumigos tem como objetivo aproximar pessoas que desejam oferecer um lar
+                    amoroso a um pet e as ONGs, protetores independentes e projetos que atuam no resgate e cuidado de
+                    animais em São Carlos (SP).
+                    Por meio da nossa plataforma, você encontra informações completas sobre os animais disponíveis,
+                    requisitos para adoção e orientações para garantir um processo seguro e responsável. Adotar é mais
+                    do que acolher um animal, é transformar vidas e contribuir para uma cidade mais consciente e
+                    solidária.
+                    Participe da campanha, conheça os pets que esperam por uma família e ajude a fortalecer a rede de
+                    proteção animal. Juntos, podemos fazer a diferença!</p>
 
             </section>
             <nav class="container-nav-cards">
                 <div class="pesquisar-animais">
                     <input type="text" placeholder="Pesquisar por nome, raça ou idade" class="input-pesquisa"
                         id="input-pesquisa">
-                    <button>&#128269</button>
+                    <button class="button-pesquisar">&#128269</button>
                 </div>
 
                 <section class="filtros-animais">
-                    <h3>filtros-animais</h3>
-                    <select name="Especie" id="especie-select" class="especie">
-                        <option value="cachorro">cachorro</option>
-                        <option value="gato">gato</option>
-                    </select>
-                    <select name="sexo" id="sexo-select" class="especie">
-                        <option value="M">Macho</option>
-                        <option value="F">Fêmea</option>
-                    </select>
+                    <p><b>Filtros-Animais</b></p>
+                    <div class="filtros-animais-container">
+                        <select name="Especie" id="especie-select" class="especie">
+                            <option value="cachorro">cachorro</option>
+                            <option value="gato">gato</option>
+                        </select>
+                        <select name="sexo" id="sexo-select" class="especie">
+                            <option value="M">Macho</option>
+                            <option value="F">Fêmea</option>
+                        </select>
+                    </div>
                 </section>
             </nav>
 
             <section class="container-cards">
                 <section class="cat-container" id="cat-container">
-                    
+
                 </section>
 
             </section>
@@ -183,7 +191,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- SCRIPTS COM CAMINHO CORRETO -->
-     <script>
+    <script>
 
 
         const f = async () => {
@@ -210,19 +218,24 @@
                         }
                     });
 
-                    if(ong === null) {
+                    if (ong === null) {
                         ong = "Ong não encontrada";
                     }
 
-                    tbody.innerHTML +=  `
-                    <article class="card-animais" id="ca">
+                    tbody.innerHTML += `
+                    <article class="card-animais" id="">
                         <figure class="img-pet">
-                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 300px; max-height: 200px;">` : '-'}
+                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" >` : '-'}
                         </figure>
                         <section class="informacoes">
-                        <h2>${ong.nome}</h2>
-                        <h3 id="name">${a.nome}</h3>
-                        <p id="loc-pet">Cep:${ong.cep}, Bairro:${ong.bairro}, ${ong.uf}</p>
+                        <h3>${a.nome}</h3>
+                        <section>
+                        <p><strong>Espécie:</strong> ${a.especie}</p>
+                        <p><strong>Idade:</strong> ${a.idade}</p>
+                        <p><strong>ONG:</strong> ${ong.nome || "Não informado"}</p>
+                        <p><strong>Localização:</strong> ${ong.cep}, ${ong.bairro}, ${ong.uf}</p>
+                        </section>
+                       
                         </section>
 
                         <button id="modal-pet">Quero Adotar</button>
@@ -251,7 +264,7 @@
         }
 
         f();
-     </script>
+    </script>
     <script src="/src/js/global/menu.js"></script>
     <script src="/src/js/global/verificacao_login.js"></script>
     <script src="/src/js/banner/bannercomentario.js"></script>
