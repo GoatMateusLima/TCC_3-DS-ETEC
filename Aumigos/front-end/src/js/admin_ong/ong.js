@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function carregarDadosDaOng() {
         try {
             if (!ongId) {
-                ongId = await resolveOngIdPorNome(usuario.nome);
+                ongId = await resolveOngIdPorNome(usuario.info.nome);
                 if (!ongId) {
                     alert("Não foi possível identificar a ONG. Faça login novamente ou contate o admin.");
                     return;
