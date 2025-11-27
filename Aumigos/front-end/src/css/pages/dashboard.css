@@ -389,3 +389,15 @@
         margin: 10px 0 0;
     }
 }
+
+.button-pesquisar {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 12px;
+    transition: transform 0.2s;
+}
+.button-pesquisar:hover {
+    transform: scale(1.2);
+}
