@@ -113,6 +113,211 @@
                 </section>
 
             </section>
+            <section class="modal-pet" id="modal-pet" style="display: none;">
+                <button id="fechar-modal">X</button>
+                <div class="modal-content">
+                    <figure class="img-pet">
+                        <img id="modal-img" src="">
+                    </figure>
+
+                    <section>
+                        <h2 id="modal-ong"></h2>
+                        <h3 id="modal-nome"></h3>
+                        <p id="modal-local"></p>
+                        <p id="modal-especie"></p>
+                        <p id="modal-sexo"></p>
+                        <p id="modal-raca"></p>
+                        <p id="modal-idade"></p>
+                        <p id="modal-status"></p>
+                    </section>
+
+                    <section>
+                        <p id="modal-descricao"></p>
+                        <button id="btn-ir-formulario">Preencher formulário de adoção</button>
+                    </section>
+
+
+                </div>
+            </section>
+
+            <section class="form-container" style="display: none;">
+
+                <form id="formAdocao">
+
+                    <!-- PASSO 1 — DADOS PESSOAIS -->
+                    <div class="form-step active">
+                        <h2>Informações Pessoais</h2>
+
+                        <label>Seu nome completo:</label>
+                        <input type="text" name="nome" required>
+
+                        <label>Idade:</label>
+                        <input type="number" name="idade" min="18" required>
+
+                        <label>Telefone (WhatsApp):</label>
+                        <input type="tel" name="telefone" required>
+
+                        <label>Email:</label>
+                        <input type="email" name="email" required>
+
+                        <button type="button" class="btn-next">Próximo</button>
+                    </div>
+
+                    <!-- PASSO 2 — MORADIA -->
+                    <div class="form-step">
+                        <h2>Sua moradia</h2>
+
+                        <label>Tipo de moradia:</label>
+                        <select name="moradia" required>
+                            <option value="">Selecione...</option>
+                            <option value="casa">Casa</option>
+                            <option value="apartamento">Apartamento</option>
+                            <option value="chacara">Chácara/Sítio</option>
+                            <option value="outro">Outro</option>
+                        </select>
+
+                        <label>Você mora:</label>
+                        <select name="situacao_moradia" required>
+                            <option value="">Selecione...</option>
+                            <option value="propria">Imóvel próprio</option>
+                            <option value="alugado">Alugado</option>
+                        </select>
+
+                        <label>Se for alugado: o proprietário permite animais?</label>
+                        <select name="permite_animais" required>
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+
+                        <label>Fotos da sua casa (upload):</label>
+                        <input type="file" name="fotos_casa" accept="image/*" multiple required>
+
+                        <button type="button" class="btn-prev">Voltar</button>
+                        <button type="button" class="btn-next">Próximo</button>
+                    </div>
+
+                    <!-- PASSO 3 — ROTINA E TEMPO -->
+                    <div class="form-step">
+                        <h2>Sua rotina</h2>
+
+                        <label>Quantas horas por dia você fica fora?</label>
+                        <select name="horas_fora" required>
+                            <option value="">Selecione...</option>
+                            <option value="0-4">0 a 4 horas</option>
+                            <option value="4-8">4 a 8 horas</option>
+                            <option value="8-12">8 a 12 horas</option>
+                            <option value="12+">Mais de 12 horas</option>
+                        </select>
+
+                        <label>Quem cuidará do pet quando você estiver fora?</label>
+                        <input type="text" name="responsavel_secundario" required>
+
+                        <label>Onde o animal ficará enquanto estiver sozinho?</label>
+                        <input type="text" name="local_sozinho" required>
+
+                        <button type="button" class="btn-prev">Voltar</button>
+                        <button type="button" class="btn-next">Próximo</button>
+                    </div>
+
+                    <!-- PASSO 4 — FINANÇAS -->
+                    <div class="form-step">
+                        <h2>Condição financeira</h2>
+
+                        <label>Possui renda mensal?</label>
+                        <select name="renda" required>
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+
+                        <label>Faixa de renda mensal:</label>
+                        <select name="faixa_renda" required>
+                            <option value="">Selecione...</option>
+                            <option value="0-1500">Até 1500</option>
+                            <option value="1500-3000">1500 a 3000</option>
+                            <option value="3000-5000">3000 a 5000</option>
+                            <option value="5000+">Mais de 5000</option>
+                        </select>
+
+                        <label>Você entende que terá gastos com ração, vacinas, vermífugo e veterinário?</label>
+                        <select name="entende_gastos" required>
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+
+                        <button type="button" class="btn-prev">Voltar</button>
+                        <button type="button" class="btn-next">Próximo</button>
+                    </div>
+
+                    <!-- PASSO 5 — EXPERIÊNCIA -->
+                    <div class="form-step">
+                        <h2>Experiência com animais</h2>
+
+                        <label>Você já teve animais antes?</label>
+                        <select name="teve_animais" required>
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+
+                        <label>Se sim, o que aconteceu com eles?</label>
+                        <input type="text" name="destino_animais" required>
+
+                        <label>Tem outros animais hoje?</label>
+                        <select name="tem_outros" required>
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+
+                        <label>Se sim, eles são sociáveis?</label>
+                        <select name="sociaveis" required>
+                            <option value="">Selecione...</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                            <option value="naosei">Não sei</option>
+                        </select>
+
+                        <button type="button" class="btn-prev">Voltar</button>
+                        <button type="button" class="btn-next">Próximo</button>
+                    </div>
+
+                    <!-- PASSO 6 — TERMOS DE RESPONSABILIDADE -->
+                    <div class="form-step">
+                        <h2>Termos de Responsabilidade</h2>
+
+                        <label>
+                            <input type="checkbox" name="termo1" required>
+                            Eu concordo em não abandonar ou repassar o animal a terceiros.
+                        </label>
+
+                        <label>
+                            <input type="checkbox" name="termo2" required>
+                            Eu permito que a ONG faça visitas de acompanhamento, presencial ou por vídeo.
+                        </label>
+
+                        <label>
+                            <input type="checkbox" name="termo3" required>
+                            Eu assumo todos os custos com alimentação, saúde e bem-estar do animal.
+                        </label>
+
+                        <label>
+                            <input type="checkbox" name="termo4" required>
+                            Se o animal for filhote, comprometo-me a castrar na idade correta.
+                        </label>
+
+                        <button type="button" class="btn-prev">Voltar</button>
+                        <button type="submit" class="btn-submit">Enviar Formulário</button>
+                    </div>
+
+                </form>
+
+            </section>
+
+
+
 
         </section>
 
@@ -191,82 +396,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- SCRIPTS COM CAMINHO CORRETO -->
-    <script>
 
-
-        const f = async () => {
-            const animaisReq = await axios.get(`/pets`);
-            const animais = animaisReq.data;
-
-            const ongsReq = await axios.get("/ongs");
-            const ongs = ongsReq.data;
-
-            tbody = document.getElementById("cat-container");
-
-            if (!animais || !animais.length) {
-                tbody.innerHTML = '<tr><td colspan="6">Nenhum animal cadastrado.</td></tr>';
-                return;
-            }
-
-            animais.forEach(a => {
-                if (a.status === "disponivel") {
-                    let ong = null;
-
-                    ongs.forEach(o => {
-                        if (o.ong_id === a.ong_id) {
-                            ong = o;
-                        }
-                    });
-
-                    if (ong === null) {
-                        ong = "Ong não encontrada";
-                    }
-
-                    tbody.innerHTML += `
-                    <article class="card-animais" id="">
-                        <figure class="img-pet">
-                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" >` : '-'}
-                        </figure>
-                        <section class="informacoes">
-                        <h3>${a.nome}</h3>
-                        <section>
-                        <p><strong>Espécie:</strong> ${a.especie}</p>
-                        <p><strong>Idade:</strong> ${a.idade}</p>
-                        <p><strong>ONG:</strong> ${ong.nome || "Não informado"}</p>
-                        <p><strong>Localização:</strong> ${ong.cep}, ${ong.bairro}, ${ong.uf}</p>
-                        </section>
-                       
-                        </section>
-
-                        <button id="modal-pet">Quero Adotar</button>
-                    </article>
-
-                    <section style="display:none;">
-                        <figure class="img-pet">
-                            ${a.link_img ? `<img src="${a.link_img}" alt="${a.nome}" style="max-width: 100px; max-height: 100px;">` : '-'}
-                        </figure>
-                        <section>
-                        <h2>${ong.nome}</h2>
-                        <h3 id="name">${a.nome}</h3>
-                        <p id="loc-pet">${ong.cep},${ong.bairro}, ${ong.uf}</p>
-                        </section>
-                        <button>formulario</button>
-                    </section>
-
-                    <section class="formulario-adocao" id="formulario-adocao">
-                        <form >
-
-                        </form>
-                    </section>
-                    `
-                };
-            });
-        }
-
-        f();
-    </script>
-    <script src="/src/js/global/menu.js"></script>
     <script src="/src/js/global/verificacao_login.js"></script>
+    <script src="/src/js/dashboard/carregar_animais.js"></script>
+    <script src="/src/js/dashboard/modal_e_mensagem.js"></script>
+    <script src="/src/js/global/menu.js"></script>
     <script src="/src/js/banner/bannercomentario.js"></script>
 </body>
 
