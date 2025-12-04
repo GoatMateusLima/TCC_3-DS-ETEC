@@ -237,3 +237,57 @@ button.ghost {
 .container.right-panel-active .overlay-right {
   transform: translateX(20%);
 }
+
+/* ============ MOBILE FIX ============ */
+@media (max-width: 768px) {
+
+  main {
+    padding: 10px;
+    overflow-x: hidden !important;
+  }
+
+  .container {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 0 10px;
+    min-height: auto;
+    overflow: hidden !important;
+  }
+
+  /* Remove todo efeito do overlay */
+  .overlay-container,
+  .overlay {
+    display: none !important;
+  }
+
+  /* Formulários viram blocos verticais */
+  .form-container {
+    width: 100% !important;
+    transform: none !important;
+    position: relative !important;
+    opacity: 1 !important;
+  }
+
+  form {
+    width: 100% !important;
+    padding: 20px 10px !important;
+  }
+
+  .input-container {
+    width: 100%;
+  }
+
+  input {
+    width: 100% !important;
+    margin: 0;
+  }
+
+  button {
+    width: 100% !important;
+  }
+
+  /* Evita qualquer espaço fantasma */
+  html, body {
+    overflow-x: hidden !important;
+  }
+}
