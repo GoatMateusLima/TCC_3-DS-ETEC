@@ -10,12 +10,10 @@ app.use(cors());
 // ============= CAMINHO CORRETO PARA O FRONT-END =============
 const frontEndPath = path.join(__dirname, '..', '..', 'front-end');
 
-// 1. SERVIR ARQUIVOS ESTÁTICOS (CSS, JS, IMG, etc)
-// Serve a raiz do front-end (inclui index.html) e mantém /src para compatibilidade
 app.use(express.static(frontEndPath));
 app.use('/src', express.static(path.join(frontEndPath, 'src')));
 
-// ============= ROTAS DA API (MONTAR ANTES DAS ROTAS DE PÁGINA) =============
+//rotas
 const cnpjRoutes = require('./routes/cnpjRoutes');
 const petRoutes = require('./routes/petRoutes');
 const ongRoutes = require('./routes/ongRoutes');
@@ -37,8 +35,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(frontEndPath, 'index.html'));
 });
 
-// 3. ROTAS DINÂMICAS PARA PÁGINAS (faq, dashboard, etc)
-// Esta rota vem depois das APIs para não conflitarem. Só responde a GETs.
+
 app.get('/:page', (req, res, next) => {
     const page = req.params.page;
     const filePath = path.join(frontEndPath, 'src', 'pages', `${page}.html`);
@@ -51,20 +48,15 @@ app.get('/:page', (req, res, next) => {
 });
 
 // ============= FALLBACK SEGURO PARA SPA =============
-// Serve index.html apenas para GETs que aceitam HTML. Assim evitamos
-// responder a POST/PUT/DELETE de APIs com o index.html (e reduzimos o risco
-// de problemas em alguns provedores de deploy).
-// Use '/*' em vez de '*' para compatibilidade com path-to-regexp
-// Fallback seguro usando app.use para evitar problemas com path-to-regexp
+
 app.use((req, res, next) => {
-    // Só queremos interceptar GETs que aceitam HTML (rotas de SPA)
+   
     try {
         if (req.method === 'GET' && req.accepts && req.accepts('html')) {
             return res.sendFile(path.join(frontEndPath, 'index.html'));
         }
     } catch (err) {
         console.error('Erro no fallback do SPA:', err);
-        // segue para o próximo middleware/rota
     }
     return next();
 });
