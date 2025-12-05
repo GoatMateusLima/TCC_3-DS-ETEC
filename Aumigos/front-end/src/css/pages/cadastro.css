@@ -26,6 +26,14 @@ span {
   font-size: 12px;
 }
 
+#btnFormOng{
+  display: none;
+}
+
+#btnFormAdotante{
+  display:none;
+}
+
 /* ======== MAIN ======== */
 main {
   padding: 40px;
@@ -358,8 +366,10 @@ button.ghost {
     box-shadow: 0 10px 25px rgba(248,126,0,0.4);
   }
 
+
   #btnFormOng,
   #btnFormAdotante {
+    display: block;
     width: 100%;
     padding: 18px;
     background: transparent;
