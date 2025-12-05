@@ -83,3 +83,22 @@ async function loginAutomaticoAdotante(email, senha) {
     window.location.href = '/src/pages/login/login.html';
   }
 }
+
+const campo = document.getElementById('dataNascimentoAdotante');
+
+  campo.onchange = function() {
+    if (this.value) {
+      const nascimento = new Date(this.value);
+      const hoje = new Date();
+      const idade = hoje.getFullYear() - nascimento.getFullYear();
+      const aindaNaoFezAniversario = 
+        hoje.getMonth() < nascimento.getMonth() || 
+        (hoje.getMonth() === nascimento.getMonth() && hoje.getDate() < nascimento.getDate());
+
+      if (idade - (aindaNaoFezAniversario ? 1 : 0) < 18) {
+        alert('Você precisa ter pelo menos 18 anos para se cadastrar como adotante.');
+        this.value = '';   // limpa o campo
+        this.focus();      // volta o cursor pro campo
+      }
+    }
+  };

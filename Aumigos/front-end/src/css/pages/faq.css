@@ -129,3 +129,44 @@
     color: #333;
     text-align: justify;
 }
+
+ 
+.tabela-ongs {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    border-collapse: collapse;
+    font-family: system-ui, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tabela-ongs th {
+    background: #a8e6cf;
+    padding: 16px;
+    text-align: left;
+    font-size: 1.1em;
+}
+
+.ong-linha {
+    transition: background 0.2s;
+}
+
+.ong-linha:hover {
+    background: #f0f8ff;
+}
+
+.ong-coluna-emoji {
+    text-align: center;
+    font-size: 2.5em;
+    padding: 20px 10px;
+}
+
+.ong-coluna-nome {
+    padding: 20px;
+    font-size: 1.3em;
+    font-weight: 500;
+    color: #333;
+    vertical-align: middle;
+}

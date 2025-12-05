@@ -238,56 +238,149 @@ button.ghost {
   transform: translateX(20%);
 }
 
-/* ============ MOBILE FIX ============ */
+
+/* ================ MOBILE — FLIP 2D PERFEITO E SIMPLES ================ */
 @media (max-width: 768px) {
 
   main {
-    padding: 10px;
-    overflow-x: hidden !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  main > h2 {
+    font-size: 36px;
+    color: #000000;
+    font-weight: 900;
+    margin-bottom: 20px;
   }
 
   .container {
-    width: 100% !important;
-    max-width: 100%;
-    padding: 0 10px;
-    min-height: auto;
-    overflow: hidden !important;
+    all: unset;
+    width: 100%;
+    max-width: 420px;
+    display: block;
   }
 
-  /* Remove todo efeito do overlay */
-  .overlay-container,
-  .overlay {
+  .overlay-container {
     display: none !important;
   }
 
-  /* Formulários viram blocos verticais */
-  .form-container {
-    width: 100% !important;
-    transform: none !important;
-    position: relative !important;
-    opacity: 1 !important;
+  .form-wrapper {
+    position: relative;
+    width: 100%;
+    height: 720px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    background: white;
   }
 
-  form {
-    width: 100% !important;
-    padding: 20px 10px !important;
+  .form-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 50px 35px;
+    background: white;
+    border-radius: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9) translateX(-30px);
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  /* Formulário ativo */
+  .form-container.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateX(0);
+    pointer-events: all;
+    z-index: 10;
+  }
+
+  /* Estilo bonito */
+  .form-container h2 {
+    font-size: 38px;
+    font-weight: 900;
+    color: #f87e00;
+    text-align: center;
+    margin-bottom: 40px;
   }
 
   .input-container {
+    margin-bottom: 28px;
+  }
+
+  .input-container label {
+    display: block;
+    font-weight: 700;
+    color: #333;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .input-container input {
     width: 100%;
+    padding: 20px;
+    border: 3px solid #ddd;
+    border-radius: 18px;
+    font-size: 18px;
+    background: #fff;
+    box-sizing: border-box;
   }
 
-  input {
-    width: 100% !important;
-    margin: 0;
+  .input-container input:focus {
+    outline: none;
+    border-color: #f9b233;
+    box-shadow: 0 0 0 5px rgba(249,178,51,0.3);
   }
 
-  button {
-    width: 100% !important;
+  button[type="submit"] {
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(135deg, #f87e00, #f9b233);
+    color: white;
+    border: none;
+    border-radius: 18px;
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 30px;
+    box-shadow: 0 10px 25px rgba(248,126,0,0.4);
   }
 
-  /* Evita qualquer espaço fantasma */
-  html, body {
-    overflow-x: hidden !important;
+  #btnFormOng,
+  #btnFormAdotante {
+    width: 100%;
+    padding: 18px;
+    background: transparent;
+    color: #f87e00;
+    border: 3px solid #f87e00;
+    border-radius: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+
+  section h4 {
+    margin-top: 30px;
+    font-size: 17px;
+    color: #444;
+    text-align: center;
+  }
+
+  section a {
+    color: #f87e00;
+    font-weight: bold;
+    text-decoration: underline;
   }
 }
