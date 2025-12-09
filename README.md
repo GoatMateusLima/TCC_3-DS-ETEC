@@ -9,7 +9,8 @@
 ###
 
 <div align="center">
-  <img height="200" src="https://i.imgflip.com/65efzo.gif"  />
+  <img width="1351" height="552" alt="Screenshot" src="https://github.com/user-attachments/assets/7d454ee0-32fb-4286-aded-f433e6963c67" />
+
 </div>
 
 ###
